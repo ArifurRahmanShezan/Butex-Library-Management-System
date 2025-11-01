@@ -5,7 +5,7 @@ import { RestoreComponent } from './components/database/restore/restore.componen
 
 
 const routes: Routes = [
-  { path: 'database/restore-backup', component: RestoreComponent },
+  { path: 'database/restore', component: RestoreComponent },
 
 ];
 

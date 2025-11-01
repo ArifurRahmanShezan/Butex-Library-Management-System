@@ -26,7 +26,7 @@ export class MenuListComponent {
       isDropdown: true,
       subItems: [
         // Ensure this route matches your AppRoutingModule entry (e.g., /database/restore-backup or /database/restore)
-        { label: 'Restore / Backup', routerLink: '/database/restore' }, 
+        { label: 'Restore / Backup', routerLink: 'database-restore' }, 
       ]
     },
     {

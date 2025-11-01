@@ -4,27 +4,31 @@
   <ng-container *ngFor="let item of menuItems">
 
     <div
-      class="menu-item"
-      [ngClass]="{'active': activeMenuId === item.id}"
-      (click)="item.isDropdown ? toggleSubmenu(item.id) : null"
-      [routerLink]="!item.isDropdown ? item.routerLink : null"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: true}"
-    >
-      {{ item.label }}
-      <span *ngIf="item.isDropdown">▾</span>
-    </div>
+  class="menu-item"
+  [ngClass]="{'active': activeMenuId === item.id}"
+  (click)="item.isDropdown ? toggleSubmenu(item.id) : null"
+>
+  {{ item.label }}
+  <span *ngIf="item.isDropdown">▾</span>
+</div>
 
     <div
-      *ngIf="item.isDropdown"
-      [id]="item.id"
-      class="submenu"
-      [style.display]="activeMenuId === item.id ? 'block' : 'none'"
-    >
-      <a *ngFor="let subItem of item.subItems" [routerLink]="subItem.routerLink" routerLinkActive="active">
-        {{ subItem.label }}
-      </a>
-    </div>
+  *ngIf="item.isDropdown"
+  [id]="item.id"
+  class="submenu"
+  [style.display]="activeMenuId === item.id ? 'block' : 'none'"
+>
+  <a 
+    *ngFor="let subItem of item.subItems" 
+    [routerLink]="subItem.routerLink" 
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    (click)="activeMenuId = item.id" > <!-- optional: keep submenu open after click -->
+  
+    {{ subItem.label }}
+  </a>
+</div>
+
 
   </ng-container>
 

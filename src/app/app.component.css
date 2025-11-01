@@ -1,0 +1,21 @@
+.app-container {
+  display: flex;
+  height: 100vh; /* full viewport */
+}
+
+/* Main area next to fixed sidebar */
+.main {
+  flex: 1;
+  padding: 25px;
+  min-height: 100vh;
+  background: #f9fafc;
+  margin-left: 250px; /* sidebar width */
+  display: flex;
+  flex-direction: column;
+}
+.footer {
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  margin-top: auto; /* push footer to bottom */
+}

@@ -82,6 +82,8 @@ body {
 .main {
   margin-left:250px;
   padding:25px;
+   min-height: 100vh; /* ensures main content fills the viewport height */
+  background: #f9fafc; /* optional, same as body background */
 }
 .header {
   display:flex;

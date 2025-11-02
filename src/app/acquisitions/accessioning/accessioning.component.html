@@ -1,0 +1,42 @@
+<div class="container">
+  <header>
+    <h1>📦 Accessioning Received Items</h1>
+  </header>
+
+  <form (ngSubmit)="submitRecord()">
+    <label>Item ID</label>
+    <input type="text" [(ngModel)]="itemID" name="itemID" placeholder="Enter Item ID" required>
+
+    <label>Accession Number (Auto-generated)</label>
+    <input type="text" [value]="accessionNo" readonly>
+
+    <label>Barcode</label>
+    <div class="barcode-group">
+      <input type="text" [(ngModel)]="barcode" name="barcode" placeholder="Generate Barcode">
+      <button type="button" (click)="generateBarcode()">Generate</button>
+    </div>
+
+    <button type="submit">Submit Record</button>
+    <p class="success-msg" *ngIf="successMsg">✅ Record saved successfully!</p>
+  </form>
+
+  <h2 style="margin-top:40px; text-align:center;">Recent Accessions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Item ID</th>
+        <th>Accession Number</th>
+        <th>Barcode</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let record of records; let i = index; trackBy: trackByIndex">
+        <td>{{ record.itemID }}</td>
+        <td>{{ record.accessionNo }}</td>
+        <td>
+          <svg #barcodeSvg></svg>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

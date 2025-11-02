@@ -1,0 +1,147 @@
+<div class="container">
+  <h1 style="text-align:center;margin-bottom:20px;">📊 Budget & Vendor Dashboard</h1>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab" [class.active]="activeTab==='sources'" (click)="switchTab('sources')">Budget Sources</div>
+    <div class="tab" [class.active]="activeTab==='heads'" (click)="switchTab('heads')">Budget Heads</div>
+    <div class="tab" [class.active]="activeTab==='allocations'" (click)="switchTab('allocations')">Budget Allocations</div>
+    <div class="tab" [class.active]="activeTab==='vendors'" (click)="switchTab('vendors')">Vendors</div>
+    <div class="tab" [class.active]="activeTab==='currencies'" (click)="switchTab('currencies')">Currencies</div>
+    <div class="tab" [class.active]="activeTab==='fiscal'" (click)="switchTab('fiscal')">Fiscal Years</div>
+  </div>
+
+  <!-- Budget Sources -->
+  <div class="tab-content" [class.active]="activeTab==='sources'">
+    <div class="card">
+      <h2>Add Budget Source</h2>
+      <form (ngSubmit)="addSource()">
+        <label>Source Name *</label>
+        <input type="text" [(ngModel)]="sourceName" name="sourceName" required>
+        <label>Amount *</label>
+        <input type="number" [(ngModel)]="sourceAmount" name="sourceAmount" required>
+        <button type="submit">Add Source</button>
+      </form>
+      <table>
+        <thead><tr><th>Source Name</th><th>Amount</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let s of sources"><td>{{s.name}}</td><td>{{s.amount}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Budget Heads -->
+  <div class="tab-content" [class.active]="activeTab==='heads'">
+    <div class="card">
+      <h2>Add Budget Head</h2>
+      <form (ngSubmit)="addHead()">
+        <label>Head Name *</label>
+        <input type="text" [(ngModel)]="headName" name="headName" required>
+        <label>Description</label>
+        <textarea [(ngModel)]="headDesc" name="headDesc" rows="3"></textarea>
+        <button type="submit">Add Head</button>
+      </form>
+      <table>
+        <thead><tr><th>Head Name</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let h of heads"><td>{{h}}</td><td>{{headDesc}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Budget Allocations -->
+  <div class="tab-content" [class.active]="activeTab==='allocations'">
+    <div class="card">
+      <h2>Budget Allocations</h2>
+      <form (ngSubmit)="addAllocation()">
+        <label>Head *</label>
+        <select [(ngModel)]="allocHead" name="allocHead" required>
+          <option *ngFor="let h of heads" [value]="h">{{h}}</option>
+        </select>
+        <label>Amount *</label>
+        <input type="number" [(ngModel)]="allocAmount" name="allocAmount" required>
+        <label>Fiscal Year *</label>
+        <select [(ngModel)]="allocYear" name="allocYear" required>
+          <option *ngFor="let y of years" [value]="y">{{y}}</option>
+        </select>
+        <button type="submit">Allocate</button>
+      </form>
+      <table>
+        <thead><tr><th>Head</th><th>Amount</th><th>Fiscal Year</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let a of allocations"><td>{{a.head}}</td><td>{{a.amount}}</td><td>{{a.year}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="chart-container">
+      <h2>Budget Allocation Chart</h2>
+      <canvas id="budgetChart" height="150"></canvas>
+    </div>
+  </div>
+
+  <!-- Vendors -->
+  <div class="tab-content" [class.active]="activeTab==='vendors'">
+    <div class="card">
+      <h2>Add Vendor</h2>
+      <form (ngSubmit)="addVendor()">
+        <label>Name *</label>
+        <input type="text" [(ngModel)]="vendorName" name="vendorName" required>
+        <label>Contact</label>
+        <input type="text" [(ngModel)]="vendorContact" name="vendorContact">
+        <label>Address</label>
+        <textarea [(ngModel)]="vendorAddress" name="vendorAddress" rows="2"></textarea>
+        <button type="submit">Add Vendor</button>
+      </form>
+      <table>
+        <thead><tr><th>Name</th><th>Contact</th><th>Address</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let v of vendors"><td>{{v.name}}</td><td>{{v.contact}}</td><td>{{v.address}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Currencies -->
+  <div class="tab-content" [class.active]="activeTab==='currencies'">
+    <div class="card">
+      <h2>Add Currency</h2>
+      <form (ngSubmit)="addCurrency()">
+        <label>Currency Code *</label>
+        <input type="text" [(ngModel)]="currencyCode" name="currencyCode" required>
+        <label>Rate *</label>
+        <input type="number" [(ngModel)]="currencyRate" name="currencyRate" required>
+        <button type="submit">Add Currency</button>
+      </form>
+      <table>
+        <thead><tr><th>Currency Code</th><th>Rate</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let c of currencies"><td>{{c.code}}</td><td>{{c.rate}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Fiscal Years -->
+  <div class="tab-content" [class.active]="activeTab==='fiscal'">
+    <div class="card">
+      <h2>Add Fiscal Year</h2>
+      <form (ngSubmit)="addFiscalYear()">
+        <label>Year *</label>
+        <input type="text" [(ngModel)]="fiscalYear" name="fiscalYear" required>
+        <label>Start Date *</label>
+        <input type="date" [(ngModel)]="fiscalStart" name="fiscalStart" required>
+        <label>End Date *</label>
+        <input type="date" [(ngModel)]="fiscalEnd" name="fiscalEnd" required>
+        <button type="submit">Add Year</button>
+      </form>
+      <table>
+        <thead><tr><th>Year</th><th>Start Date</th><th>End Date</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let y of years"><td>{{y}}</td><td>{{fiscalStart}}</td><td>{{fiscalEnd}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

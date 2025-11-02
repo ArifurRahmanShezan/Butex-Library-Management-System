@@ -39,11 +39,11 @@ export class MenuListComponent {
         { label: 'Request Processing', routerLink: '/acquisitions/request' },
         { label: 'On-Approval Supplies', routerLink: '/acquisitions/approval' },
         { label: 'Firm Orders', routerLink: '/acquisitions/firm-orders' },
-        { label: 'Gifts', routerLink: '/acquisitions/gifts' },
-        { label: 'Accessioning', routerLink: '/acquisitions/accessioning' },
+        { label: 'Gifts', routerLink: 'gift' },
+        { label: 'Accessioning', routerLink: 'accesssioning' },
         { label: 'Invoice Payments', routerLink: '/acquisitions/payments' },
         { label: 'Claims', routerLink: '/acquisitions/claims' },
-        { label: 'Budget & Vendor', routerLink: '/acquisitions/budget-vendor' },
+        { label: 'Budget & Vendor', routerLink: 'budget-vendor' },
       ]
     },
     {

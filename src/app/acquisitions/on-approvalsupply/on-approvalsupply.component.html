@@ -3,54 +3,53 @@
     <div class="logo">LIB</div>
     <div>
       <h1>Library — Supplies On-Approval</h1>
-      <p class="lead">
-        Manage requests, import batches, receive items, and approve — all with an elegant library aesthetic.
-      </p>
+      <p class="lead">Manage requests, import batches, receive items, and approve — all with an elegant library aesthetic.</p>
     </div>
   </header>
 
   <div class="grid" style="margin-top:20px">
-    <!-- LEFT -->
+    <!-- LEFT: Forms and lists -->
     <div>
-      <!-- 🟢 REQUEST SUPPLIES -->
+
+      <!-- Form 2: Request -->
       <section class="card" id="requestCard" aria-labelledby="requestTitle">
         <div class="section-title">
           <h2 id="requestTitle">Request Supplies</h2>
-          <div class="muted">Form 1 • Quick request</div>
+          <div class="muted">Form 2 • Quick request</div>
         </div>
-        <form (submit)="onSubmitRequest($event)">
+
+        <form (ngSubmit)="submitRequest()" #requestForm="ngForm">
           <div class="row">
             <div style="flex:2">
               <label class="small">Title *</label>
-              <input [(ngModel)]="reqTitle" name="reqTitle" type="text" placeholder="e.g., A4 Printer Paper (80gsm)" required />
+              <input [(ngModel)]="reqTitle" name="reqTitle" type="text" placeholder="e.g., A4 Printer Paper (80gsm)" required>
             </div>
             <div style="flex:1">
               <label class="small">Quantity *</label>
-              <input [(ngModel)]="reqQty" name="reqQty" type="number" min="1" step="1" required />
+              <input [(ngModel)]="reqQty" name="reqQty" type="number" min="1" step="1" required>
             </div>
           </div>
           <div class="row">
             <div style="flex:1">
               <label class="small">Vendor *</label>
               <select [(ngModel)]="reqVendor" name="reqVendor">
-                <option *ngFor="let v of vendors" [value]="v">{{ v }}</option>
+                <option *ngFor="let v of vendors" [value]="v">{{v}}</option>
               </select>
             </div>
             <div style="flex:1">
               <label class="small">Request ID</label>
-              <input [(ngModel)]="reqId" name="reqId" type="text" readonly placeholder="Auto-generated" />
+              <input [value]="reqId" readonly placeholder="Auto-generated">
             </div>
           </div>
+
           <div class="controls">
             <button type="submit">Submit Request</button>
             <button type="button" class="btn-ghost" (click)="clearRequest()">Clear</button>
           </div>
-          <div class="helper">
-            Submitted requests appear below and can later be imported or received.
-          </div>
+          <div class="helper">Submitted requests appear in the Requests table below and can be received or imported into Receipt step.</div>
         </form>
 
-        <!-- Requests table -->
+        <!-- Requests list -->
         <div style="margin-top:12px">
           <div class="section-title">
             <h2 style="font-size:0.95rem">Requests</h2>
@@ -63,11 +62,11 @@
               </thead>
               <tbody>
                 <tr *ngFor="let r of requests">
-                  <td class="small-cell">{{ r.id }}</td>
-                  <td>{{ r.title }}</td>
-                  <td class="small-cell">{{ r.vendor }}</td>
-                  <td>{{ r.qty }}</td>
-                  <td class="small-cell">{{ r.status }}</td>
+                  <td class="small-cell">{{r.id}}</td>
+                  <td>{{r.title}}</td>
+                  <td class="small-cell">{{r.vendor}}</td>
+                  <td>{{r.qty}}</td>
+                  <td class="small-cell">{{r.status}}</td>
                 </tr>
               </tbody>
             </table>
@@ -75,140 +74,149 @@
         </div>
       </section>
 
-      <!-- 🟠 IMPORT CONFIG -->
-      <section class="card" style="margin-top:20px">
+      <!-- Import Config -->
+      <section class="card" style="margin-top:16px">
         <div class="section-title">
           <h2>Import Config</h2>
-          <div class="muted">Form 2 • Batch import</div>
+          <div class="muted">Form 3 • CSV import</div>
         </div>
 
-        <form (submit)="onImport($event)">
-          <label class="small">Import Source File (.csv)</label>
-          <input type="file" (change)="onFileSelect($event)" />
-          <div class="controls">
-            <button type="submit">Import Requests</button>
-          </div>
-          <div class="helper">Simulates batch import and updates Requests list.</div>
-        </form>
-      </section>
+        <p class="muted" style="margin-top:0">Upload a CSV with header row. Choose which columns map to system fields.</p>
+        <input type="file" (change)="onFileChange($event)" accept=".csv,text/csv" />
+        <div id="csvPreview">{{ csvPreviewText }}</div>
 
-      <!-- 🟣 RECEIPT -->
-      <section class="card" style="margin-top:20px">
-        <div class="section-title">
-          <h2>Receipt</h2>
-          <div class="muted">Form 3 • Record receipt</div>
-        </div>
-
-        <form (submit)="onReceive($event)">
-          <div class="row">
-            <div style="flex:1">
-              <label class="small">Request ID *</label>
-              <select [(ngModel)]="receiptReqId" name="receiptReqId">
-                <option *ngFor="let r of requests" [value]="r.id">{{ r.id }}</option>
-              </select>
-            </div>
-            <div style="flex:1">
-              <label class="small">Quantity Received *</label>
-              <input [(ngModel)]="receiptQty" name="receiptQty" type="number" min="1" />
+        <div *ngIf="csvHeaders.length" id="mapArea">
+          <div class="small-cell">Map CSV columns to fields</div>
+          <div class="map-checks">
+            <div *ngFor="let field of mapFields">
+              <label style="display:flex;align-items:center;gap:8px">
+                <strong style="min-width:70px">{{field}}</strong>
+                <select [(ngModel)]="mapping[field]" name="{{field}}">
+                  <option *ngFor="let h of csvHeaders" [value]="h">{{h}}</option>
+                </select>
+              </label>
             </div>
           </div>
-          <div class="controls">
-            <button type="submit">Mark Received</button>
-          </div>
-          <div class="helper">Received items will appear in "Received Items".</div>
-        </form>
-      </section>
-
-      <!-- 🔵 APPROVAL -->
-      <section class="card" style="margin-top:20px">
-        <div class="section-title">
-          <h2>Approval</h2>
-          <div class="muted">Form 4 • Approve received items</div>
         </div>
 
-        <form (submit)="onApprove($event)">
-          <div class="row">
-            <div style="flex:1">
-              <label class="small">Received Item *</label>
-              <select [(ngModel)]="approveItemId" name="approveItemId">
-                <option *ngFor="let item of receivedItems" [value]="item.id">{{ item.id }} - {{ item.title }}</option>
-              </select>
-            </div>
-          </div>
-          <div class="controls">
-            <button type="submit" class="success">Approve</button>
-          </div>
-        </form>
+        <div class="controls">
+          <button (click)="importCSV()">Import CSV</button>
+          <button class="btn-ghost" (click)="cancelImport()">Cancel</button>
+        </div>
+        <div class="helper">CSV columns will be detected automatically.</div>
       </section>
 
-      <!-- 🧾 RECEIVED ITEMS -->
-      <section class="card" style="margin-top:20px">
-        <div class="section-title">
-          <h2>Received Items</h2>
-          <div class="muted">Recently received stock</div>
+      <!-- Receipt -->
+      <section class="card" style="margin-top:16px">
+        <div class="section-title"><h2>Receipt</h2><div class="muted">Form 4 • Record received items</div></div>
+        <div class="controls">
+          <select [(ngModel)]="selectedRequest" name="selectedRequest">
+            <option value="">— select request to auto-fill —</option>
+            <option *ngFor="let r of requests" [value]="r.id">{{r.id}} — {{r.title}} ({{r.qty}})</option>
+          </select>
+          <input type="date" [(ngModel)]="receivedDate">
+          <button class="btn-ghost" (click)="addReceiptRow()">+ Add Row</button>
         </div>
 
-        <div class="table-scroll card" style="padding:8px;">
+        <div class="table-scroll">
           <table>
-            <thead>
-              <tr><th>ID</th><th>Title</th><th>Qty</th><th>Status</th></tr>
-            </thead>
+            <thead><tr><th>Item ID</th><th>Title</th><th>Vendor</th><th>Qty</th><th>Condition</th><th></th></tr></thead>
             <tbody>
-              <tr *ngFor="let item of receivedItems">
-                <td class="small-cell">{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.qty }}</td>
-                <td>{{ item.status }}</td>
+              <tr *ngFor="let row of receiptRows; let i=index">
+                <td><input [(ngModel)]="row.itemId" name="id{{i}}" /></td>
+                <td><input [(ngModel)]="row.title" name="title{{i}}" /></td>
+                <td><input [(ngModel)]="row.vendor" name="vendor{{i}}" /></td>
+                <td><input type="number" [(ngModel)]="row.qty" name="qty{{i}}" /></td>
+                <td><input [(ngModel)]="row.condition" name="condition{{i}}" /></td>
+                <td><button class="btn-ghost" (click)="removeReceiptRow(i)">Remove</button></td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <div class="controls">
+          <button (click)="submitReceipt()">Submit Receipt</button>
+          <button class="btn-ghost" (click)="clearReceipt()">Clear Rows</button>
+        </div>
       </section>
 
-      <!-- 🟤 INVENTORY DETAILS -->
-      <section class="card" style="margin-top:20px">
-        <div class="section-title">
-          <h2>Inventory Details</h2>
-          <div class="muted">Summary of stock</div>
+      <!-- Approval -->
+      <section class="card" style="margin-top:16px">
+        <div class="section-title"><h2>Approval</h2><div class="muted">Form 5 • Approve or reject</div></div>
+        <div class="row">
+          <select [(ngModel)]="selectedReceived" name="selectedReceived">
+            <option value="">— select received item —</option>
+            <option *ngFor="let r of received" [value]="r.itemId">{{r.itemId}} — {{r.title}} ({{r.qty}})</option>
+          </select>
+        </div>
+        <div class="row">
+          <div style="flex:1">
+            <label class="small">Status</label>
+            <select [(ngModel)]="approvalStatus" name="approvalStatus">
+              <option>Approved</option><option>Rejected</option><option>Pending</option>
+            </select>
+          </div>
+          <div style="flex:2">
+            <label class="small">Comments</label>
+            <textarea [(ngModel)]="approvalComments" name="approvalComments"></textarea>
+          </div>
+        </div>
+        <div class="controls">
+          <button (click)="submitApproval()">Submit Decision</button>
+          <button class="success" (click)="bulkApprove()">Approve All Pending</button>
         </div>
 
-        <div *ngIf="uniqueSKUs > 0; else emptyInv">
-          <ul>
-            <li *ngFor="let key of inventoryKeys">
-              <strong>{{ key }}</strong>: {{ inventory[key] }} units
-            </li>
-          </ul>
+        <div style="margin-top:12px">
+          <div class="section-title"><h2 style="font-size:0.95rem">Received Items</h2><div class="muted">Awaiting approval</div></div>
+          <div class="table-scroll card" style="padding:8px;">
+            <table>
+              <thead><tr><th>Item ID</th><th>Title</th><th>Vendor</th><th>Qty</th><th>Received</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr *ngFor="let r of received">
+                  <td class="small-cell">{{r.itemId}}</td>
+                  <td>{{r.title}}</td>
+                  <td class="small-cell">{{r.vendor}}</td>
+                  <td>{{r.qty}}</td>
+                  <td class="small-cell">{{r.receivedDate}}</td>
+                  <td class="small-cell">{{r.status}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <ng-template #emptyInv>
-          <div class="muted">No inventory data yet.</div>
-        </ng-template>
       </section>
     </div>
 
-    <!-- RIGHT -->
+    <!-- RIGHT: Stats -->
     <aside>
       <div class="stats">
         <div class="stat card">
           <div>
             <div class="small-cell">Inventory Stock</div>
-            <div style="font-size:1.25rem;font-weight:700">{{ totalItems }} items</div>
+            <div style="font-size:1.25rem;font-weight:700">{{totalItems}} items</div>
           </div>
           <div style="text-align:right">
             <div class="small-cell">Unique SKUs</div>
-            <div style="font-weight:700">{{ uniqueSKUs }}</div>
+            <div style="font-weight:700">{{uniqueSKUs}}</div>
           </div>
         </div>
 
         <div class="card">
-          <div class="section-title">
-            <h2 style="font-size:1rem">Received vs Approved</h2>
-            <div class="muted">Bar chart</div>
-          </div>
+          <div class="section-title"><h2 style="font-size:1rem">Received vs Approved</h2></div>
           <canvas #barChart width="340" height="240"></canvas>
-          <div style="display:flex;justify-content:space-between;margin-top:8px">
-            <div class="muted small-cell">Total Received: <strong>{{ totalReceived }}</strong></div>
-            <div class="muted small-cell">Total Approved: <strong>{{ totalApproved }}</strong></div>
-          </div>
+          <div class="muted small-cell">Total Received: <strong>{{totalReceived}}</strong> — Approved: <strong>{{totalApproved}}</strong></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title"><h2 style="font-size:1rem">Inventory Details</h2></div>
+          <table>
+            <thead><tr><th>Item</th><th>Qty</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let k of inventoryKeys">
+                <td>{{k}}</td><td>{{inventory[k]}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </aside>

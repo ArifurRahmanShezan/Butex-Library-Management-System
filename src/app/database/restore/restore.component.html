@@ -1,0 +1,37 @@
+<div class="header">
+  <div class="user">Nisal Gunasekara (Admin)</div>
+  <div class="time">Database Restore / Backup</div>
+</div>
+
+<div class="form-section">
+  <div class="form-box">
+    <h3>Upload / Restore</h3>
+    <input type="file" (change)="restoreDB($any($event.target).files[0])">
+    <button (click)="restoreDB(null)">Restore</button>
+  </div>
+
+  <div class="form-box">
+    <h3>Backup Options</h3>
+    <input type="text" placeholder="Enter backup name" [(ngModel)]="backupName">
+    <button (click)="createBackup()">Create Backup</button>
+  </div>
+</div>
+
+<button class="execute" (click)="executeProcess()">Execute</button>
+
+<div class="card">
+  <h3>Backup History</h3>
+  <table>
+    <thead>
+      <tr><th>Date</th><th>Backup Name</th><th>Size</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let b of backupHistory">
+        <td>{{ b.date }}</td>
+        <td>{{ b.name }}</td>
+        <td>{{ b.size }}</td>
+        <td [style.color]="b.status === 'Success' ? 'green' : 'red'">{{ b.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

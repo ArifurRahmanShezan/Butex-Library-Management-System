@@ -1,0 +1,73 @@
+.form-section {
+    display: flex;
+    gap: 30px;
+    margin-top: 25px;
+}
+
+.form-box {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.form-box h3 {
+    margin-top: 0;
+    color: #2e5c92;
+}
+
+input[type="file"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+button {
+    background: #2e5c92;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:hover {
+    background: #4478b4;
+}
+
+.execute {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    background: #3a7ed5;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+table th {
+    background: #f2f6fb;
+    color: #2e5c92;
+}
+
+table tr:hover {
+    background: #f9fbff;
+}

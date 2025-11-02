@@ -7,7 +7,7 @@ import { MenuListComponent } from './components/menu-list/menu-list.component';
 import { BudgetComponent } from './acquisitions/budget/budget.component';
 import { GiftComponent } from './acquisitions/gift/gift.component';
 import { AccessioningComponent } from './acquisitions/accessioning/accessioning.component';
-import { FormsModule } from '@angular/forms';
+
 import { RestoreComponent } from './database/restore/restore.component';
 
 @NgModule({

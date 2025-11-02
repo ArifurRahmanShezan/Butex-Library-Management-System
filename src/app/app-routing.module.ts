@@ -44,7 +44,7 @@ const routes: Routes = [
   { path: 'gift',component:GiftComponent},
   { path: 'accesssioning',component:AccessioningComponent},
   { path: 'Request-Processing',component:RequestProcessingComponent},
-  { path:'On-Approval-Supplies',component:OnApprovalsupplyComponent},
+  { path: 'On-Approval-Supplies',component:OnApprovalsupplyComponent},
   { path: 'firm-order',component:FirmOrderComponent},
   { path: 'claim',component:ClaimComponent},
   { path: 'invoice-payment',component:InvoicepaymentComponent},
@@ -64,6 +64,7 @@ const routes: Routes = [
   { path: 'orderinvoice', component: OrderinvoiceComponent },
   { path: 'registerissues', component: RegisterissueComponent },
   { path: 'binders', component: BindersComponent },
+  
 
 ];
 

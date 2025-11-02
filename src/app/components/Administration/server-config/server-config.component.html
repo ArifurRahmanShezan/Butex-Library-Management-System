@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>💾 MARC/SRU/W Servers Configuration</h2>
+  <div class="msg" *ngIf="message">{{ message }}</div>
+
+  <form (ngSubmit)="addServer()" #serverForm="ngForm">
+    <label>Server URL *</label>
+    <input type="text" [(ngModel)]="server.url" name="url" placeholder="Enter Server URL" required>
+
+    <label>Username *</label>
+    <input type="text" [(ngModel)]="server.user" name="user" placeholder="Enter Username" required>
+
+    <label>Password *</label>
+    <input type="password" [(ngModel)]="server.pass" name="pass" placeholder="Enter Password" required>
+
+    <button type="submit" [disabled]="serverForm.invalid">Submit</button>
+  </form>
+
+  <h3>📋 Active Servers</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Server URL</th>
+        <th>Username</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of servers">
+        <td>{{ s.url }}</td>
+        <td>{{ s.user }}</td>
+        <td>{{ '*'.repeat(s.pass.length) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

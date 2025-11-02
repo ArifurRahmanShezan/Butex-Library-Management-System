@@ -32,6 +32,9 @@ import { OrderinvoiceComponent } from './components/serialManagement/orderinvoic
 import { RegisterissueComponent } from './components/serialManagement/registerissue/registerissue.component';
 import { BindersComponent } from './components/serialManagement/binders/binders.component';
 import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
+import { SystemParametersComponent } from './components/Administration/system-parameters/system-parameters.component';
+import { PatronManagementComponent } from './components/Administration/patron-management/patron-management.component';
+import { ServerConfigComponent } from './components/Administration/server-config/server-config.component';
 
 
 @NgModule({
@@ -65,7 +68,10 @@ import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-a
     SubscriptionsComponent,
     OrderinvoiceComponent,
     RegisterissueComponent,
-    BindersComponent
+    BindersComponent,
+    SystemParametersComponent,
+    PatronManagementComponent,
+    ServerConfigComponent
   ],
   imports: [
     BrowserModule,

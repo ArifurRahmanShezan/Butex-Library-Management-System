@@ -30,6 +30,9 @@ import { OrderinvoiceComponent } from './components/serialManagement/orderinvoic
 import { RegisterissueComponent } from './components/serialManagement/registerissue/registerissue.component';
 import { BindersComponent } from './components/serialManagement/binders/binders.component';
 import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
+import { SystemParametersComponent } from './components/Administration/system-parameters/system-parameters.component';
+import { PatronManagementComponent } from './components/Administration/patron-management/patron-management.component';
+import { ServerConfigComponent } from './components/Administration/server-config/server-config.component';
 
 
 
@@ -64,6 +67,9 @@ const routes: Routes = [
   { path: 'orderinvoice', component: OrderinvoiceComponent },
   { path: 'registerissues', component: RegisterissueComponent },
   { path: 'binders', component: BindersComponent },
+  { path: 'system-parameters', component: SystemParametersComponent },
+  { path: 'patron-management', component: PatronManagementComponent },
+  { path: 'server-config', component: ServerConfigComponent },
   
 
 ];

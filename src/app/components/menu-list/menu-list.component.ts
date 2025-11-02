@@ -57,6 +57,9 @@ export class MenuListComponent {
         { label: 'Request Processing', routerLink: 'letters-holidays-form' },
         { label: 'EOD Process', routerLink: 'eod' },
         { label: 'RSS Feeds', routerLink: 'rss' },
+        { label: 'System Parameters', routerLink: 'system-parameters' },
+        { label: 'Patron Management', routerLink: 'patron-management' },
+        { label: 'Server Config', routerLink: 'server-config' },
         
         
       ]

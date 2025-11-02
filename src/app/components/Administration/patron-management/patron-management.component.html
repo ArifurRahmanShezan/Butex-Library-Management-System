@@ -1,0 +1,90 @@
+<div class="container">
+  <h2>👥 Patron Creation & Management</h2>
+  <div class="msg" *ngIf="message">{{ message }}</div>
+
+  <div class="tabs">
+    <div class="tab" 
+         [class.active]="activeTab==='patron'" 
+         (click)="setTab('patron')">Patrons</div>
+    <div class="tab" 
+         [class.active]="activeTab==='department'" 
+         (click)="setTab('department')">Departments</div>
+    <div class="tab" 
+         [class.active]="activeTab==='course'" 
+         (click)="setTab('course')">Courses</div>
+    <div class="tab" 
+         [class.active]="activeTab==='category'" 
+         (click)="setTab('category')">Categories</div>
+  </div>
+
+  <!-- Patrons Form -->
+  <form *ngIf="activeTab==='patron'" (ngSubmit)="addPatron()">
+    <label>Name *</label>
+    <input type="text" [(ngModel)]="patron.name" name="patronName" placeholder="Enter Patron Name" required>
+    
+    <label>ID *</label>
+    <input type="text" [(ngModel)]="patron.id" name="patronID" placeholder="Enter Patron ID" required>
+    
+    <label>Category *</label>
+    <select [(ngModel)]="patron.category" name="patronCategory" required>
+      <option value="">Select Category</option>
+      <option *ngFor="let cat of categories">{{ cat }}</option>
+    </select>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Departments Form -->
+  <form *ngIf="activeTab==='department'" (ngSubmit)="addDepartment()">
+    <label>Department Name *</label>
+    <input type="text" [(ngModel)]="department.name" name="deptName" placeholder="Enter Department Name" required>
+    
+    <label>Code *</label>
+    <input type="text" [(ngModel)]="department.code" name="deptCode" placeholder="Enter Department Code" required>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Courses Form -->
+  <form *ngIf="activeTab==='course'" (ngSubmit)="addCourse()">
+    <label>Course Name *</label>
+    <input type="text" [(ngModel)]="course.name" name="courseName" placeholder="Enter Course Name" required>
+    
+    <label>Department *</label>
+    <select [(ngModel)]="course.department" name="courseDept" required>
+      <option value="">Select Department</option>
+      <option *ngFor="let dept of departments">{{ dept.name }}</option>
+    </select>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Categories Form -->
+  <form *ngIf="activeTab==='category'" (ngSubmit)="addCategory()">
+    <label>Category Name *</label>
+    <input type="text" [(ngModel)]="category.name" name="categoryName" placeholder="Enter Category Name" required>
+    
+    <label>Loan Limit *</label>
+    <input type="number" [(ngModel)]="category.limit" name="loanLimit" placeholder="Enter Loan Limit" required>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3 style="margin-top:30px;">📊 Patron Stats</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Name / Department / Category</th>
+        <th>ID / Code / Limit</th>
+        <th>Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of tableData">
+        <td>{{ item.name }}</td>
+        <td>{{ item.value }}</td>
+        <td>{{ item.type }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,42 @@
+<!-- <div class="container">
+  <h2>📚 Library Purchase Request</h2>
+
+  <div class="form-card">
+    <label>Book Title:</label>
+    <input [(ngModel)]="reqTitle" placeholder="Enter book title" />
+
+    <label>Quantity:</label>
+    <input type="number" [(ngModel)]="reqQty" min="1" />
+
+    <label>Vendor:</label>
+    <select [(ngModel)]="selectedVendor">
+      <option *ngFor="let v of vendors" [value]="v">{{ v }}</option>
+    </select>
+
+    <button (click)="submitRequest()">Submit Request</button>
+  </div>
+
+  <h3>📝 Request List</h3>
+  <table *ngIf="requests.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Book Title</th>
+        <th>Vendor</th>
+        <th>Quantity</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let req of requests">
+        <td>{{ req.id }}</td>
+        <td>{{ req.title }}</td>
+        <td>{{ req.vendor }}</td>
+        <td>{{ req.qty }}</td>
+        <td>{{ req.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="requests.length === 0" class="empty">No requests yet.</p>
+</div> -->

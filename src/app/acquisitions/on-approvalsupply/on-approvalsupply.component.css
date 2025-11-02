@@ -1,0 +1,117 @@
+:root {
+  --bg: #f6efe6;
+  --card: #fff7ef;
+  --accent: #6a4528;
+  --accent-2: #b07a4b;
+  --muted: #8b7a6b;
+  --shadow: 0 6px 18px rgba(31, 24, 13, 0.08);
+}
+
+.app {
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 28px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(250, 244, 236, 0.9), rgba(255, 255, 255, 0.85));
+  box-shadow: var(--shadow);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-family: Georgia, serif;
+}
+
+h1 {
+  font-family: Georgia, serif;
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--accent);
+}
+
+p.lead {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-title h2 {
+  font-size: 1.05rem;
+  color: var(--accent);
+}
+
+label.small {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(90, 70, 50, 0.08);
+  background: white;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(106, 69, 40, 0.1);
+  color: var(--accent);
+}
+
+.table-scroll {
+  max-height: 220px;
+  overflow: auto;
+  border-radius: 6px;
+}

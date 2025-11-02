@@ -11,6 +11,11 @@ import { RestoreComponent } from './components/database/restore/restore.componen
 import { RssFeedComponent } from './components/Administration/rss-feed/rss-feed.component';
 import { LettersHolidaysComponent } from './components/Administration/letters-holidays/letters-holidays.component';
 import { EodProcessComponent } from './components/Administration/eod-process/eod-process.component';
+import { RequestProcessingComponent } from './acquisitions/request-processing/request-processing.component';
+import { FirmOrderComponent } from './acquisitions/firm-order/firm-order.component';
+import { ClaimComponent } from './acquisitions/claim/claim.component';
+import { InvoicepaymentComponent } from './acquisitions/invoicepayment/invoicepayment.component';
+//import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
 @NgModule({
@@ -23,7 +28,12 @@ import { EodProcessComponent } from './components/Administration/eod-process/eod
     RestoreComponent,
     RssFeedComponent,
     LettersHolidaysComponent,
-    EodProcessComponent
+    EodProcessComponent,
+    RequestProcessingComponent,
+    FirmOrderComponent,
+    ClaimComponent,
+    InvoicepaymentComponent,
+    //OnApprovalsupplyComponent,
   ],
   imports: [
     BrowserModule,

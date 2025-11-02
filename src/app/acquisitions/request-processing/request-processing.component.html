@@ -1,0 +1,63 @@
+<div class="container">
+  <h2>📦 Process Reported Loss</h2>
+  <div *ngIf="message" [ngClass]="messageClass" class="message">
+    {{ message }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()" #lossForm="ngForm">
+    <div>
+      <label>Item ID <span style="color:red">*</span></label>
+      <input
+        type="text"
+        id="itemID"
+        name="itemID"
+        [(ngModel)]="loss.itemID"
+        required
+        placeholder="Enter Item ID"
+      />
+    </div>
+
+    <div>
+      <label>Loss Date <span style="color:red">*</span></label>
+      <input
+        type="date"
+        id="lossDate"
+        name="lossDate"
+        [(ngModel)]="loss.lossDate"
+        required
+      />
+    </div>
+
+    <div>
+      <label>Cost (৳) <span style="color:red">*</span></label>
+      <input
+        type="number"
+        id="cost"
+        name="cost"
+        [(ngModel)]="loss.cost"
+        required
+        placeholder="Enter cost"
+      />
+    </div>
+
+    <button type="submit" [disabled]="!lossForm.form.valid">Submit</button>
+  </form>
+
+  <h3 style="margin-top: 30px;">📋 Lost Items Record</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Item ID</th>
+        <th>Loss Date</th>
+        <th>Cost (৳)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of lostItems">
+        <td>{{ item.itemID }}</td>
+        <td>{{ item.lossDate }}</td>
+        <td>{{ item.cost }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,72 @@
+<div class="container">
+
+  <!-- Form Panel -->
+  <div class="form-panel">
+    <h2>Submit Claim</h2>
+
+    <form (ngSubmit)="submitMainForm()">
+      <label>Order ID *</label>
+      <input type="text" [(ngModel)]="mainForm.orderID" name="orderID" required />
+
+      <label>Claim Reason *</label>
+      <textarea rows="4" [(ngModel)]="mainForm.reason" name="reason" required></textarea>
+
+      <label>Date *</label>
+      <input type="date" [(ngModel)]="mainForm.date" name="date" required />
+
+      <button type="submit">Submit Claim</button>
+    </form>
+  </div>
+
+  <!-- Table Panel -->
+  <div class="table-panel">
+    <h2>Pending Claims</h2>
+
+    <div class="controls">
+      <input type="text" placeholder="Search Order ID or Reason" [(ngModel)]="searchText" (input)="filterTable()" />
+
+      <button (click)="openModal()">+ Add New Claim</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th (click)="sortTable('orderID')" [ngClass]="sortColumn === 'orderID' ? sortDirection : ''">Order ID</th>
+          <th (click)="sortTable('reason')" [ngClass]="sortColumn === 'reason' ? sortDirection : ''">Claim Reason</th>
+          <th (click)="sortTable('date')" [ngClass]="sortColumn === 'date' ? sortDirection : ''">Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let claim of filteredClaims">
+          <td>{{claim.orderID}}</td>
+          <td>{{claim.reason}}</td>
+          <td>{{claim.date}}</td>
+          <td>Pending</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" [style.display]="modalVisible ? 'block' : 'none'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+    <h2>Add New Claim</h2>
+
+    <form (ngSubmit)="submitModalForm()">
+      <label>Order ID *</label>
+      <input type="text" [(ngModel)]="modalForm.orderID" name="modalOrderID" required />
+
+      <label>Claim Reason *</label>
+      <textarea rows="4" [(ngModel)]="modalForm.reason" name="modalReason" required></textarea>
+
+      <label>Date *</label>
+      <input type="date" [(ngModel)]="modalForm.date" name="modalDate" required />
+
+      <button type="submit">Submit Claim</button>
+    </form>
+  </div>
+</div>

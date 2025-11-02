@@ -9,6 +9,11 @@ import { BudgetComponent } from './acquisitions/budget/budget.component';
 import { GiftComponent } from './acquisitions/gift/gift.component';
 import { AccessioningComponent } from './acquisitions/accessioning/accessioning.component';
 import { RestoreComponent } from './components/database/restore/restore.component';
+import { RequestProcessingComponent } from './acquisitions/request-processing/request-processing.component';
+import { FirmOrderComponent } from './acquisitions/firm-order/firm-order.component';
+import { ClaimComponent } from './acquisitions/claim/claim.component';
+import { InvoicepaymentComponent } from './acquisitions/invoicepayment/invoicepayment.component';
+//import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
 
@@ -22,6 +27,11 @@ const routes: Routes = [
   { path: 'budget-vendor', component: BudgetComponent} ,
   { path:'gift',component:GiftComponent},
   { path:'accesssioning',component:AccessioningComponent},
+  { path:'Request-Processing',component:RequestProcessingComponent},
+  //{ path:'On-Approval-Supplies',component:OnApprovalsupplyComponent},
+  { path:'firm-order',component:FirmOrderComponent},
+  { path:'claim',component:ClaimComponent},
+  { path:'invoice-payment',component:InvoicepaymentComponent},
  
 
 ];

@@ -36,13 +36,13 @@ export class MenuListComponent {
       icon: 'acquisitions',
       isDropdown: true,
       subItems: [
-        { label: 'Request Processing', routerLink: '/acquisitions/request' },
-        { label: 'On-Approval Supplies', routerLink: '/acquisitions/approval' },
-        { label: 'Firm Orders', routerLink: '/acquisitions/firm-orders' },
+        { label: 'Request Processing', routerLink: 'Request-Processing' },
+        { label: 'On-Approval Supplies', routerLink: '' },
+        { label: 'Firm Orders', routerLink: 'firm-order' },
         { label: 'Gifts', routerLink: 'gift' },
         { label: 'Accessioning', routerLink: 'accesssioning' },
-        { label: 'Invoice Payments', routerLink: '/acquisitions/payments' },
-        { label: 'Claims', routerLink: '/acquisitions/claims' },
+        { label: 'Invoice Payments', routerLink: 'invoice-payment' },
+        { label: 'Claims', routerLink: 'claim' },
         { label: 'Budget & Vendor', routerLink: 'budget-vendor' },
       ]
     },

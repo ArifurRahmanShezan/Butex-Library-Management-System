@@ -1,0 +1,68 @@
+<div class="container">
+  <h1>💳 Recent Payments</h1>
+
+  <div class="controls">
+    <input type="text" [(ngModel)]="searchText" (input)="filterTable()" placeholder="Search Invoice ID or Notes" />
+    <select [(ngModel)]="filterMethod" (change)="filterTable()">
+      <option value="">All Methods</option>
+      <option value="Cash">Cash</option>
+      <option value="Bank Transfer">Bank Transfer</option>
+      <option value="Credit Card">Credit Card</option>
+      <option value="Mobile Payment">Mobile Payment</option>
+    </select>
+    <button (click)="openModal()">+ Add New Payment</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th (click)="sortTable('invoiceID')">Invoice ID</th>
+        <th (click)="sortTable('amount')">Amount</th>
+        <th (click)="sortTable('date')">Payment Date</th>
+        <th (click)="sortTable('method')">Method</th>
+        <th (click)="sortTable('notes')">Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of filteredRows">
+        <td>{{ row.invoiceID }}</td>
+        <td>{{ row.amount }}</td>
+        <td>{{ row.date }}</td>
+        <td>{{ row.method }}</td>
+        <td>{{ row.notes }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-content">
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+    <h2>Add New Payment</h2>
+    <form (ngSubmit)="addPayment()">
+      <label>Invoice ID</label>
+      <input type="text" [(ngModel)]="newPayment.invoiceID" name="invoiceID" required />
+
+      <label>Amount</label>
+      <input type="number" [(ngModel)]="newPayment.amount" name="amount" required />
+
+      <label>Payment Date</label>
+      <input type="date" [(ngModel)]="newPayment.date" name="date" required />
+
+      <label>Payment Method</label>
+      <select [(ngModel)]="newPayment.method" name="method" required>
+        <option value="">Select Method</option>
+        <option value="Cash">Cash</option>
+        <option value="Bank Transfer">Bank Transfer</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Mobile Payment">Mobile Payment</option>
+      </select>
+
+      <label>Notes</label>
+      <textarea rows="3" [(ngModel)]="newPayment.notes" name="notes"></textarea>
+
+      <button type="submit">Add Payment</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+<div class="container">
+  <h1>Firm Orders Management</h1>
+
+  <div class="nav-tabs">
+    <button class="tab-btn" 
+            [class.active]="activeTab === 'form6'" 
+            (click)="showForm('form6')">Place Order</button>
+
+    <button class="tab-btn" 
+            [class.active]="activeTab === 'form7'" 
+            (click)="showForm('form7')">Cancel/Reorder</button>
+
+    <button class="tab-btn" 
+            [class.active]="activeTab === 'form8'" 
+            (click)="showForm('form8')">Receive Order</button>
+  </div>
+
+  <!-- Form 6 -->
+  <form *ngIf="activeTab === 'form6'" (ngSubmit)="submitForm('Place Order')">
+    <label>Item</label>
+    <select required>
+      <option value="">Select Item</option>
+      <option>Printer Paper</option>
+      <option>Ink Cartridge</option>
+      <option>Office Chair</option>
+    </select>
+
+    <label>Vendor</label>
+    <input type="text" placeholder="Enter Vendor Name" required>
+
+    <label>Quantity</label>
+    <input type="number" placeholder="Enter Quantity" required>
+
+    <label>Date</label>
+    <input type="date" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Form 7 -->
+  <form *ngIf="activeTab === 'form7'" (ngSubmit)="submitForm('Cancel/Reorder')">
+    <label>Order ID</label>
+    <input type="text" placeholder="Enter Order ID" required>
+
+    <label>Action</label>
+    <select required>
+      <option value="">Select Action</option>
+      <option>Cancel</option>
+      <option>Reorder</option>
+    </select>
+
+    <label>Reason</label>
+    <textarea placeholder="Enter reason"></textarea>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Form 8 -->
+  <form *ngIf="activeTab === 'form8'" (ngSubmit)="submitForm('Receive Order')">
+    <label>Order ID</label>
+    <input type="text" placeholder="Enter Order ID" required>
+
+    <label>Received Items</label>
+    <table>
+      <thead>
+        <tr><th>Item Name</th><th>Quantity</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of itemsTable">
+          <td><input type="text" placeholder="Item Name"></td>
+          <td><input type="number" placeholder="Quantity"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" (click)="addRow()">+ Add Row</button>
+
+    <label>Invoice</label>
+    <input type="file" accept=".pdf,.jpg,.png">
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Chart -->
+  <div class="chart-container">
+    <h2 style="text-align:center; color:#34495e;">Order Fulfillment Over Time</h2>
+    <canvas id="lineChart"></canvas>
+  </div>
+</div>

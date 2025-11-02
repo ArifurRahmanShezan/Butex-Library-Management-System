@@ -19,6 +19,16 @@ body {
   box-shadow:2px 0 8px rgba(0,0,0,0.08);
   border-right:1px solid #eaeaea;
 }
+.menu-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.menu-link.active {
+  text-decoration: none; /* remove underline */
+  font-weight: 600; /* optional highlight instead */
+  color: #2e5c92;   /* optional active color */
+}
 .sidebar .logo {
   text-align:center;
   padding:25px;

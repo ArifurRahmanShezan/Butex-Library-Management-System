@@ -31,7 +31,7 @@ import { SubscriptionsComponent } from './components/serialManagement/subscripti
 import { OrderinvoiceComponent } from './components/serialManagement/orderinvoice/orderinvoice.component';
 import { RegisterissueComponent } from './components/serialManagement/registerissue/registerissue.component';
 import { BindersComponent } from './components/serialManagement/binders/binders.component';
-//import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
+import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
 @NgModule({
@@ -49,7 +49,7 @@ import { BindersComponent } from './components/serialManagement/binders/binders.
     FirmOrderComponent,
     ClaimComponent,
     InvoicepaymentComponent,
-    //OnApprovalsupplyComponent,
+    OnApprovalsupplyComponent,
     MaterialTypeComponent,
     MarcTemplateWorksheetComponent,
     AuthorityFilesManagementComponent,

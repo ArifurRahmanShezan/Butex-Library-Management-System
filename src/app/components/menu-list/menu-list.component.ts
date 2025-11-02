@@ -37,7 +37,7 @@ export class MenuListComponent {
       isDropdown: true,
       subItems: [
         { label: 'Request Processing', routerLink: 'Request-Processing' },
-        { label: 'On-Approval Supplies', routerLink: '' },
+        { label: 'On-Approval Supplies', routerLink: 'On-Approval-Supplies' },
         { label: 'Firm Orders', routerLink: 'firm-order' },
         { label: 'Gifts', routerLink: 'gift' },
         { label: 'Accessioning', routerLink: 'accesssioning' },

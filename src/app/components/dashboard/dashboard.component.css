@@ -47,15 +47,29 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
 }
 
- .pie-chart {
-    background: conic-gradient(#7da9d6 0 60%, #b9d3f0 60% 100%);
-    width: 50%;
-    border-radius: 50%;
-    aspect-ratio: 1/1;
-    height: 70%; /* Adjust this to make the chart half the original height */
+.pie-container {
+    display: flex;
+    flex-direction: column;
+    /* stack pie chart and legend vertically */
+    align-items: center;
+    /* center horizontally */
 }
+
+.pie-chart {
+    width: 200px;
+    /* fixed width for better centering */
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: conic-gradient(#7da9d6 0 60%, #b9d3f0 60% 100%);
+}
+
+
+
+
+
 
 .legend {
     display: flex;

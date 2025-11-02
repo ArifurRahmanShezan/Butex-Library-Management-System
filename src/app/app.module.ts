@@ -37,6 +37,7 @@ import { PatronManagementComponent } from './components/Administration/patron-ma
 import { ServerConfigComponent } from './components/Administration/server-config/server-config.component';
 import { LossComponent } from './components/circulations/loss/loss.component';
 import { SerialsBindingManagementComponent } from './components/serialManagement/serials-binding-management/serials-binding-management.component';
+import { CatalogingTemplateComponent } from './cataloging-template/cataloging-template.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { SerialsBindingManagementComponent } from './components/serialManagement
     PatronManagementComponent,
     ServerConfigComponent,
     LossComponent,
-    SerialsBindingManagementComponent
+    SerialsBindingManagementComponent,
+    CatalogingTemplateComponent
   ],
   imports: [
     BrowserModule,

@@ -119,11 +119,8 @@ export class MenuListComponent {
       icon: 'others',
       isDropdown: true,
       subItems: [
-        { label: '', routerLink: '' },
-        { label: '', routerLink: '' },
-        { label: '', routerLink: '' },
-        { label: '', routerLink: '' },
-        { label: '', routerLink: '' },
+        { label: 'Cataloging-Template', routerLink: 'Cataloging-Template' },
+        
         
         
         

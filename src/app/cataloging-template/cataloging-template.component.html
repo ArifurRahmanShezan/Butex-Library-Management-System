@@ -1,0 +1,60 @@
+<div class="container">
+
+  <!-- Simple Template Form -->
+  <div class="card">
+    <h2>Simple Cataloging Template</h2>
+    <form (ngSubmit)="addSimpleCatalog()" #simpleForm="ngForm">
+      <label>Title *</label>
+      <input type="text" name="title" [(ngModel)]="simple.title" required placeholder="Enter title">
+
+      <label>Author *</label>
+      <input type="text" name="author" [(ngModel)]="simple.author" required placeholder="Enter author">
+
+      <label>ISBN *</label>
+      <input type="text" name="isbn" [(ngModel)]="simple.isbn" required placeholder="Enter ISBN">
+
+      <label>Publish Date *</label>
+      <input type="date" name="date" [(ngModel)]="simple.date" required>
+
+      <button type="submit">Add Catalog Entry</button>
+    </form>
+  </div>
+
+  <!-- General Template Form -->
+  <div class="card">
+    <h2>General Cataloging Template</h2>
+    <form (ngSubmit)="addGeneralCatalog()" #generalForm="ngForm">
+      <label>MARC Fields *</label>
+      <textarea name="marc" [(ngModel)]="general.marc" rows="5" placeholder="Enter MARC fields separated by comma" required></textarea>
+
+      <label>Notes</label>
+      <textarea name="notes" [(ngModel)]="general.notes" rows="3" placeholder="Additional notes"></textarea>
+
+      <button type="submit">Add Catalog Entry</button>
+    </form>
+  </div>
+
+  <!-- Table of Catalog Entries -->
+  <div class="card">
+    <h2>New Catalog Entries</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Title / MARC</th>
+          <th>Author / Notes</th>
+          <th>ISBN / Date</th>
+          <th>Added Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let entry of catalogEntries">
+          <td>{{ entry.col1 }}</td>
+          <td>{{ entry.col2 }}</td>
+          <td>{{ entry.col3 }}</td>
+          <td>{{ entry.added }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

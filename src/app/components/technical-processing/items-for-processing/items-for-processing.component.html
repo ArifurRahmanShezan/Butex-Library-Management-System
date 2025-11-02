@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="card">
+    <h2>Items Ready for Processing</h2>
+    <form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+      <label>Item ID *</label>
+      <input
+        type="text"
+        name="itemId"
+        [(ngModel)]="itemId"
+        required
+        placeholder="Enter Item ID"
+      />
+
+      <label>Digital Content *</label>
+      <input type="file" (change)="onFileSelected($event)" required />
+      <div class="file-name">{{ fileName || 'No file selected' }}</div>
+
+      <button type="submit" [disabled]="!itemId || !selectedFile">
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Items Awaiting Processing</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item ID</th>
+          <th>File Name</th>
+          <th>Uploaded Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <td>{{ item.itemId }}</td>
+          <td>{{ item.fileName }}</td>
+          <td>{{ item.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

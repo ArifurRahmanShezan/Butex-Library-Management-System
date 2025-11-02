@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="card">
+    <h2>Copy Cataloging & Imports</h2>
+    <form (ngSubmit)="onImport()" #importForm="ngForm">
+      <label>ISO-2709 File *</label>
+      <input type="file" (change)="onFileSelected($event)" accept=".mrc" required />
+      <div class="file-name">{{ fileName || 'No file selected' }}</div>
+
+      <label>Source *</label>
+      <select [(ngModel)]="source" name="source" required>
+        <option value="">Select Source</option>
+        <option value="Z39.50">Z39.50</option>
+        <option value="SRU">SRU</option>
+        <option value="W">W</option>
+      </select>
+
+      <button type="submit" [disabled]="!selectedFile || !source">Import</button>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar" [style.width.%]="progress"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Imported Records</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Source</th>
+          <th>Imported Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td>{{ record.fileName }}</td>
+          <td>{{ record.source }}</td>
+          <td>{{ record.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

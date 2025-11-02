@@ -15,6 +15,12 @@ import { RequestProcessingComponent } from './acquisitions/request-processing/re
 import { FirmOrderComponent } from './acquisitions/firm-order/firm-order.component';
 import { ClaimComponent } from './acquisitions/claim/claim.component';
 import { InvoicepaymentComponent } from './acquisitions/invoicepayment/invoicepayment.component';
+import { CopyCatalogingComponent } from './components/technical-processing/copy-cataloging/copy-cataloging.component';
+import { CatalogRecordsComponent } from './components/technical-processing/catalog-records/catalog-records.component';
+import { AuthorityFilesManagementComponent } from './components/technical-processing/authority-files-management/authority-files-management.component';
+import { MarcTemplateWorksheetComponent } from './components/technical-processing/marc-template-worksheet/marc-template-worksheet.component';
+import { MaterialTypeComponent } from './components/technical-processing/material-type/material-type.component';
+import { ItemsForProcessingComponent } from './components/technical-processing/items-for-processing/items-for-processing.component';
 //import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
@@ -34,6 +40,12 @@ import { InvoicepaymentComponent } from './acquisitions/invoicepayment/invoicepa
     ClaimComponent,
     InvoicepaymentComponent,
     //OnApprovalsupplyComponent,
+    MaterialTypeComponent,
+    MarcTemplateWorksheetComponent,
+    AuthorityFilesManagementComponent,
+    CatalogRecordsComponent,
+    CopyCatalogingComponent,
+    ItemsForProcessingComponent
   ],
   imports: [
     BrowserModule,

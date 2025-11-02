@@ -1,0 +1,72 @@
+<div class="container">
+
+  <!-- Material Types Form -->
+  <div class="card">
+    <h2>Material Types</h2>
+    <form (ngSubmit)="addMaterialType()" #materialForm="ngForm">
+      <label>Type Name *</label>
+      <input
+        type="text"
+        name="materialName"
+        [(ngModel)]="materialName"
+        placeholder="Enter material type name"
+        required
+      />
+
+      <label>Description</label>
+      <textarea
+        name="materialDesc"
+        [(ngModel)]="materialDesc"
+        rows="3"
+        placeholder="Enter description"
+      ></textarea>
+
+      <button type="submit" [disabled]="!materialForm.form.valid">
+        Add Material Type
+      </button>
+    </form>
+  </div>
+
+  <!-- Custom Indexes Form -->
+  <div class="card">
+    <h2>Custom Indexes</h2>
+    <form (ngSubmit)="addCustomIndex()" #indexForm="ngForm">
+      <label>Index Name *</label>
+      <input
+        type="text"
+        name="indexName"
+        [(ngModel)]="indexName"
+        placeholder="Enter index name"
+        required
+      />
+
+      <label>Fields *</label>
+      <select
+        name="indexFields"
+        multiple
+        size="5"
+        [(ngModel)]="selectedFields"
+        required
+      >
+        <option *ngFor="let field of availableFields" [value]="field">
+          {{ field }}
+        </option>
+      </select>
+
+      <button type="submit" [disabled]="!indexForm.form.valid">
+        Add Custom Index
+      </button>
+    </form>
+  </div>
+
+  <!-- Active Indexes List -->
+  <div class="card">
+    <h2>Active Indexes</h2>
+    <ul>
+      <li *ngFor="let index of indexList">
+        <strong>{{ index.name }}</strong> — Fields: {{ index.fields.join(', ') }}
+      </li>
+    </ul>
+  </div>
+
+</div>

@@ -1,0 +1,79 @@
+<div class="container">
+
+    <!-- MARC Template Form -->
+    <div class="card">
+        <h2>MARC Template Worksheet</h2>
+
+        <form (ngSubmit)="saveTemplate()" #marcForm="ngForm">
+            <label>Template Name *</label>
+            <input type="text" name="templateName" [(ngModel)]="templateName" placeholder="Enter template name"
+                required />
+
+            <label>MARC Fields</label>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tag</th>
+                        <th>Field Name</th>
+                        <th>Indicator</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let field of marcFields; let i = index">
+                        <td>
+                            <input type="text" [(ngModel)]="field.tag" name="tag{{ i }}" placeholder="Tag" />
+                        </td>
+                        <td>
+                            <input type="text" [(ngModel)]="field.field" name="field{{ i }}" placeholder="Field Name" />
+                        </td>
+                        <td>
+                            <input type="text" [(ngModel)]="field.indicator" name="indicator{{ i }}"
+                                placeholder="Indicator" />
+                        </td>
+                        <td>
+                            <button type="button" class="remove-row-btn" (click)="removeRow(i)">
+                                Remove
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="button" class="add-row-btn" (click)="addRow()">
+                Add Field
+            </button>
+
+            <button type="submit" [disabled]="!marcForm.form.valid">
+                Save Template
+            </button>
+        </form>
+    </div>
+
+    <!-- Table of Templates -->
+    <div class="card">
+        <h2>Saved Templates</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Template Name</th>
+                    <th>MARC Fields</th>
+                    <th>Created Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let t of templates">
+                    <td>{{ t.name }}</td>
+
+
+                    <td>{{ formatFields(t.fields) }}</td>
+
+
+
+                    <td>{{ t.created }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

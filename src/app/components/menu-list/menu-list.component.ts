@@ -59,6 +59,21 @@ export class MenuListComponent {
         
       ]
     },
+    {
+      id: 'technical',
+      label: 'Technical Processing',
+      icon: 'technical processing',
+      isDropdown: true,
+      subItems: [
+        { label: 'Material Type', routerLink: 'material-type' },
+        { label: 'Marc Template', routerLink: 'marc-template' },
+        { label: 'Authority Files', routerLink: 'authority-files-management'},
+        { label: 'Catalog Records', routerLink: 'catalog-records'},
+        { label: 'Copy Cataloging', routerLink: 'copy-cataloging'},
+        { label: 'Items For Processing', routerLink: 'items-for-processing'},
+
+      ]
+    },
     
   ];
 

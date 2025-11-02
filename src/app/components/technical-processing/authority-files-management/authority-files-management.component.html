@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="card">
+    <h2>Authority Files Management</h2>
+
+    <form (ngSubmit)="addAuthority()" #authorityForm="ngForm">
+      <label>Type *</label>
+      <select
+        name="authorityType"
+        [(ngModel)]="authorityType"
+        required
+      >
+        <option value="">Select Type</option>
+        <option value="Personal">Personal</option>
+        <option value="Corporate">Corporate</option>
+      </select>
+
+      <label>Name *</label>
+      <input
+        type="text"
+        name="authorityName"
+        [(ngModel)]="authorityName"
+        placeholder="Enter name"
+        required
+      />
+
+      <button type="submit" [disabled]="!authorityForm.form.valid">
+        Add Authority Record
+      </button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Authority Hierarchy</h2>
+    <div class="tree-view">
+      <div *ngFor="let type of authorityTypes" class="tree-node">
+        <span>{{ type }}</span>
+        <div
+          *ngFor="let name of authorityRecords[type]"
+          class="tree-node"
+          style="margin-left: 20px;"
+        >
+          <span>{{ name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

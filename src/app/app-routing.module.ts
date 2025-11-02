@@ -13,6 +13,12 @@ import { RequestProcessingComponent } from './acquisitions/request-processing/re
 import { FirmOrderComponent } from './acquisitions/firm-order/firm-order.component';
 import { ClaimComponent } from './acquisitions/claim/claim.component';
 import { InvoicepaymentComponent } from './acquisitions/invoicepayment/invoicepayment.component';
+import { CopyCatalogingComponent } from './components/technical-processing/copy-cataloging/copy-cataloging.component';
+import { CatalogRecordsComponent } from './components/technical-processing/catalog-records/catalog-records.component';
+import { MaterialTypeComponent } from './components/technical-processing/material-type/material-type.component';
+import { MarcTemplateWorksheetComponent } from './components/technical-processing/marc-template-worksheet/marc-template-worksheet.component';
+import { AuthorityFilesManagementComponent } from './components/technical-processing/authority-files-management/authority-files-management.component';
+import { ItemsForProcessingComponent } from './components/technical-processing/items-for-processing/items-for-processing.component';
 //import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
@@ -32,6 +38,11 @@ const routes: Routes = [
   { path:'firm-order',component:FirmOrderComponent},
   { path:'claim',component:ClaimComponent},
   { path:'invoice-payment',component:InvoicepaymentComponent},
+  { path: 'material-type', component: MaterialTypeComponent },
+  { path: 'marc-template', component: MarcTemplateWorksheetComponent },
+  { path: 'authority-files-management', component: AuthorityFilesManagementComponent },
+  { path: 'catalog-records', component: CatalogRecordsComponent },
+  { path: 'items-for-processing', component: ItemsForProcessingComponent},
  
 
 ];

@@ -1,0 +1,83 @@
+<div class="container">
+
+  <!-- Edit Section -->
+  <div class="card">
+    <h2>Edit Catalog Record</h2>
+    <form (ngSubmit)="updateRecord()" #editForm="ngForm">
+      <label>Record ID *</label>
+      <input
+        type="text"
+        name="editRecordId"
+        [(ngModel)]="editRecordId"
+        placeholder="Enter Record ID"
+        required
+      />
+
+      <label>Edit Fields (comma separated)</label>
+      <textarea
+        name="editFields"
+        [(ngModel)]="editFields"
+        rows="4"
+        placeholder="Title, Author, ISBN, etc."
+        required
+      ></textarea>
+
+      <button type="submit" [disabled]="!editForm.form.valid">
+        Update Record
+      </button>
+    </form>
+  </div>
+
+  <!-- Delete Section -->
+  <div class="card">
+    <h2>Delete Catalog Record</h2>
+    <form (ngSubmit)="deleteRecord()" #deleteForm="ngForm">
+      <label>Record ID *</label>
+      <input
+        type="text"
+        name="deleteRecordId"
+        [(ngModel)]="deleteRecordId"
+        placeholder="Enter Record ID"
+        required
+      />
+
+      <label>
+        <input
+          type="checkbox"
+          name="confirmDelete"
+          [(ngModel)]="confirmDelete"
+          required
+        />
+        Confirm Deletion
+      </label>
+
+      <button type="submit" [disabled]="!deleteForm.form.valid">
+        Delete Record
+      </button>
+    </form>
+  </div>
+
+  <!-- Audit Log Table -->
+  <div class="card full-width">
+    <h2>Audit Log</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Action</th>
+          <th>Record ID</th>
+          <th>Details</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let log of auditLog">
+          <td>{{ log.action }}</td>
+          <td>{{ log.recordId }}</td>
+          <td>{{ log.details }}</td>
+          <td>{{ log.timestamp }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

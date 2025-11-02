@@ -1,6 +1,6 @@
 .container {
-  max-width: 950px;
-  margin: 40px auto;
+  max-width: auto;
+  margin: 0px auto;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.08);
@@ -14,7 +14,10 @@ header {
   text-align: center;
   padding: 25px 10px;
 }
-header h1 { margin: 0; font-weight: 600; }
+header h1 { 
+  margin: 0; 
+  font-weight: 600; 
+}
 
 .tabs {
   display: flex;
@@ -32,7 +35,9 @@ header h1 { margin: 0; font-weight: 600; }
   position: relative;
   transition: color 0.3s ease;
 }
-.tab-btn.active { color: #2b6777; }
+.tab-btn.active { 
+  color: #2b6777; 
+}
 .tab-btn.active::after {
   content: "";
   position: absolute;
@@ -51,11 +56,15 @@ form {
 }
 
 @keyframes fadeIn {
-  from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-label { display: block; font-weight: 600; margin-bottom: 6px; }
+label { 
+  display: block; 
+  font-weight: 600; 
+  margin-bottom: 6px; 
+}
 input, textarea {
   width: 100%;
   padding: 12px;
@@ -71,8 +80,15 @@ input:focus, textarea:focus {
   outline: none;
 }
 
-.radio-group { display: flex; gap: 25px; margin-bottom: 20px; }
-.radio-group label { font-weight: 500; cursor: pointer; }
+.radio-group { 
+  display: flex; 
+  gap: 25px; 
+  margin-bottom: 20px; 
+}
+.radio-group label { 
+  font-weight: 500; 
+  cursor: pointer; 
+}
 
 button {
   background-color: #2b6777;
@@ -85,22 +101,53 @@ button {
   font-weight: 600;
   transition: background 0.3s ease;
 }
-button:hover { background-color: #1e4d59; }
+button:hover { 
+  background-color: #1e4d59; 
+}
 
+/* Chart Section */
 .chart-section {
   background: #fafbfc;
-  padding: 30px;
+  padding: 25px;
   text-align: center;
   border-top: 1px solid #e5e7eb;
 }
+
 .chart-section h2 {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   font-weight: 600;
   color: #2c3e50;
+  font-size: 18px;
 }
 
-/* Responsive */
-@media(max-width: 600px) {
-  .container { margin: 10px; }
-  .tab-btn { font-size: 14px; padding: 10px; }
+/* Smaller, centered chart */
+.chart-section canvas {
+  max-width: 260px;
+  max-height: 260px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .container { 
+    margin: 10px; 
+  }
+  .tab-btn { 
+    font-size: 14px; 
+    padding: 10px; 
+  }
+  .chart-section {
+    padding: 20px;
+  }
+  .chart-section h2 {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
+  .chart-section canvas {
+    max-width: 200px;
+    max-height: 200px;
+  }
 }

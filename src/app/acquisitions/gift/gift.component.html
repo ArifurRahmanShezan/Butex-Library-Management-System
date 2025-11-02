@@ -1,0 +1,47 @@
+<div class="container">
+  <header>
+    <h1>🎁 Gifts Processing Management</h1>
+  </header>
+
+  <div class="tabs">
+    <div class="tab-btn" [class.active]="activeTab==='form9'" (click)="switchTab('form9')">Solicit Gift</div>
+    <div class="tab-btn" [class.active]="activeTab==='form10'" (click)="switchTab('form10')">Process Gift</div>
+  </div>
+
+  <!-- Form 9: Solicit -->
+  <form *ngIf="activeTab==='form9'" (ngSubmit)="handleSolicitGift()" #solicitForm="ngForm">
+    <label>Donor Name</label>
+    <input type="text" [(ngModel)]="solicit.donorName" name="donorName" placeholder="Enter donor name" required>
+
+    <label>Item Description</label>
+    <textarea [(ngModel)]="solicit.itemDescription" name="itemDescription" rows="4" placeholder="Enter gift item description" required></textarea>
+
+    <label>Request Date</label>
+    <input type="date" [(ngModel)]="solicit.requestDate" name="requestDate" required>
+
+    <button type="submit">Submit Request</button>
+  </form>
+
+  <!-- Form 10: Process -->
+  <form *ngIf="activeTab==='form10'" (ngSubmit)="handleProcessGift()" #processForm="ngForm">
+    <label>Gift ID</label>
+    <input type="text" [(ngModel)]="process.giftId" name="giftId" placeholder="Enter gift ID" required>
+
+    <label>Decision</label>
+    <div class="radio-group">
+      <label><input type="radio" [(ngModel)]="process.decision" name="decision" value="Accepted" required> Accept</label>
+      <label><input type="radio" [(ngModel)]="process.decision" name="decision" value="Rejected"> Reject</label>
+    </div>
+
+    <label>Accession Number</label>
+    <input type="text" [(ngModel)]="process.accessionNumber" name="accessionNumber" placeholder="Enter accession number" required>
+
+    <button type="submit">Process Gift</button>
+  </form>
+
+  <!-- Chart Section -->
+  <div class="chart-section">
+    <h2>Accepted vs. Rejected Gifts</h2>
+    <canvas id="giftChart"></canvas>
+  </div>
+</div>

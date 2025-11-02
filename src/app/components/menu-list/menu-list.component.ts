@@ -16,7 +16,7 @@ export class MenuListComponent {
       id: 'dashboard',
       label: 'Dashboard',
       icon: 'dashboard',
-      routerLink: '/dashboard',
+      routerLink: 'dashboard',
       isDropdown: false,
       subItems: []
     },
@@ -55,7 +55,7 @@ export class MenuListComponent {
         { label: 'Request Processing', routerLink: 'letters-holidays-form' },
         { label: 'EOD Process', routerLink: 'eod' },
         { label: 'RSS Feeds', routerLink: 'rss' },
-        { label: 'Gifts', routerLink: 'gifts'}
+        
         
       ]
     },

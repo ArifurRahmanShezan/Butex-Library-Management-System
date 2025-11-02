@@ -71,3 +71,16 @@ table th {
 table tr:hover {
     background: #f9fbff;
 }
+
+
+.header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#fff;
+  padding:15px 25px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+.header .user {font-weight:600; color:#2e5c92;}
+.header .time {color:#666; font-size:14px;}

@@ -36,7 +36,7 @@ import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-a
 
 const routes: Routes = [
   { path: 'database-restore', component: RestoreComponent },
-  { path: '', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'letters-holidays-form', component: LettersHolidaysComponent },
   { path: 'rss', component: RssFeedComponent },
   { path: 'eod', component: EodProcessComponent },
@@ -52,6 +52,7 @@ const routes: Routes = [
   { path: 'marc-template', component: MarcTemplateWorksheetComponent },
   { path: 'authority-files-management', component: AuthorityFilesManagementComponent },
   { path: 'catalog-records', component: CatalogRecordsComponent },
+  { path: 'copy-cataloging', component: CopyCatalogingComponent },
   { path: 'items-for-processing', component: ItemsForProcessingComponent},
   { path: 'patronprevilege',component:PatronprevilegeComponent},
   { path: 'Binding', component: BindingComponent },

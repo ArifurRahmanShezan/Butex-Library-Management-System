@@ -1,6 +1,6 @@
 .container {
-    max-width: 1400px;
-    margin: 20px auto;
+    max-width: auto;
+    margin: 0px auto;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);

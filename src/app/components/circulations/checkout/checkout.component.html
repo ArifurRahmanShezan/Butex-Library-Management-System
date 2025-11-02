@@ -1,0 +1,54 @@
+<div class="container">
+
+  <!-- Check-Out / Issue Items Form -->
+  <div class="card">
+    <h2>Check-Out / Issue Items</h2>
+    <form (ngSubmit)="issueItem()">
+      <div class="form-group">
+        <label>Patron ID *</label>
+        <input type="text" [(ngModel)]="patronId" name="patronId" placeholder="Enter Patron ID" required>
+      </div>
+
+      <div class="form-group">
+        <label>Item Barcode *</label>
+        <input type="text" [(ngModel)]="itemBarcode" name="itemBarcode" placeholder="Enter Item Barcode" required>
+      </div>
+
+      <div class="form-group">
+        <label>Loan Period *</label>
+        <select [(ngModel)]="loanPeriod" name="loanPeriod" required>
+          <option value="" disabled>Select Period</option>
+          <option [value]="7">7 Days</option>
+          <option [value]="14">14 Days</option>
+          <option [value]="30">30 Days</option>
+        </select>
+      </div>
+
+      <button type="submit">Issue Item</button>
+    </form>
+  </div>
+
+  <!-- Active Loans Table -->
+  <div class="card">
+    <h2>Active Loans</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Patron ID</th>
+          <th>Item Barcode</th>
+          <th>Loan Period (Days)</th>
+          <th>Issue Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let loan of activeLoans">
+          <td>{{ loan.patronId }}</td>
+          <td>{{ loan.itemBarcode }}</td>
+          <td>{{ loan.loanPeriod }}</td>
+          <td>{{ loan.issueDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

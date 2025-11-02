@@ -74,6 +74,38 @@ export class MenuListComponent {
 
       ]
     },
+    {
+      id: 'Circulation',
+      label: 'Circulation',
+      icon: 'circulation',
+      isDropdown: true,
+      subItems: [
+        { label: 'Check-out', routerLink: 'checkout' },
+        { label: 'Check-in', routerLink: 'checkin' },
+        { label: 'Reservations', routerLink: '' },
+        { label: 'Renewals', routerLink: 'renewals'},
+        { label: 'Binding', routerLink: 'Binding'},
+        { label: 'Overdues/Loss', routerLink: 'overdues'},
+        { label: 'Patron Previleges', routerLink: 'patronprevilege'},
+
+      ]
+    },
+    {
+      id: 'serial',
+      label: 'Serial Management',
+      icon: 'Serial Management',
+      isDropdown: true,
+      subItems: [
+        { label: 'Subscriptions', routerLink: 'subscriptions' },
+        { label: 'Order & Invoices', routerLink: 'orderinvoice' },
+        { label: 'Register Issues', routerLink: 'registerissues' },
+        { label: 'Binding', routerLink: 'Binding'},
+        { label: 'Renewals', routerLink: 'renewals'},
+        { label: 'Binders', routerLink: 'binders'},
+        
+
+      ]
+    },
     
   ];
 

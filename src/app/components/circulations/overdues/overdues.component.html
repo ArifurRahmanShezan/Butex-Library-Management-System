@@ -1,0 +1,45 @@
+<div class="container">
+  <h1>💰 Collect Overdues</h1>
+
+  <form (ngSubmit)="recordPayment()">
+    <label>Patron ID *</label>
+    <input type="text" [(ngModel)]="patronId" name="patronId" placeholder="Enter Patron ID" required>
+
+    <label>Fine Amount *</label>
+    <input type="number" [(ngModel)]="fineAmount" name="fineAmount" placeholder="Enter Fine Amount" min="0" required>
+
+    <label>Payment Method *</label>
+    <select [(ngModel)]="paymentMethod" name="paymentMethod" required>
+      <option value="">Select Method</option>
+      <option value="Cash">Cash</option>
+      <option value="Card">Card</option>
+      <option value="Online">Online</option>
+    </select>
+
+    <button type="submit">Record Payment</button>
+  </form>
+
+  <h2 style="margin-top:40px;">📋 Recorded Overdues</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Patron ID</th>
+        <th>Amount</th>
+        <th>Payment Method</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of payments">
+        <td>{{ p.patron }}</td>
+        <td>{{ p.amount.toFixed(2) }}</td>
+        <td>{{ p.method }}</td>
+        <td>{{ p.date }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="chart-container">
+    <canvas id="overdueChart"></canvas>
+  </div>
+</div>

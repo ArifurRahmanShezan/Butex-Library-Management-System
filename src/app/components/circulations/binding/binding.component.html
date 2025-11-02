@@ -1,0 +1,66 @@
+<div class="container">
+  <h1>📚 Binding Management Module</h1>
+
+  <div class="grid">
+    <!-- Separation Form -->
+    <div class="card">
+      <h2>Form 7: Separation</h2>
+      <form (ngSubmit)="submitSeparation()">
+        <label>Item List (comma-separated)</label>
+        <input type="text" [(ngModel)]="separationItems" name="separationItems" placeholder="e.g., BK101, BK102, BK103" required>
+        <button type="submit">Submit Separation</button>
+      </form>
+    </div>
+
+    <!-- Check-Out to Binders -->
+    <div class="card">
+      <h2>Form 8: Check-Out to Binders</h2>
+      <form (ngSubmit)="submitCheckout()">
+        <label>Item ID</label>
+        <input type="text" [(ngModel)]="checkoutItemId" name="checkoutItemId" placeholder="Enter Item ID" required>
+        <label>Binder</label>
+        <select [(ngModel)]="checkoutBinder" name="checkoutBinder" required>
+          <option value="">Select Binder</option>
+          <option *ngFor="let binder of binders">{{ binder }}</option>
+        </select>
+        <button type="submit">Check Out</button>
+      </form>
+    </div>
+
+    <!-- Recall Form -->
+    <div class="card">
+      <h2>Form 9: Recall</h2>
+      <form (ngSubmit)="submitRecall()">
+        <label>Item ID</label>
+        <input type="text" [(ngModel)]="recallItemId" name="recallItemId" placeholder="Enter Item ID" required>
+        <label>Date</label>
+        <input type="date" [(ngModel)]="recallDate" name="recallDate" required>
+        <button type="submit">Recall Item</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Binding Progress Table -->
+  <div class="card" style="margin-top:30px;">
+    <h2>📊 Binding Progress</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item ID</th>
+          <th>Status</th>
+          <th>Binder</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td>{{ record.item }}</td>
+          <td>{{ record.status }}</td>
+          <td>{{ record.binder || '-' }}</td>
+          <td>{{ record.date || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

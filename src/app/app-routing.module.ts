@@ -19,6 +19,16 @@ import { MaterialTypeComponent } from './components/technical-processing/materia
 import { MarcTemplateWorksheetComponent } from './components/technical-processing/marc-template-worksheet/marc-template-worksheet.component';
 import { AuthorityFilesManagementComponent } from './components/technical-processing/authority-files-management/authority-files-management.component';
 import { ItemsForProcessingComponent } from './components/technical-processing/items-for-processing/items-for-processing.component';
+import { PatronprevilegeComponent } from './components/circulations/patronprevilege/patronprevilege.component';
+import { BindingComponent } from './components/circulations/binding/binding.component';
+import { RenewalsComponent } from './components/circulations/renewals/renewals.component';
+import { CheckoutComponent } from './components/circulations/checkout/checkout.component';
+import { CheckinComponent } from './components/circulations/checkin/checkin.component';
+import { OverduesComponent } from './components/circulations/overdues/overdues.component';
+import { SubscriptionsComponent } from './components/serialManagement/subscriptions/subscriptions.component';
+import { OrderinvoiceComponent } from './components/serialManagement/orderinvoice/orderinvoice.component';
+import { RegisterissueComponent } from './components/serialManagement/registerissue/registerissue.component';
+import { BindersComponent } from './components/serialManagement/binders/binders.component';
 //import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
@@ -31,19 +41,28 @@ const routes: Routes = [
   { path: 'rss', component: RssFeedComponent },
   { path: 'eod', component: EodProcessComponent },
   { path: 'budget-vendor', component: BudgetComponent} ,
-  { path:'gift',component:GiftComponent},
-  { path:'accesssioning',component:AccessioningComponent},
-  { path:'Request-Processing',component:RequestProcessingComponent},
+  { path: 'gift',component:GiftComponent},
+  { path: 'accesssioning',component:AccessioningComponent},
+  { path: 'Request-Processing',component:RequestProcessingComponent},
   //{ path:'On-Approval-Supplies',component:OnApprovalsupplyComponent},
-  { path:'firm-order',component:FirmOrderComponent},
-  { path:'claim',component:ClaimComponent},
-  { path:'invoice-payment',component:InvoicepaymentComponent},
+  { path: 'firm-order',component:FirmOrderComponent},
+  { path: 'claim',component:ClaimComponent},
+  { path: 'invoice-payment',component:InvoicepaymentComponent},
   { path: 'material-type', component: MaterialTypeComponent },
   { path: 'marc-template', component: MarcTemplateWorksheetComponent },
   { path: 'authority-files-management', component: AuthorityFilesManagementComponent },
   { path: 'catalog-records', component: CatalogRecordsComponent },
   { path: 'items-for-processing', component: ItemsForProcessingComponent},
- 
+  { path: 'patronprevilege',component:PatronprevilegeComponent},
+  { path: 'Binding', component: BindingComponent },
+  { path: 'renewals', component: RenewalsComponent },
+  { path: 'checkout', component: CheckoutComponent },
+  { path: 'checkin', component: CheckinComponent },
+  { path: 'overdues',component:OverduesComponent},
+  { path: 'subscriptions', component: SubscriptionsComponent },
+  { path: 'orderinvoice', component: OrderinvoiceComponent },
+  { path: 'registerissues', component: RegisterissueComponent },
+  { path: 'binders', component: BindersComponent },
 
 ];
 

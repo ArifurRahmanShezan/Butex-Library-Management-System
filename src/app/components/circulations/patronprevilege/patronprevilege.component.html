@@ -1,0 +1,49 @@
+<div class="container">
+  <h2>👥 Patron and Privilege Management</h2>
+  <div *ngIf="msg" [ngClass]="{'success': msgType==='success', 'error': msgType==='error'}">{{ msg }}</div>
+
+  <form (ngSubmit)="submitForm()">
+    <div>
+      <label>Patron Category <span style="color:red">*</span></label>
+      <select [(ngModel)]="selectedCategory" name="category" required>
+        <option value="">Select Category</option>
+        <option *ngFor="let cat of categories">{{ cat }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label>Loan Limit (Books)</label>
+      <input type="number" [(ngModel)]="loanLimit" name="loanLimit" placeholder="Enter loan limit">
+    </div>
+
+    <div>
+      <label>Privileges</label>
+      <div class="privileges">
+        <label *ngFor="let priv of privilegesList">
+          <input type="checkbox" [value]="priv" (change)="togglePrivilege(priv, $event)">
+          {{ priv }}
+        </label>
+      </div>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3 style="margin-top:30px;">📊 Privilege Matrix</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Patron Category</th>
+        <th>Loan Limit</th>
+        <th>Privileges</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of matrix">
+        <td>{{ entry.category }}</td>
+        <td>{{ entry.loanLimit }}</td>
+        <td>{{ entry.privileges }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

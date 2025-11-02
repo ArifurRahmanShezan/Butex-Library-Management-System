@@ -21,6 +21,16 @@ import { AuthorityFilesManagementComponent } from './components/technical-proces
 import { MarcTemplateWorksheetComponent } from './components/technical-processing/marc-template-worksheet/marc-template-worksheet.component';
 import { MaterialTypeComponent } from './components/technical-processing/material-type/material-type.component';
 import { ItemsForProcessingComponent } from './components/technical-processing/items-for-processing/items-for-processing.component';
+import { PatronprevilegeComponent } from './components/circulations/patronprevilege/patronprevilege.component';
+import { BindingComponent } from './components/circulations/binding/binding.component';
+import { RenewalsComponent } from './components/circulations/renewals/renewals.component';
+import { CheckoutComponent } from './components/circulations/checkout/checkout.component';
+import { CheckinComponent } from './components/circulations/checkin/checkin.component';
+import { OverduesComponent } from './components/circulations/overdues/overdues.component';
+import { SubscriptionsComponent } from './components/serialManagement/subscriptions/subscriptions.component';
+import { OrderinvoiceComponent } from './components/serialManagement/orderinvoice/orderinvoice.component';
+import { RegisterissueComponent } from './components/serialManagement/registerissue/registerissue.component';
+import { BindersComponent } from './components/serialManagement/binders/binders.component';
 //import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-approvalsupply.component';
 
 
@@ -45,7 +55,17 @@ import { ItemsForProcessingComponent } from './components/technical-processing/i
     AuthorityFilesManagementComponent,
     CatalogRecordsComponent,
     CopyCatalogingComponent,
-    ItemsForProcessingComponent
+    ItemsForProcessingComponent,
+    PatronprevilegeComponent,
+    BindingComponent,
+    RenewalsComponent,
+    CheckoutComponent,
+    CheckinComponent,
+    OverduesComponent,
+    SubscriptionsComponent,
+    OrderinvoiceComponent,
+    RegisterissueComponent,
+    BindersComponent
   ],
   imports: [
     BrowserModule,

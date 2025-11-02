@@ -1,1 +1,105 @@
-<p>system-parameters works!</p>
+<div class="container">
+  <h2>⚙️ Administration Module</h2>
+  <div class="msg">{{ msg }}</div>
+
+  <div class="tabs">
+    <div
+      class="tab"
+      [class.active]="activeForm === 'form1'"
+      (click)="switchForm('form1')"
+    >
+      General
+    </div>
+    <div
+      class="tab"
+      [class.active]="activeForm === 'form2'"
+      (click)="switchForm('form2')"
+    >
+      Acquisitions
+    </div>
+    <div
+      class="tab"
+      [class.active]="activeForm === 'form3'"
+      (click)="switchForm('form3')"
+    >
+      Technical
+    </div>
+    <div
+      class="tab"
+      [class.active]="activeForm === 'form4'"
+      (click)="switchForm('form4')"
+    >
+      Circulation
+    </div>
+    <div
+      class="tab"
+      [class.active]="activeForm === 'form5'"
+      (click)="switchForm('form5')"
+    >
+      Serials
+    </div>
+  </div>
+
+  <!-- Forms -->
+  <form
+    *ngIf="activeForm === 'form1'"
+    (ngSubmit)="submitForm('generalStatus')"
+    #form1="ngForm"
+  >
+    <label>Order Period *</label>
+    <input type="text" name="orderPeriod" ngModel required placeholder="Enter Order Period" />
+    <label>Invoice Variation *</label>
+    <input type="text" name="invoiceVar" ngModel required placeholder="Enter Invoice Variation" />
+    <button type="submit" [disabled]="form1.invalid">Submit</button>
+  </form>
+
+  <form
+    *ngIf="activeForm === 'form2'"
+    (ngSubmit)="submitForm('acqStatus')"
+    #form2="ngForm"
+  >
+    <label>Acquisition Rules *</label>
+    <input type="text" name="acqRules" ngModel required placeholder="Enter Acquisition Rules" />
+    <button type="submit" [disabled]="form2.invalid">Submit</button>
+  </form>
+
+  <form
+    *ngIf="activeForm === 'form3'"
+    (ngSubmit)="submitForm('techStatus')"
+    #form3="ngForm"
+  >
+    <label>Cataloging Options *</label>
+    <input type="text" name="catalogOptions" ngModel required placeholder="Enter Cataloging Options" />
+    <button type="submit" [disabled]="form3.invalid">Submit</button>
+  </form>
+
+  <form
+    *ngIf="activeForm === 'form4'"
+    (ngSubmit)="submitForm('circStatus')"
+    #form4="ngForm"
+  >
+    <label>Loan Limits *</label>
+    <input type="text" name="loanLimits" ngModel required placeholder="Enter Loan Limits" />
+    <button type="submit" [disabled]="form4.invalid">Submit</button>
+  </form>
+
+  <form
+    *ngIf="activeForm === 'form5'"
+    (ngSubmit)="submitForm('serialsStatus')"
+    #form5="ngForm"
+  >
+    <label>Subscription Rules *</label>
+    <input type="text" name="subRules" ngModel required placeholder="Enter Subscription Rules" />
+    <button type="submit" [disabled]="form5.invalid">Submit</button>
+  </form>
+
+  <!-- Dashboard -->
+  <h3 style="margin-top:30px;">📊 Parameter Status Dashboard</h3>
+  <div class="dashboard">
+    <div class="card">General: {{ statuses.generalStatus }}</div>
+    <div class="card">Acquisitions: {{ statuses.acqStatus }}</div>
+    <div class="card">Technical: {{ statuses.techStatus }}</div>
+    <div class="card">Circulation: {{ statuses.circStatus }}</div>
+    <div class="card">Serials: {{ statuses.serialsStatus }}</div>
+  </div>
+</div>

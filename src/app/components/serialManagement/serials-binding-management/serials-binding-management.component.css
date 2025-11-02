@@ -1,16 +1,22 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
-  max-width: auto;
-  margin: 0px auto;
+  max-width: 1000px;
+  margin: 10px auto;
   background: #fff;
-  padding: 30px;
+  padding: 25px 30px;
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  font-family: 'Segoe UI', sans-serif;
-  color: #2d3436;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
 
 h2 {
   text-align: center;
+  color: #2d3436;
   margin-bottom: 25px;
 }
 
@@ -60,7 +66,7 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 th, td {
@@ -78,4 +84,21 @@ th {
   color: #16a34a;
   font-weight: 600;
   margin-top: 10px;
+}
+
+.progress-container {
+  background: #e0e0e0;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 25px;
+  margin-top: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  text-align: center;
+  color: #fff;
+  line-height: 25px;
+  transition: 0.5s;
+  background: #0984e3;
 }

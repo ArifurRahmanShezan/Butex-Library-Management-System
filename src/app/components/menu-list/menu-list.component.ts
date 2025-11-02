@@ -49,22 +49,6 @@ export class MenuListComponent {
       ]
     },
     {
-        id: 'admin',
-      label: 'Administration',
-      icon: 'administration',
-      isDropdown: true,
-      subItems: [
-        { label: 'Request Processing', routerLink: 'letters-holidays-form' },
-        { label: 'EOD Process', routerLink: 'eod' },
-        { label: 'RSS Feeds', routerLink: 'rss' },
-        { label: 'System Parameters', routerLink: 'system-parameters' },
-        { label: 'Patron Management', routerLink: 'patron-management' },
-        { label: 'Server Config', routerLink: 'server-config' },
-        
-        
-      ]
-    },
-    {
       id: 'technical',
       label: 'Technical Processing',
       icon: 'technical processing',
@@ -90,8 +74,9 @@ export class MenuListComponent {
         { label: 'Reservations', routerLink: '' },
         { label: 'Renewals', routerLink: 'renewals'},
         { label: 'Binding', routerLink: 'Binding'},
-        { label: 'Overdues/Loss', routerLink: 'overdues'},
         { label: 'Patron Previleges', routerLink: 'patronprevilege'},
+        { label: 'Overdues', routerLink: 'overdues'},
+        { label: 'Loss', routerLink: 'loss'},
 
       ]
     },
@@ -104,13 +89,47 @@ export class MenuListComponent {
         { label: 'Subscriptions', routerLink: 'subscriptions' },
         { label: 'Order & Invoices', routerLink: 'orderinvoice' },
         { label: 'Register Issues', routerLink: 'registerissues' },
-        { label: 'Binding', routerLink: 'Binding'},
+        { label: 'Binding', routerLink: 'Binding-Management'},
         { label: 'Renewals', routerLink: 'renewals'},
         { label: 'Binders', routerLink: 'binders'},
+        
         
 
       ]
     },
+    {
+        id: 'admin',
+      label: 'Administration',
+      icon: 'administration',
+      isDropdown: true,
+      subItems: [
+        { label: 'Request Processing', routerLink: 'letters-holidays-form' },
+        { label: 'EOD Process', routerLink: 'eod' },
+        { label: 'RSS Feeds', routerLink: 'rss' },
+        { label: 'Administration Module', routerLink: 'administration-module' },
+        { label: 'Patron Management', routerLink: 'patron-management' },
+        { label: 'Server Config', routerLink: 'server-config' },
+        
+        
+      ]
+    },
+    {
+        id: 'other',
+      label: 'Others',
+      icon: 'others',
+      isDropdown: true,
+      subItems: [
+        { label: '', routerLink: '' },
+        { label: '', routerLink: '' },
+        { label: '', routerLink: '' },
+        { label: '', routerLink: '' },
+        { label: '', routerLink: '' },
+        
+        
+        
+      ]
+    },
+
     
   ];
 

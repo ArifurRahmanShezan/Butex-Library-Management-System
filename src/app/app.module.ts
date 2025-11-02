@@ -35,6 +35,8 @@ import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-a
 import { SystemParametersComponent } from './components/Administration/system-parameters/system-parameters.component';
 import { PatronManagementComponent } from './components/Administration/patron-management/patron-management.component';
 import { ServerConfigComponent } from './components/Administration/server-config/server-config.component';
+import { LossComponent } from './components/circulations/loss/loss.component';
+import { SerialsBindingManagementComponent } from './components/serialManagement/serials-binding-management/serials-binding-management.component';
 
 
 @NgModule({
@@ -71,7 +73,9 @@ import { ServerConfigComponent } from './components/Administration/server-config
     BindersComponent,
     SystemParametersComponent,
     PatronManagementComponent,
-    ServerConfigComponent
+    ServerConfigComponent,
+    LossComponent,
+    SerialsBindingManagementComponent
   ],
   imports: [
     BrowserModule,

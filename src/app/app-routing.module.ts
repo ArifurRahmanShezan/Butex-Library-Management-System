@@ -33,6 +33,8 @@ import { OnApprovalsupplyComponent } from './acquisitions/on-approvalsupply/on-a
 import { SystemParametersComponent } from './components/Administration/system-parameters/system-parameters.component';
 import { PatronManagementComponent } from './components/Administration/patron-management/patron-management.component';
 import { ServerConfigComponent } from './components/Administration/server-config/server-config.component';
+import { LossComponent } from './components/circulations/loss/loss.component';
+import { SerialsBindingManagementComponent } from './components/serialManagement/serials-binding-management/serials-binding-management.component';
 
 
 
@@ -67,9 +69,11 @@ const routes: Routes = [
   { path: 'orderinvoice', component: OrderinvoiceComponent },
   { path: 'registerissues', component: RegisterissueComponent },
   { path: 'binders', component: BindersComponent },
-  { path: 'system-parameters', component: SystemParametersComponent },
+  { path: 'administration-module', component: SystemParametersComponent },
   { path: 'patron-management', component: PatronManagementComponent },
   { path: 'server-config', component: ServerConfigComponent },
+  { path: 'loss', component: LossComponent },
+  { path: 'Binding-Management', component: SerialsBindingManagementComponent },
   
 
 ];

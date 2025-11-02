@@ -49,12 +49,12 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Chart */
-.pie-chart {
+ .pie-chart {
     background: conic-gradient(#7da9d6 0 60%, #b9d3f0 60% 100%);
-    width: 100%;
+    width: 50%;
     border-radius: 50%;
     aspect-ratio: 1/1;
+    height: 70%; /* Adjust this to make the chart half the original height */
 }
 
 .legend {

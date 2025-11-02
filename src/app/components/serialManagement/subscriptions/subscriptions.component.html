@@ -1,1 +1,84 @@
-<p>subscriptions works!</p>
+<div class="container">
+  <h2>📚 Serials Management - Subscription Management</h2>
+
+  <!-- Add Subscription -->
+  <div class="section">
+    <h3>➕ Add Subscription</h3>
+    <form (ngSubmit)="addSubscription()">
+      <div>
+        <label>Title</label>
+        <input type="text" [(ngModel)]="title" name="title" placeholder="Enter title" required>
+      </div>
+      <div>
+        <label>Publisher</label>
+        <input type="text" [(ngModel)]="publisher" name="publisher" placeholder="Enter publisher" required>
+      </div>
+      <div>
+        <label>Frequency</label>
+        <select [(ngModel)]="frequency" name="frequency" required>
+          <option value="">Select frequency</option>
+          <option>Monthly</option>
+          <option>Quarterly</option>
+          <option>Yearly</option>
+        </select>
+      </div>
+      <button type="submit">Add Subscription</button>
+    </form>
+    <div class="msg">{{ addMsg }}</div>
+  </div>
+
+  <!-- Search Subscription -->
+  <div class="section">
+    <h3>🔍 Search Subscription</h3>
+    <form (ngSubmit)="searchSubscription()">
+      <div style="grid-column: span 2;">
+        <label>Keyword</label>
+        <input type="text" [(ngModel)]="searchKeyword" name="searchKeyword" placeholder="Enter keyword to search">
+      </div>
+      <button type="submit">Search</button>
+    </form>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Publisher</th>
+          <th>Frequency</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sub of searchResults">
+          <td>{{ sub.title }}</td>
+          <td>{{ sub.publisher }}</td>
+          <td>{{ sub.frequency }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Order Subscription -->
+  <div class="section">
+    <h3>🧾 Order Subscription</h3>
+    <form (ngSubmit)="placeOrder()">
+      <div>
+        <label>Subscription ID</label>
+        <input type="text" [(ngModel)]="subId" name="subId" placeholder="Enter subscription ID" required>
+      </div>
+      <div>
+        <label>Vendor</label>
+        <input type="text" [(ngModel)]="vendor" name="vendor" placeholder="Enter vendor name" required>
+      </div>
+      <div>
+        <label>Date</label>
+        <input type="date" [(ngModel)]="orderDate" name="orderDate" required>
+      </div>
+      <button type="submit">Place Order</button>
+    </form>
+    <div class="msg">{{ orderMsg }}</div>
+  </div>
+
+  <!-- Chart -->
+  <div id="chartContainer" class="section">
+    <h3>📊 Subscription Status Overview</h3>
+    <canvas id="subscriptionChart" height="100"></canvas>
+  </div>
+</div>

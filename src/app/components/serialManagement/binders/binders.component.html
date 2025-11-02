@@ -1,1 +1,44 @@
-<p>binders works!</p>
+<div class="container">
+  <h2>📚 Binders and Bind Types</h2>
+  <div class="msg">{{ msg }}</div>
+
+  <form (ngSubmit)="submitBinder()">
+    <div>
+      <label>Binder Name *</label>
+      <input type="text" [(ngModel)]="binderName" name="binderName" placeholder="Enter Binder Name" required>
+    </div>
+    <div>
+      <label>Contact *</label>
+      <input type="text" [(ngModel)]="binderContact" name="binderContact" placeholder="Enter Contact" required>
+    </div>
+    <div>
+      <label>Bind Type *</label>
+      <input type="text" [(ngModel)]="bindType" name="bindType" placeholder="Enter Bind Type" required>
+    </div>
+    <div>
+      <label>Price *</label>
+      <input type="number" [(ngModel)]="bindPrice" name="bindPrice" placeholder="Enter Price" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>📋 Registered Binders & Types</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Binder Name</th>
+        <th>Contact</th>
+        <th>Bind Type</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let binder of binders">
+        <td>{{ binder.name }}</td>
+        <td>{{ binder.contact }}</td>
+        <td>{{ binder.type }}</td>
+        <td>{{ binder.price }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,1 +1,30 @@
-<p>registerissue works!</p>
+<div class="container">
+  <h2>📥 Register Serial Issues</h2>
+  <div class="msg">{{ msg }}</div>
+
+  <form (ngSubmit)="submitIssue()">
+    <label>Issue Number *</label>
+    <input type="text" [(ngModel)]="issueNumber" name="issueNumber" placeholder="Enter Issue Number" required>
+
+    <label>Date Received *</label>
+    <input type="date" [(ngModel)]="dateReceived" name="dateReceived" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3 style="margin-top:30px;">📋 Recent Issues</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Issue Number</th>
+        <th>Date Received</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let issue of issues">
+        <td>{{ issue.number }}</td>
+        <td>{{ issue.date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

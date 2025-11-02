@@ -1,0 +1,50 @@
+<div class="report-page">
+
+  <!-- Header -->
+  <div class="report-header">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Flag_of_Bangladesh.svg/1200px-Flag_of_Bangladesh.svg.png" alt="University Logo">
+    <h1>Bangladesh University of Technology</h1>
+    <p>123 Academic Avenue, Dhaka, Bangladesh</p>
+    <p>Phone: +880 123456789 | Email: info@but.edu.bd</p>
+  </div>
+
+  <!-- Report Title -->
+  <h2 class="report-title">Installation Audit Report</h2>
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th class="col-server">Server Name</th>
+        <th class="col-date">Installation Date</th>
+        <th class="col-installer">Installer</th>
+        <th class="col-status">Status</th>
+        <th class="col-details">Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let report of reports">
+        <td>{{ report.server }}</td>
+        <td>{{ report.date }}</td>
+        <td>{{ report.installer }}</td>
+        <td [ngClass]="report.status === 'Success' ? 'status-success' : 'status-failed'">
+          {{ report.status }}
+        </td>
+        <td>{{ report.details }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Summary -->
+  <div class="summary">
+    Total Servers: {{ reports.length }} | 
+    Success: {{ successCount }} | 
+    Failed: {{ failedCount }}
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    © 2025 Bangladesh University of Technology
+  </div>
+
+</div>

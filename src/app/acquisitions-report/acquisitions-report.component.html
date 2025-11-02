@@ -1,0 +1,60 @@
+<div class="report-container">
+
+  <!-- Header -->
+  <div class="header">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Flag_of_Bangladesh.svg/1200px-Flag_of_Bangladesh.svg.png"
+      alt="Logo"
+    />
+    <h1>Bangladesh University of Technology</h1>
+    <p>123 Academic Avenue, Dhaka, Bangladesh</p>
+    <p>Phone: +880 123456789 | Email: info@but.edu.bd</p>
+  </div>
+
+  <!-- Title -->
+  <div class="report-title">Request Status Report</div>
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Request ID</th>
+        <th>Request Date</th>
+        <th>Vendor</th>
+        <th>Item</th>
+        <th>Status</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let req of requests">
+        <td>{{ req.id }}</td>
+        <td>{{ req.date }}</td>
+        <td>{{ req.vendor }}</td>
+        <td>{{ req.item }}</td>
+        <td [ngClass]="{
+              'status-pending': req.status === 'Pending',
+              'status-approved': req.status === 'Approved',
+              'status-rejected': req.status === 'Rejected'
+            }">
+          {{ req.status }}
+        </td>
+        <td>{{ req.remarks }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Summary -->
+  <div class="summary">
+    Total Requests: {{ requests.length }} |
+    Pending: {{ pendingCount }} |
+    Approved: {{ approvedCount }} |
+    Rejected: {{ rejectedCount }}
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    © 2025 Bangladesh University of Technology
+  </div>
+
+</div>

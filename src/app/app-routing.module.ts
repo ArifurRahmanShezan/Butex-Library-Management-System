@@ -36,6 +36,8 @@ import { ServerConfigComponent } from './components/Administration/server-config
 import { LossComponent } from './components/circulations/loss/loss.component';
 import { SerialsBindingManagementComponent } from './components/serialManagement/serials-binding-management/serials-binding-management.component';
 import { CatalogingTemplateComponent } from './cataloging-template/cataloging-template.component';
+import { AuditReportComponent } from './audit-report/audit-report.component';
+import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-report.component';
 
 
 
@@ -76,6 +78,8 @@ const routes: Routes = [
   { path: 'loss', component: LossComponent },
   { path: 'Binding-Management', component: SerialsBindingManagementComponent },
   { path: 'Cataloging-Template', component: CatalogingTemplateComponent },
+  { path: 'Audit-Report', component: AuditReportComponent },
+  { path: 'Acquisitions-Report', component: AcquisitionsReportComponent },
   
 
 ];

@@ -38,6 +38,8 @@ import { ServerConfigComponent } from './components/Administration/server-config
 import { LossComponent } from './components/circulations/loss/loss.component';
 import { SerialsBindingManagementComponent } from './components/serialManagement/serials-binding-management/serials-binding-management.component';
 import { CatalogingTemplateComponent } from './cataloging-template/cataloging-template.component';
+import { AuditReportComponent } from './audit-report/audit-report.component';
+import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-report.component';
 
 
 @NgModule({
@@ -77,7 +79,9 @@ import { CatalogingTemplateComponent } from './cataloging-template/cataloging-te
     ServerConfigComponent,
     LossComponent,
     SerialsBindingManagementComponent,
-    CatalogingTemplateComponent
+    CatalogingTemplateComponent,
+    AuditReportComponent,
+    AcquisitionsReportComponent
   ],
   imports: [
     BrowserModule,

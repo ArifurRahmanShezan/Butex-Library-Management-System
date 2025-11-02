@@ -1,0 +1,40 @@
+<div class="container">
+  <h2>📩 End-of-Day (EOD) Processes</h2>
+  <div class="msg">{{ message }}</div>
+
+  <form (ngSubmit)="addEodProcess()" #eodForm="ngForm">
+    <label>Mail Server *</label>
+    <input type="text" [(ngModel)]="mailServer" name="mailServer" placeholder="Enter Mail Server" required>
+
+    <label>Port *</label>
+    <input type="number" [(ngModel)]="mailPort" name="mailPort" placeholder="Enter Port" required>
+
+    <label>Username *</label>
+    <input type="text" [(ngModel)]="mailUser" name="mailUser" placeholder="Enter Username" required>
+
+    <label>Password *</label>
+    <input type="password" [(ngModel)]="mailPass" name="mailPass" placeholder="Enter Password" required>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>📋 EOD Logs</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Date/Time</th>
+        <th>Mail Server</th>
+        <th>Port</th>
+        <th>Username</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of eodLogs">
+        <td>{{ entry.date }}</td>
+        <td>{{ entry.server }}</td>
+        <td>{{ entry.port }}</td>
+        <td>{{ entry.user }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

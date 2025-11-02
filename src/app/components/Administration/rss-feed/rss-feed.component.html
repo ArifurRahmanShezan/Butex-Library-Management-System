@@ -1,0 +1,44 @@
+<div class="container">
+  <h2>📰 RSS Feeds & Top Stories</h2>
+  <div class="msg" *ngIf="message">{{ message }}</div>
+
+  <form (ngSubmit)="addFeed()" #rssForm="ngForm">
+    <label>Feed URL *</label>
+    <input
+      type="text"
+      name="feedURL"
+      [(ngModel)]="feedURL"
+      placeholder="Enter RSS Feed URL"
+      required
+    />
+
+    <label>Title *</label>
+    <input
+      type="text"
+      name="feedTitle"
+      [(ngModel)]="feedTitle"
+      placeholder="Enter Feed Title"
+      required
+    />
+
+    <button type="submit" [disabled]="rssForm.invalid">Submit</button>
+  </form>
+
+  <h3>📋 Feed Preview</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>URL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let feed of feeds">
+        <td>{{ feed.title }}</td>
+        <td>
+          <a [href]="feed.url" target="_blank">{{ feed.url }}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

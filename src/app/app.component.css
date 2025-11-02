@@ -6,7 +6,7 @@
 /* Main area next to fixed sidebar */
 .main {
   flex: 1;
-  padding: 25px;
+ 
   min-height: 100vh;
   background: #f9fafc;
   margin-left: 250px; /* sidebar width */

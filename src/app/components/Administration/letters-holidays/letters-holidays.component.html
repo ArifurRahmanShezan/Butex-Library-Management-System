@@ -1,0 +1,64 @@
+<div class="container">
+  <h2>📄 Form Letters & Holidays</h2>
+  <div class="msg">{{ message }}</div>
+
+  <div class="tabs">
+    <div 
+      class="tab" 
+      [class.active]="activeForm === 'letters'" 
+      (click)="switchForm('letters')">
+      Letters
+    </div>
+    <div 
+      class="tab" 
+      [class.active]="activeForm === 'holidays'" 
+      (click)="switchForm('holidays')">
+      Holidays
+    </div>
+  </div>
+
+  <!-- Letters Form -->
+  <form *ngIf="activeForm === 'letters'" (ngSubmit)="addLetter()">
+    <label>Template Name *</label>
+    <input type="text" [(ngModel)]="letterName" name="letterName" placeholder="Enter Template Name" required>
+    
+    <label>Content *</label>
+    <textarea [(ngModel)]="letterContent" name="letterContent" rows="5" placeholder="Enter Letter Content" required></textarea>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Holidays Form -->
+  <form *ngIf="activeForm === 'holidays'" (ngSubmit)="addHoliday()">
+    <label>Date *</label>
+    <input type="date" [(ngModel)]="holidayDate" name="holidayDate" required>
+    
+    <label>Description *</label>
+    <input type="text" [(ngModel)]="holidayDesc" name="holidayDesc" placeholder="Enter Holiday Description" required>
+    
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3 style="margin-top:30px;">📊 Holiday Calendar</h3>
+  <div class="calendar">
+    <div class="holiday-card" *ngFor="let h of holidays">
+      <strong>{{ h.date }}</strong><br>{{ h.desc }}
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px;">📋 Letter Templates</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Template Name</th>
+        <th>Content</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let l of letters">
+        <td>{{ l.name }}</td>
+        <td>{{ l.content }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-menu-list',
@@ -43,6 +44,19 @@ export class MenuListComponent {
         { label: 'Invoice Payments', routerLink: '/acquisitions/payments' },
         { label: 'Claims', routerLink: '/acquisitions/claims' },
         { label: 'Budget & Vendor', routerLink: '/acquisitions/budget-vendor' },
+      ]
+    },
+    {
+      id: 'admin',
+      label: 'Administration',
+      icon: 'administration',
+      isDropdown: true,
+      subItems: [
+        { label: 'Request Processing', routerLink: 'letters-holidays-form' },
+        { label: 'EOD Process', routerLink: 'eod' },
+        { label: 'RSS Feeds', routerLink: 'rss' },
+        { label: 'Gifts', routerLink: 'gifts'}
+        
       ]
     },
     

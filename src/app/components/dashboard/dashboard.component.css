@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f9fafc;
+    color: #333;
+}
+
+
+
+/* Main Area */
+.main {
+    margin-left: 0px;
+    padding: 25px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.header .user {
+    font-weight: 600;
+    color: #2e5c92;
+}
+
+.header .time {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-gap: 20px;
+}
+
+/* Cards */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Chart */
+.pie-chart {
+    background: conic-gradient(#7da9d6 0 60%, #b9d3f0 60% 100%);
+    width: 100%;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #444;
+}
+
+.circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
+
+.borrowed {
+    background: #7da9d6;
+}
+
+.returned {
+    background: #b9d3f0;
+}
+
+/* Stats */
+.stat-box {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 12px;
+    font-size: 15px;
+}
+
+/* Lists */
+.section-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.section-item {
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    background: #f9fbff;
+}
+
+.section-item span {
+    color: #2e5c92;
+    font-weight: 500;
+}
+
+.footer {
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+    margin-top: 30px;
+}

@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>💾 MARC/SRU/W Servers Configuration</h2>
+  <h2> MARC/SRU/W Servers Configuration</h2>
   <div class="msg" *ngIf="message">{{ message }}</div>
 
   <form (ngSubmit)="addServer()" #serverForm="ngForm">
@@ -15,7 +15,7 @@
     <button type="submit" [disabled]="serverForm.invalid">Submit</button>
   </form>
 
-  <h3>📋 Active Servers</h3>
+  <h3> Active Servers</h3>
   <table>
     <thead>
       <tr>

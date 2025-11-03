@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>📰 RSS Feeds & Top Stories</h2>
+  <h2> RSS Feeds & Top Stories</h2>
   <div class="msg" *ngIf="message">{{ message }}</div>
 
   <form (ngSubmit)="addFeed()" #rssForm="ngForm">
@@ -24,7 +24,7 @@
     <button type="submit" [disabled]="rssForm.invalid">Submit</button>
   </form>
 
-  <h3>📋 Feed Preview</h3>
+  <h3> Feed Preview</h3>
   <table>
     <thead>
       <tr>

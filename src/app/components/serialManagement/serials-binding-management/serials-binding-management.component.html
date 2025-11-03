@@ -1,89 +1,118 @@
 <div class="container">
-  <h2>📚 Serials Binding Management</h2>
+  <h2>Serials Binding Management</h2>
   <div *ngIf="msg" class="msg">{{ msg }}</div>
 
+  <!-- Tabs -->
+  <div class="tabs">
+    <button [class.active]="activeTab === 'logical'" (click)="setTab('logical')">
+      Logical List of Issues
+    </button>
+    <button [class.active]="activeTab === 'physical'" (click)="setTab('physical')">
+      Physical List
+    </button>
+    <button [class.active]="activeTab === 'order'" (click)="setTab('order')">
+      Place Binding Order
+    </button>
+    <button [class.active]="activeTab === 'receive'" (click)="setTab('receive')">
+      Receive Bound Volumes
+    </button>
+  </div>
+
   <!-- Logical List Form -->
-  <div>
-    <h3>📝 Logical List of Issues</h3>
+  <div *ngIf="activeTab === 'logical'" class="card">
+    <h3>Logical List of Issues</h3>
     <form (ngSubmit)="submitLogical()" #logicalForm="ngForm">
-      <div style="grid-column: span 2;">
-        <label>Issue List (comma separated)</label>
-        <input type="text" name="issueList" [(ngModel)]="logicalIssues" placeholder="e.g., Issue1,Issue2" required>
-      </div>
-      <button type="submit">Submit Logical List</button>
+      <label>Issue List (comma separated)</label>
+      <input
+        type="text"
+        name="issueList"
+        [(ngModel)]="logicalIssues"
+        placeholder="e.g., Issue1, Issue2"
+        required
+      />
+      <button type="submit" [disabled]="!logicalForm.form.valid">
+        Submit Logical List
+      </button>
     </form>
   </div>
 
   <!-- Physical List Form -->
-  <div>
-    <h3>📦 Physical List</h3>
+  <div *ngIf="activeTab === 'physical'" class="card">
+    <h3>Physical List</h3>
     <form (ngSubmit)="submitPhysical()" #physicalForm="ngForm">
-      <div style="grid-column: span 2;">
-        <label>Volume Details (comma separated)</label>
-        <input type="text" name="volumeList" [(ngModel)]="physicalVolumes" placeholder="e.g., Vol1,Vol2" required>
-      </div>
-      <button type="submit">Submit Physical List</button>
+      <label>Volume Details (comma separated)</label>
+      <input
+        type="text"
+        name="volumeList"
+        [(ngModel)]="physicalVolumes"
+        placeholder="e.g., Vol1, Vol2"
+        required
+      />
+      <button type="submit" [disabled]="!physicalForm.form.valid">
+        Submit Physical List
+      </button>
     </form>
   </div>
 
   <!-- Place Binding Order Form -->
-  <div>
-    <h3>🧾 Place Binding Order</h3>
+  <div *ngIf="activeTab === 'order'" class="card">
+    <h3>Place Binding Order</h3>
     <form (ngSubmit)="submitOrder()" #orderForm="ngForm">
-      <div>
-        <label>Binder</label>
-        <select name="binder" [(ngModel)]="binder">
-          <option value="">Select Binder</option>
-          <option>Binder A</option>
-          <option>Binder B</option>
-          <option>Binder C</option>
-        </select>
-      </div>
-      <div>
-        <label>Date</label>
-        <input type="date" name="orderDate" [(ngModel)]="orderDate">
-      </div>
-      <button type="submit">Place Order</button>
+      <label>Binder</label>
+      <select name="binder" [(ngModel)]="binder" required>
+        <option value="">Select Binder</option>
+        <option>Binder A</option>
+        <option>Binder B</option>
+        <option>Binder C</option>
+      </select>
+
+      <label>Date</label>
+      <input type="date" name="orderDate" [(ngModel)]="orderDate" />
+
+      <button type="submit" [disabled]="!orderForm.form.valid">
+        Place Order
+      </button>
     </form>
   </div>
 
   <!-- Receive Bound Volumes Form -->
-  <div>
-    <h3>📥 Receive Bound Volumes</h3>
+  <div *ngIf="activeTab === 'receive'" class="card">
+    <h3>Receive Bound Volumes</h3>
     <form (ngSubmit)="submitReceive()" #receiveForm="ngForm">
-      <div>
-        <label>Volume ID</label>
-        <input type="text" name="volumeID" [(ngModel)]="volumeID" required>
-      </div>
-      <div>
-        <label>Date Received</label>
-        <input type="date" name="receiveDate" [(ngModel)]="receiveDate" required>
-      </div>
-      <button type="submit">Receive</button>
+      <label>Volume ID</label>
+      <input type="text" name="volumeID" [(ngModel)]="volumeID" required />
+
+      <label>Date Received</label>
+      <input type="date" name="receiveDate" [(ngModel)]="receiveDate" required />
+
+      <button type="submit" [disabled]="!receiveForm.form.valid">
+        Receive
+      </button>
     </form>
   </div>
 
-  <!-- Binding Progress -->
-  <div class="progress-container">
-    <div class="progress-bar" [style.width.%]="progress">{{ progress }}%</div>
-  </div>
-
   <!-- Recent Binding Records Table -->
-  <h3 style="margin-top:30px;">📋 Recent Binding Records</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Details</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let record of bindingRecords">
-        <td>{{ record.type }}</td>
-        <td>{{ record.details }}</td>
-        <td>{{ record.date }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="card full-width">
+    <h3>Recent Binding Records</h3>
+    <table *ngIf="bindingRecords.length > 0; else noRecords">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Details</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of bindingRecords">
+          <td>{{ record.type }}</td>
+          <td>{{ record.details }}</td>
+          <td>{{ record.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noRecords>
+      <p class="empty-msg">No records yet.</p>
+    </ng-template>
+  </div>
 </div>

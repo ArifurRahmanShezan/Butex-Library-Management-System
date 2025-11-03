@@ -8,50 +8,73 @@ import Chart from 'chart.js/auto';
 })
 export class FirmOrderComponent {
 
+   activeTab: string = 'form6';
+  itemsTable: { itemName: string; quantity: number }[] = [{ itemName: '', quantity: 0 }];
+  invoiceFileName: string = '';
 
-  activeTab: string = 'form6';
-  itemsTable: any[] = [{}];
-
-  orderData: number[] = [5, 10, 7, 12];
-  chart: any;
+  // Activities with detailed fields
+  placeOrderActivities: { action: string, timestamp: string, item: string, vendor: string, quantity: number }[] = [];
+  cancelOrderActivities: { action: string, timestamp: string, orderId: string, status: string, reason: string }[] = [];
+  receiveOrderActivities: { action: string, timestamp: string, orderId: string, items: { itemName: string, quantity: number }[], invoice: string }[] = [];
 
   showForm(tab: string) {
     this.activeTab = tab;
   }
 
   addRow() {
-    this.itemsTable.push({});
+    this.itemsTable.push({ itemName: '', quantity: 0 });
   }
 
-  submitForm(formName: string) {
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.invoiceFileName = file.name;
+    }
+  }
+
+  submitForm(formName: string, form: any) {
     alert(`${formName} submitted successfully!`);
-    this.orderData.push(Math.floor(Math.random() * 15) + 5);
-    this.updateChart();
+    const timestamp = new Date().toLocaleString();
+
+    if (formName === 'Place Order') {
+      const activity = {
+        action: formName,
+        timestamp,
+        item: form.item,
+        vendor: form.vendor,
+        quantity: form.quantity
+      };
+      this.placeOrderActivities.unshift(activity);
+
+    } else if (formName === 'Cancel/Reorder') {
+      const activity = {
+        action: formName,
+        timestamp,
+        orderId: form.orderId,
+        status: form.status,
+        reason: form.reason
+      };
+      this.cancelOrderActivities.unshift(activity);
+
+    } else if (formName === 'Receive Order') {
+      const activity = {
+        action: formName,
+        timestamp,
+        orderId: form.orderId,
+        items: [...this.itemsTable],
+        invoice: this.invoiceFileName
+      };
+      this.receiveOrderActivities.unshift(activity);
+      this.itemsTable = [{ itemName: '', quantity: 0 }];
+      this.invoiceFileName = '';
+    }
   }
 
-  ngAfterViewInit(): void {
-    const ctx = document.getElementById('lineChart') as HTMLCanvasElement;
-    this.chart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-        datasets: [{
-          label: 'Orders Fulfilled',
-          data: this.orderData,
-          borderColor: '#3498db',
-          backgroundColor: 'rgba(52, 152, 219, 0.2)',
-          fill: true,
-          tension: 0.3
-        }]
-      },
-    });
-  }
-
-  updateChart() {
-    this.chart.data.labels.push('New');
-    this.chart.data.datasets[0].data = this.orderData;
-    this.chart.update();
+  openInvoice(fileName: string) {
+    alert(`Opening invoice: ${fileName}`);
   }
 }
+
+
 
 

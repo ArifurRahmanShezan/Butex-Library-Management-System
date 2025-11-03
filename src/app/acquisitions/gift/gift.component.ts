@@ -5,64 +5,45 @@ import { Chart, ChartConfiguration } from 'chart.js';
   templateUrl: './gift.component.html',
   styleUrls: ['./gift.component.css']
 })
-export class GiftComponent implements OnInit{
+export class GiftComponent {
 activeTab: string = 'form9';
 
   // Form Models
   solicit = { donorName: '', itemDescription: '', requestDate: '' };
   process = { giftId: '', decision: '', accessionNumber: '' };
 
-  // Chart
-  giftChart!: Chart;
-  acceptedCount: number = 5;
-  rejectedCount: number = 2;
-
-  ngOnInit() {
-    // Use setTimeout to ensure the canvas exists
-    setTimeout(() => this.initChart(), 0);
-  }
+  // Activity Lists
+  solicitGiftActivities: any[] = [];
+  processGiftActivities: any[] = [];
 
   switchTab(tabId: string) {
     this.activeTab = tabId;
   }
 
-  initChart() {
-    const ctx = document.getElementById('giftChart') as HTMLCanvasElement;
-    this.giftChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Accepted', 'Rejected'],
-        datasets: [{
-          data: [this.acceptedCount, this.rejectedCount],
-          backgroundColor: ['#2b6777', '#e74c3c'],
-          borderColor: '#fff',
-          borderWidth: 2,
-          hoverOffset: 12
-        }]
-      },
-      options: {
-        plugins: { legend: { position: 'bottom' } }
-      }
-    });
-  }
-
   handleSolicitGift() {
+    const timestamp = new Date().toLocaleString();
+    this.solicitGiftActivities.unshift({
+      donorName: this.solicit.donorName,
+      itemDescription: this.solicit.itemDescription,
+      requestDate: this.solicit.requestDate,
+      timestamp
+    });
+
     alert('Gift solicitation submitted successfully!');
     this.solicit = { donorName: '', itemDescription: '', requestDate: '' };
   }
 
   handleProcessGift() {
-    if (this.process.decision === 'Accepted') this.acceptedCount++;
-    else this.rejectedCount++;
+    const timestamp = new Date().toLocaleString();
+    this.processGiftActivities.unshift({
+      giftId: this.process.giftId,
+      decision: this.process.decision,
+      accessionNumber: this.process.accessionNumber,
+      timestamp
+    });
 
-    this.updateChart();
     alert('Gift processed successfully!');
     this.process = { giftId: '', decision: '', accessionNumber: '' };
-  }
-
-  updateChart() {
-    this.giftChart.data.datasets[0].data = [this.acceptedCount, this.rejectedCount];
-    this.giftChart.update();
   }
 }
 

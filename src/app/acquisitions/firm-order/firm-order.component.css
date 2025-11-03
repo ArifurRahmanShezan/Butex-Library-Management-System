@@ -1,92 +1,95 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f4f6f9;
-  margin: 0;
-  padding: 0;
-}
-
 .container {
-  max-width: auto;
-  margin: 0px auto;
+  width: auto;
+  margin: auto;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
 h1 {
   text-align: center;
-  color: #34495e;
+  color: #2c3e50;
   margin-bottom: 25px;
 }
 
 .nav-tabs {
   display: flex;
   justify-content: center;
-  gap: 15px;
   margin-bottom: 20px;
 }
 
 .tab-btn {
-  background-color: #e9ecef;
+  background-color: #ecf0f1;
   border: none;
   padding: 10px 20px;
-  border-radius: 8px;
+  margin: 0 8px;
   cursor: pointer;
-  font-weight: 600;
+  border-radius: 6px;
+  font-weight: bold;
 }
 
 .tab-btn.active {
   background-color: #3498db;
-  color: white;
+  color: #fff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
 label {
-  display: block;
-  margin-bottom: 6px;
-  color: #2c3e50;
-  font-weight: 600;
+  font-weight: bold;
+  color: #34495e;
 }
 
 input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 15px;
-  font-size: 14px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 15px;
-}
-
-th, td {
   padding: 8px;
-  border: 1px solid #ddd;
-  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
 }
 
-th {
-  background: #f2f2f2;
-}
-
-button {
+button[type="submit"], button[type="button"] {
+  width: fit-content;
+  align-self: left;
   background-color: #3498db;
+  color: #fff;
   border: none;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
+  transition: 0.3s;
 }
 
 button:hover {
   background-color: #2980b9;
 }
 
-.chart-container {
-  margin-top: 40px;
+.activity-container {
+  margin-top: 30px;
+}
+
+.activity-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.activity-table th, .activity-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.activity-table th {
+  background-color: #3498db;
+  color: white;
+}
+
+.activity-table tr:nth-child(even) {
+  background-color: #f2f2f2;
 }

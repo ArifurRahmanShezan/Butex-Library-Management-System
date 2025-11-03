@@ -1,5 +1,5 @@
 <div class="container">
-  <h1 style="text-align:center;margin-bottom:20px;">📊 Budget & Vendor Dashboard</h1>
+  <h1 style="text-align:center;margin-bottom:20px;"> Budget & Vendor Dashboard</h1>
 
   <!-- Tabs -->
   <div class="tabs">
@@ -26,6 +26,7 @@
         <thead><tr><th>Source Name</th><th>Amount</th></tr></thead>
         <tbody>
           <tr *ngFor="let s of sources"><td>{{s.name}}</td><td>{{s.amount}}</td></tr>
+          <tr *ngIf="sources.length===0"><td colspan="2" class="empty">No sources added yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -46,6 +47,7 @@
         <thead><tr><th>Head Name</th><th>Description</th></tr></thead>
         <tbody>
           <tr *ngFor="let h of heads"><td>{{h}}</td><td>{{headDesc}}</td></tr>
+          <tr *ngIf="heads.length===0"><td colspan="2" class="empty">No heads added yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -57,27 +59,20 @@
       <h2>Budget Allocations</h2>
       <form (ngSubmit)="addAllocation()">
         <label>Head *</label>
-        <select [(ngModel)]="allocHead" name="allocHead" required>
-          <option *ngFor="let h of heads" [value]="h">{{h}}</option>
-        </select>
+        <input type="text" [(ngModel)]="allocHead" name="allocHead" required>
         <label>Amount *</label>
         <input type="number" [(ngModel)]="allocAmount" name="allocAmount" required>
         <label>Fiscal Year *</label>
-        <select [(ngModel)]="allocYear" name="allocYear" required>
-          <option *ngFor="let y of years" [value]="y">{{y}}</option>
-        </select>
+        <input type="text" [(ngModel)]="allocYear" name="allocYear" required>
         <button type="submit">Allocate</button>
       </form>
       <table>
         <thead><tr><th>Head</th><th>Amount</th><th>Fiscal Year</th></tr></thead>
         <tbody>
           <tr *ngFor="let a of allocations"><td>{{a.head}}</td><td>{{a.amount}}</td><td>{{a.year}}</td></tr>
+          <tr *ngIf="allocations.length===0"><td colspan="3" class="empty">No allocations added yet.</td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="chart-container">
-      <h2>Budget Allocation Chart</h2>
-      <canvas id="budgetChart" height="150"></canvas>
     </div>
   </div>
 
@@ -98,6 +93,7 @@
         <thead><tr><th>Name</th><th>Contact</th><th>Address</th></tr></thead>
         <tbody>
           <tr *ngFor="let v of vendors"><td>{{v.name}}</td><td>{{v.contact}}</td><td>{{v.address}}</td></tr>
+          <tr *ngIf="vendors.length===0"><td colspan="3" class="empty">No vendors added yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -118,6 +114,7 @@
         <thead><tr><th>Currency Code</th><th>Rate</th></tr></thead>
         <tbody>
           <tr *ngFor="let c of currencies"><td>{{c.code}}</td><td>{{c.rate}}</td></tr>
+          <tr *ngIf="currencies.length===0"><td colspan="2" class="empty">No currencies added yet.</td></tr>
         </tbody>
       </table>
     </div>
@@ -139,7 +136,8 @@
       <table>
         <thead><tr><th>Year</th><th>Start Date</th><th>End Date</th></tr></thead>
         <tbody>
-          <tr *ngFor="let y of years"><td>{{y}}</td><td>{{fiscalStart}}</td><td>{{fiscalEnd}}</td></tr>
+          <tr *ngFor="let y of years"><td>{{y.year}}</td><td>{{y.start}}</td><td>{{y.end}}</td></tr>
+          <tr *ngIf="years.length===0"><td colspan="3" class="empty">No fiscal years added yet.</td></tr>
         </tbody>
       </table>
     </div>

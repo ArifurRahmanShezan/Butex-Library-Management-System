@@ -1,153 +1,113 @@
 .container {
   max-width: auto;
-  margin: 0px auto;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-  overflow: hidden;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-header {
-  background: linear-gradient(90deg, #2b6777, #52ab98);
-  color: white;
+header h1 {
   text-align: center;
-  padding: 25px 10px;
-}
-header h1 { 
-  margin: 0; 
-  font-weight: 600; 
+  color: #0c1011;
+  margin-bottom: 25px;
 }
 
 .tabs {
   display: flex;
-  justify-content: space-around;
-  background: #f0f3f8;
-  border-bottom: 1px solid #e2e6ea;
+  justify-content: center;
+  margin-bottom: 25px;
 }
+
 .tab-btn {
-  flex: 1;
-  text-align: center;
-  padding: 14px;
-  font-weight: 600;
-  color: #555;
+  background: #f0f0f0;
+  color: #333;
+  padding: 10px 25px;
+  border-radius: 25px;
+  margin: 0 10px;
   cursor: pointer;
-  position: relative;
-  transition: color 0.3s ease;
+  transition: 0.3s;
 }
-.tab-btn.active { 
-  color: #2b6777; 
-}
-.tab-btn.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 25%;
-  width: 50%;
-  height: 3px;
-  background: #2b6777;
-  border-radius: 2px;
+
+.tab-btn.active {
+  
+  background: #3498db;
+  color: white;
 }
 
 form {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+label {
   display: block;
-  padding: 30px;
-  animation: fadeIn 0.4s ease;
+  margin-top: 12px;
+  font-weight: bold;
+  color: #444;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-label { 
-  display: block; 
-  font-weight: 600; 
-  margin-bottom: 6px; 
-}
 input, textarea {
   width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccd3db;
-  margin-bottom: 18px;
-  font-size: 15px;
-  transition: all 0.25s ease;
-}
-input:focus, textarea:focus {
-  border-color: #2b6777;
-  box-shadow: 0 0 0 3px rgba(43,103,119,0.1);
-  outline: none;
-}
-
-.radio-group { 
-  display: flex; 
-  gap: 25px; 
-  margin-bottom: 20px; 
-}
-.radio-group label { 
-  font-weight: 500; 
-  cursor: pointer; 
+  margin-top: 6px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
 button {
-  background-color: #2b6777;
-  border: none;
+  margin-top: 18px;
+  background-color: #3498db;
   color: white;
-  padding: 12px 20px;
-  border-radius: 10px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  transition: background 0.3s ease;
-}
-button:hover { 
-  background-color: #1e4d59; 
+  transition: 0.3s;
 }
 
-/* Chart Section */
-.chart-section {
-  background: #fafbfc;
-  padding: 25px;
+button:hover {
+  background: #1f4e5a;
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 8px;
+}
+
+.activity-section {
+  margin-top: 20px;
+}
+
+.activity-section h2 {
   text-align: center;
-  border-top: 1px solid #e5e7eb;
+  color: #2b6777;
+  margin-bottom: 12px;
 }
 
-.chart-section h2 {
-  margin-bottom: 18px;
-  font-weight: 600;
-  color: #2c3e50;
-  font-size: 18px;
-}
-
-/* Smaller, centered chart */
-.chart-section canvas {
-  max-width: 260px;
-  max-height: 260px;
+.activity-table {
   width: 100%;
-  height: auto;
-  margin: 0 auto;
-  display: block;
+  border-collapse: collapse;
+  font-size: 15px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .container { 
-    margin: 10px; 
-  }
-  .tab-btn { 
-    font-size: 14px; 
-    padding: 10px; 
-  }
-  .chart-section {
-    padding: 20px;
-  }
-  .chart-section h2 {
-    font-size: 16px;
-    margin-bottom: 14px;
-  }
-  .chart-section canvas {
-    max-width: 200px;
-    max-height: 200px;
-  }
+.activity-table th, .activity-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.activity-table th {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+.empty {
+  text-align: center;
+  color: #888;
+  padding: 10px;
 }

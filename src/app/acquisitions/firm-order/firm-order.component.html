@@ -1,24 +1,17 @@
 <div class="container">
   <h1>Firm Orders Management</h1>
 
+  <!-- Navigation Tabs -->
   <div class="nav-tabs">
-    <button class="tab-btn" 
-            [class.active]="activeTab === 'form6'" 
-            (click)="showForm('form6')">Place Order</button>
-
-    <button class="tab-btn" 
-            [class.active]="activeTab === 'form7'" 
-            (click)="showForm('form7')">Cancel/Reorder</button>
-
-    <button class="tab-btn" 
-            [class.active]="activeTab === 'form8'" 
-            (click)="showForm('form8')">Receive Order</button>
+    <button class="tab-btn" [class.active]="activeTab === 'form6'" (click)="showForm('form6')">Place Order</button>
+    <button class="tab-btn" [class.active]="activeTab === 'form7'" (click)="showForm('form7')">Cancel/Reorder</button>
+    <button class="tab-btn" [class.active]="activeTab === 'form8'" (click)="showForm('form8')">Receive Order</button>
   </div>
 
-  <!-- Form 6 -->
-  <form *ngIf="activeTab === 'form6'" (ngSubmit)="submitForm('Place Order')">
+  <!-- ===== Place Order Form ===== -->
+  <form *ngIf="activeTab === 'form6'" #placeOrderForm="ngForm" (ngSubmit)="submitForm('Place Order', placeOrderForm.value)">
     <label>Item</label>
-    <select required>
+    <select name="item" ngModel required>
       <option value="">Select Item</option>
       <option>Printer Paper</option>
       <option>Ink Cartridge</option>
@@ -26,10 +19,10 @@
     </select>
 
     <label>Vendor</label>
-    <input type="text" placeholder="Enter Vendor Name" required>
+    <input name="vendor" type="text" placeholder="Enter Vendor Name" ngModel required>
 
     <label>Quantity</label>
-    <input type="number" placeholder="Enter Quantity" required>
+    <input name="quantity" type="number" placeholder="Enter Quantity" ngModel required>
 
     <label>Date</label>
     <input type="date" required>
@@ -37,28 +30,28 @@
     <button type="submit">Submit</button>
   </form>
 
-  <!-- Form 7 -->
-  <form *ngIf="activeTab === 'form7'" (ngSubmit)="submitForm('Cancel/Reorder')">
+  <!-- ===== Cancel/Reorder Form ===== -->
+  <form *ngIf="activeTab === 'form7'" #cancelForm="ngForm" (ngSubmit)="submitForm('Cancel/Reorder', cancelForm.value)">
     <label>Order ID</label>
-    <input type="text" placeholder="Enter Order ID" required>
+    <input name="orderId" type="text" placeholder="Enter Order ID" ngModel required>
 
     <label>Action</label>
-    <select required>
+    <select name="status" ngModel required>
       <option value="">Select Action</option>
       <option>Cancel</option>
       <option>Reorder</option>
     </select>
 
     <label>Reason</label>
-    <textarea placeholder="Enter reason"></textarea>
+    <textarea name="reason" placeholder="Enter reason" ngModel></textarea>
 
     <button type="submit">Submit</button>
   </form>
 
-  <!-- Form 8 -->
-  <form *ngIf="activeTab === 'form8'" (ngSubmit)="submitForm('Receive Order')">
+  <!-- ===== Receive Order Form ===== -->
+  <form *ngIf="activeTab === 'form8'" #receiveForm="ngForm" (ngSubmit)="submitForm('Receive Order', receiveForm.value)">
     <label>Order ID</label>
-    <input type="text" placeholder="Enter Order ID" required>
+    <input name="orderId" type="text" placeholder="Enter Order ID" ngModel required>
 
     <label>Received Items</label>
     <table>
@@ -66,24 +59,104 @@
         <tr><th>Item Name</th><th>Quantity</th></tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of itemsTable">
-          <td><input type="text" placeholder="Item Name"></td>
-          <td><input type="number" placeholder="Quantity"></td>
+        <tr *ngFor="let row of itemsTable; let i = index">
+          <td><input [(ngModel)]="row.itemName" name="itemName{{i}}" type="text" placeholder="Item Name"></td>
+          <td><input [(ngModel)]="row.quantity" name="quantity{{i}}" type="number" placeholder="Quantity"></td>
         </tr>
       </tbody>
     </table>
-
     <button type="button" (click)="addRow()">+ Add Row</button>
 
     <label>Invoice</label>
-    <input type="file" accept=".pdf,.jpg,.png">
+    <input type="file" (change)="onFileSelected($event)" accept=".pdf,.jpg,.png">
+    <p *ngIf="invoiceFileName" class="file-info">Selected: {{ invoiceFileName }}</p>
 
     <button type="submit">Submit</button>
   </form>
 
-  <!-- Chart -->
-  <div class="chart-container">
-    <h2 style="text-align:center; color:#34495e;">Order Fulfillment Over Time</h2>
-    <canvas id="lineChart"></canvas>
+  <!-- ===== Activity Section ===== -->
+  <div class="activity-container">
+    <h2 style="text-align:center; color:#34495e;">Recent Order Activities</h2>
+
+    <!-- Place Order Activities -->
+    <table *ngIf="activeTab === 'form6'" class="activity-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item</th>
+          <th>Vendor</th>
+          <th>Quantity</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of placeOrderActivities; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ activity.item }}</td>
+          <td>{{ activity.vendor }}</td>
+          <td>{{ activity.quantity }}</td>
+          <td>{{ activity.timestamp }}</td>
+        </tr>
+        <tr *ngIf="placeOrderActivities.length === 0">
+          <td colspan="5" style="text-align:center; color:#888;">No place order activity yet.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Cancel/Reorder Activities -->
+    <table *ngIf="activeTab === 'form7'" class="activity-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Order ID</th>
+          <th>Status</th>
+          <th>Reason</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of cancelOrderActivities; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ activity.orderId }}</td>
+          <td>{{ activity.status }}</td>
+          <td>{{ activity.reason }}</td>
+          <td>{{ activity.timestamp }}</td>
+        </tr>
+        <tr *ngIf="cancelOrderActivities.length === 0">
+          <td colspan="5" style="text-align:center; color:#888;">No cancel/reorder activity yet.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Receive Order Activities -->
+    <table *ngIf="activeTab === 'form8'" class="activity-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Order ID</th>
+          <th>Items</th>
+          <th>Invoice</th>
+          <th>Date & Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of receiveOrderActivities; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ activity.orderId }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let item of activity.items">{{ item.itemName }} ({{ item.quantity }})</li>
+            </ul>
+          </td>
+          <td>
+            <a href="#" (click)="openInvoice(activity.invoice)">{{ activity.invoice }}</a>
+          </td>
+          <td>{{ activity.timestamp }}</td>
+        </tr>
+        <tr *ngIf="receiveOrderActivities.length === 0">
+          <td colspan="5" style="text-align:center; color:#888;">No receive order activity yet.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

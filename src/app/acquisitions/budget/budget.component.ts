@@ -32,7 +32,7 @@ export class BudgetComponent implements OnInit {
   fiscalYear: string = '';
   fiscalStart: string = '';
   fiscalEnd: string = '';
-  years: string[] = [];
+  years: { year: string, start: string, end: string }[] = [];
 
   // Allocations
   allocHead: string = '';
@@ -51,11 +51,18 @@ export class BudgetComponent implements OnInit {
   currencyRate: number | null = null;
   currencies: { code: string, rate: number }[] = [];
 
-  chart: any;
-
   ngOnInit(): void {
-    this.initChart();
-  }
+  
+  // Demo Heads
+  // this.heads = ['Salaries', 'Equipment', 'Travel', 'Training'];
+
+  // // Demo Fiscal Years
+  // this.years = [
+  //   { year: '2023-2024', start: '2023-07-01', end: '2024-06-30' },
+  //   { year: '2024-2025', start: '2024-07-01', end: '2025-06-30' }
+  // ];
+}
+  
 
   switchTab(tab: string) {
     this.activeTab = tab;
@@ -80,21 +87,27 @@ export class BudgetComponent implements OnInit {
   // Fiscal Year
   addFiscalYear() {
     if (!this.fiscalYear || !this.fiscalStart || !this.fiscalEnd) return;
-    this.years.push(this.fiscalYear);
+    this.years.push({ year: this.fiscalYear, start: this.fiscalStart, end: this.fiscalEnd });
     this.fiscalYear = '';
     this.fiscalStart = '';
     this.fiscalEnd = '';
   }
 
   // Allocation
-  addAllocation() {
-    if (!this.allocHead || !this.allocAmount || !this.allocYear) return;
-    this.allocations.push({ head: this.allocHead, amount: this.allocAmount, year: this.allocYear });
-    this.allocAmount = null;
-    this.allocHead = '';
-    this.allocYear = '';
-    this.updateChart();
-  }
+addAllocation() {
+  if (!this.allocHead || !this.allocAmount || !this.allocYear) return;
+
+  this.allocations.push({
+    head: this.allocHead,
+    amount: this.allocAmount,
+    year: this.allocYear  // Use the selected year string
+  });
+
+  // Clear input fields
+  this.allocHead = '';
+  this.allocAmount = null;
+  this.allocYear = '';
+}
 
   // Vendor
   addVendor() {
@@ -111,29 +124,6 @@ export class BudgetComponent implements OnInit {
     this.currencies.push({ code: this.currencyCode, rate: this.currencyRate });
     this.currencyCode = '';
     this.currencyRate = null;
-  }
-
-  // Chart.js
-  initChart() {
-    const ctx = document.getElementById('budgetChart') as HTMLCanvasElement;
-    this.chart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [],
-        datasets: [{ label: 'Allocation Amount', data: [], backgroundColor: '#0984e3' }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
-    });
-  }
-
-  updateChart() {
-    this.chart.data.labels = this.allocations.map(a => a.head);
-    this.chart.data.datasets[0].data = this.allocations.map(a => a.amount);
-    this.chart.update();
   }
 
 }

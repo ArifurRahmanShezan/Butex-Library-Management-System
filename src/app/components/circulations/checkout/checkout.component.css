@@ -1,7 +1,7 @@
 .container {
   max-width: auto;
   margin: 0px auto;
-  padding: 20px;
+  padding: 10px;
   font-family: 'Segoe UI', sans-serif;
   color: #2d3436;
 }
@@ -37,7 +37,7 @@ form label {
 }
 
 form input, form select, form button {
-  width: 100%;
+  width: 95%;
   padding: 12px;
   margin-top: 6px;
   border-radius: 12px;

@@ -6,34 +6,46 @@ import { Component } from '@angular/core';
   styleUrls: ['./material-type.component.css']
 })
 export class MaterialTypeComponent {
+  // Tab state
+  activeTab: 'material' | 'indexes' = 'material';
+
   // Material type fields
-  materialName: string = '';
-  materialDesc: string = '';
+  materialName = '';
+  materialDesc = '';
 
   // Custom index fields
-  indexName: string = '';
-  selectedFields: string[] = [];
+  indexName = '';
+  selectedField = '';
 
   // Available fields
-  availableFields: string[] = ['Title', 'Author', 'ISBN', 'Publisher', 'Subject'];
+  availableFields = ['Title', 'Author', 'ISBN', 'Publisher', 'Subject'];
 
   // List of created indexes
-  indexList: { name: string; fields: string[] }[] = [];
+  indexList: { name: string; field: string }[] = [];
+  materialList: { name: string; desc: string }[] = [];
+
+  setTab(tab: 'material' | 'indexes') {
+    this.activeTab = tab;
+  }
 
   addMaterialType() {
     if (!this.materialName.trim()) return;
-    alert(`Material Type "${this.materialName}" added successfully.`);
+
+    this.materialList.push({
+      name: this.materialName.trim(),
+      desc: this.materialDesc.trim()
+    });
+
     this.materialName = '';
     this.materialDesc = '';
   }
-
   addCustomIndex() {
-    if (!this.indexName.trim() || this.selectedFields.length === 0) return;
+    if (!this.indexName.trim() || !this.selectedField) return;
     this.indexList.push({
-      name: this.indexName,
-      fields: [...this.selectedFields]
+      name: this.indexName.trim(),
+      field: this.selectedField
     });
     this.indexName = '';
-    this.selectedFields = [];
+    this.selectedField = '';
   }
 }

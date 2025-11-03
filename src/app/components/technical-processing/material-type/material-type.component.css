@@ -4,11 +4,46 @@ body {
   margin: 0;
   color: #2d3436;
 }
+
 .container {
   max-width: auto;
-  margin: 0px auto;
+  margin: 40px auto;
   padding: 10px;
 }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;       /* centers buttons horizontally */
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 20px auto;      /* centers the whole tabs container */
+  width: 100%;
+  max-width: 900px;              /* optional: limits tab container width */
+}
+
+.tabs button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  background-color: #dfe6e9;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tabs button.active {
+  background-color: #0984e3;
+  color: #fff;
+}
+
+.tabs button:hover:not(.active) {
+  background-color: #b2bec3;
+}
+
+
+/* Card */
 .card {
   background: #fff;
   border-radius: 16px;
@@ -16,21 +51,25 @@ body {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   margin-bottom: 30px;
 }
+
 .card h2 {
   text-align: center;
   margin-bottom: 25px;
   font-size: 24px;
 }
+
+/* Forms */
 form label {
   display: block;
   font-weight: 600;
   margin-top: 15px;
 }
+
 form input,
 form select,
 form button,
 form textarea {
-  width: 100%;
+  width: 95%;
   padding: 12px;
   margin-top: 6px;
   border-radius: 12px;
@@ -39,6 +78,9 @@ form textarea {
   font-size: 14px;
   transition: 0.3s;
 }
+
+
+
 form input:focus,
 form select:focus,
 form textarea:focus {
@@ -46,6 +88,7 @@ form textarea:focus {
   border-color: #0984e3;
   box-shadow: 0 0 8px rgba(9, 132, 227, 0.3);
 }
+
 form button {
   margin-top: 20px;
   background-color: #0984e3;
@@ -55,14 +98,34 @@ form button {
   cursor: pointer;
   transition: 0.3s;
 }
+
 form button:hover {
   background-color: #74b9ff;
 }
-ul {
-  margin-top: 20px;
-  padding-left: 20px;
+
+/* Table */
+.table-container {
+  margin-top: 25px;
 }
-li {
-  padding: 8px 0;
+
+.table-container h3 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 10px;
   border-bottom: 1px solid #dcdde1;
+}
+
+th {
+  background-color: #f1f2f6;
+  font-weight: 600;
 }

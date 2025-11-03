@@ -3,24 +3,37 @@
     <h1>📦 Accessioning Received Items</h1>
   </header>
 
-  <form (ngSubmit)="submitRecord()">
+  <form (ngSubmit)="onSubmit()" #accessionForm="ngForm">
     <label>Item ID</label>
-    <input type="text" [(ngModel)]="itemID" name="itemID" placeholder="Enter Item ID" required>
+    <input
+      type="text"
+      id="itemID"
+      name="itemID"
+      placeholder="Enter Item ID"
+      [(ngModel)]="itemID"
+      required
+    />
 
     <label>Accession Number (Auto-generated)</label>
-    <input type="text" [value]="accessionNo" readonly>
+    <input type="text" id="accessionNo" name="accessionNo" [(ngModel)]="accessionNo" readonly />
 
     <label>Barcode</label>
     <div class="barcode-group">
-      <input type="text" [(ngModel)]="barcode" name="barcode" placeholder="Generate Barcode">
+      <input
+        type="text"
+        id="barcode"
+        name="barcode"
+        placeholder="Generate Barcode"
+        [(ngModel)]="barcode"
+      />
       <button type="button" (click)="generateBarcode()">Generate</button>
     </div>
 
     <button type="submit">Submit Record</button>
-    <p class="success-msg" *ngIf="successMsg">✅ Record saved successfully!</p>
+    <p class="success-msg" *ngIf="successVisible">✅ Record saved successfully!</p>
   </form>
 
-  <h2 style="margin-top:40px; text-align:center;">Recent Accessions</h2>
+  <h2 style="margin-top:40px; color:#2d3436; text-align:center;">Recent Accessions</h2>
   <table>
     <thead>
       <tr>
@@ -30,11 +43,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let record of records; let i = index; trackBy: trackByIndex">
+      <tr *ngFor="let record of records">
         <td>{{ record.itemID }}</td>
         <td>{{ record.accessionNo }}</td>
         <td>
-          <svg #barcodeSvg></svg>
+          <svg #barcodeSVG></svg>
         </td>
       </tr>
     </tbody>

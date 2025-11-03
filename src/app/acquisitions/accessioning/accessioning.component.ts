@@ -1,26 +1,34 @@
-import { Component,OnInit  } from '@angular/core';
-// import JsBarcode from 'jsbarcode';
+import { Component, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import * as JsBarcode from 'jsbarcode';
+
 
 interface AccessionRecord {
   itemID: string;
   accessionNo: string;
   barcode: string;
 }
+
 @Component({
   selector: 'app-accessioning',
   templateUrl: './accessioning.component.html',
   styleUrls: ['./accessioning.component.css']
 })
-export class AccessioningComponent implements OnInit{
+export class AccessioningComponent implements AfterViewInit {
   itemID: string = '';
   accessionNo: string = '';
   barcode: string = '';
-  successMsg: boolean = false;
+  successVisible: boolean = false;
 
   records: AccessionRecord[] = [];
 
-  ngOnInit() {
+  @ViewChildren('barcodeSVG') barcodeSVGs!: QueryList<ElementRef<SVGSVGElement>>;
+
+  constructor() {
     this.accessionNo = this.generateAccessionNo();
+  }
+
+  ngAfterViewInit() {
+    this.renderBarcodes();
   }
 
   generateAccessionNo(): string {
@@ -31,26 +39,37 @@ export class AccessioningComponent implements OnInit{
     this.barcode = 'BC-' + Math.floor(100000000 + Math.random() * 900000000);
   }
 
-  submitRecord() {
-    if (!this.itemID || !this.accessionNo || !this.barcode) return;
+  onSubmit() {
+    if (!this.itemID || !this.barcode) return;
 
-    this.records.push({
+    const newRecord: AccessionRecord = {
       itemID: this.itemID,
       accessionNo: this.accessionNo,
       barcode: this.barcode
-    });
+    };
 
-    this.successMsg = true;
-    setTimeout(() => this.successMsg = false, 2500);
+    this.records.push(newRecord);
+    this.successVisible = true;
 
-    // Reset form
+    setTimeout(() => (this.successVisible = false), 2500);
+
+    // Reset form fields
     this.itemID = '';
-    this.accessionNo = this.generateAccessionNo();
     this.barcode = '';
+    this.accessionNo = this.generateAccessionNo();
+
+    setTimeout(() => this.renderBarcodes(), 0);
   }
 
-  trackByIndex(index: number, item: AccessionRecord) {
-    return index;
+  private renderBarcodes() {
+    this.barcodeSVGs.forEach((svgRef, index) => {
+      const record = this.records[index];
+      JsBarcode(svgRef.nativeElement, record.barcode, {
+        format: 'CODE128',
+        width: 2,
+        height: 40,
+        displayValue: true
+      });
+    });
   }
 }
-

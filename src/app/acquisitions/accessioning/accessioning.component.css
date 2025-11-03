@@ -7,10 +7,10 @@ body {
 
 .container {
   max-width: auto;
-  margin: 0px auto;
+  margin: 10px auto;
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   padding: 30px 40px;
 }
 
@@ -37,7 +37,8 @@ label {
   color: #2d3436;
 }
 
-input[type="text"], input[type="date"] {
+input[type="text"],
+input[type="date"] {
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #dcdde1;
@@ -48,7 +49,7 @@ input[type="text"], input[type="date"] {
 
 input:focus {
   border-color: #0984e3;
-  box-shadow: 0 0 0 3px rgba(9,132,227,0.1);
+  box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
   outline: none;
 }
 
@@ -88,7 +89,8 @@ table {
   margin-top: 35px;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   border: 1px solid #dcdde1;
   text-align: center;
@@ -103,10 +105,11 @@ svg {
   height: 40px;
 }
 
-@media(max-width: 600px){
+@media (max-width: 600px) {
   .container {
     padding: 20px;
   }
+
   svg {
     height: 30px;
   }

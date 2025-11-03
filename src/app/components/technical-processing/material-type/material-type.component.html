@@ -1,53 +1,65 @@
 <div class="container">
 
-  <!-- Material Types Form -->
-  <div class="card">
+  <!-- Tabs -->
+  <div class="tabs">
+    <button [class.active]="activeTab === 'material'" (click)="setTab('material')">
+      Material Types
+    </button>
+    <button [class.active]="activeTab === 'indexes'" (click)="setTab('indexes')">
+      Custom Indexes
+    </button>
+  </div>
+
+  <!-- Material Types Tab -->
+  <div *ngIf="activeTab === 'material'" class="card">
     <h2>Material Types</h2>
     <form (ngSubmit)="addMaterialType()" #materialForm="ngForm">
       <label>Type Name *</label>
-      <input
-        type="text"
-        name="materialName"
-        [(ngModel)]="materialName"
-        placeholder="Enter material type name"
-        required
-      />
+      <input type="text" name="materialName" [(ngModel)]="materialName" placeholder="Enter material type name"
+        required />
 
       <label>Description</label>
-      <textarea
-        name="materialDesc"
-        [(ngModel)]="materialDesc"
-        rows="3"
-        placeholder="Enter description"
-      ></textarea>
+      <textarea name="materialDesc" [(ngModel)]="materialDesc" rows="3" placeholder="Enter description"></textarea>
 
       <button type="submit" [disabled]="!materialForm.form.valid">
         Add Material Type
       </button>
     </form>
+
+    <!-- Material List Table -->
+    <div class="table-container" *ngIf="materialList.length > 0">
+      <h3>Material Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Type Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let material of materialList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ material.name }}</td>
+            <td>{{ material.desc }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
   </div>
 
-  <!-- Custom Indexes Form -->
-  <div class="card">
+  <!-- Custom Indexes Tab -->
+  <div *ngIf="activeTab === 'indexes'" class="card">
     <h2>Custom Indexes</h2>
     <form (ngSubmit)="addCustomIndex()" #indexForm="ngForm">
       <label>Index Name *</label>
-      <input
-        type="text"
-        name="indexName"
-        [(ngModel)]="indexName"
-        placeholder="Enter index name"
-        required
-      />
+      <input type="text" name="indexName" [(ngModel)]="indexName" placeholder="Enter index name" required />
 
       <label>Fields *</label>
-      <select
-        name="indexFields"
-        multiple
-        size="5"
-        [(ngModel)]="selectedFields"
-        required
-      >
+      <select name="indexFields" [(ngModel)]="selectedField" required>
+        <option value="" disabled selected>Select a field</option>
         <option *ngFor="let field of availableFields" [value]="field">
           {{ field }}
         </option>
@@ -57,16 +69,27 @@
         Add Custom Index
       </button>
     </form>
-  </div>
 
-  <!-- Active Indexes List -->
-  <div class="card">
-    <h2>Active Indexes</h2>
-    <ul>
-      <li *ngFor="let index of indexList">
-        <strong>{{ index.name }}</strong> — Fields: {{ index.fields.join(', ') }}
-      </li>
-    </ul>
+    <!-- Index Table -->
+    <div class="table-container" *ngIf="indexList.length > 0">
+      <h3>Active Indexes</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Index Name</th>
+            <th>Field</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let index of indexList; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ index.name }}</td>
+            <td>{{ index.field }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 </div>

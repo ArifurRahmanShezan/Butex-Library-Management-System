@@ -1,26 +1,25 @@
 <div class="container">
 
-  <!-- Edit Section -->
-  <div class="card">
+  <!-- Tabs -->
+  <div class="tabs">
+    <button [class.active]="activeTab === 'edit'" (click)="setTab('edit')">
+      Edit Catalog Record
+    </button>
+    <button [class.active]="activeTab === 'delete'" (click)="setTab('delete')">
+      Delete Catalog Record
+    </button>
+  </div>
+
+  <!-- Edit Tab -->
+  <div *ngIf="activeTab === 'edit'" class="card">
     <h2>Edit Catalog Record</h2>
     <form (ngSubmit)="updateRecord()" #editForm="ngForm">
       <label>Record ID *</label>
-      <input
-        type="text"
-        name="editRecordId"
-        [(ngModel)]="editRecordId"
-        placeholder="Enter Record ID"
-        required
-      />
+      <input type="text" name="editRecordId" [(ngModel)]="editRecordId" placeholder="Enter Record ID" required />
 
       <label>Edit Fields (comma separated)</label>
-      <textarea
-        name="editFields"
-        [(ngModel)]="editFields"
-        rows="4"
-        placeholder="Title, Author, ISBN, etc."
-        required
-      ></textarea>
+      <textarea name="editFields" [(ngModel)]="editFields" rows="4" placeholder="Title, Author, ISBN, etc."
+        required></textarea>
 
       <button type="submit" [disabled]="!editForm.form.valid">
         Update Record
@@ -28,28 +27,18 @@
     </form>
   </div>
 
-  <!-- Delete Section -->
-  <div class="card">
+  <!-- Delete Tab -->
+  <div *ngIf="activeTab === 'delete'" class="card">
     <h2>Delete Catalog Record</h2>
     <form (ngSubmit)="deleteRecord()" #deleteForm="ngForm">
       <label>Record ID *</label>
-      <input
-        type="text"
-        name="deleteRecordId"
-        [(ngModel)]="deleteRecordId"
-        placeholder="Enter Record ID"
-        required
-      />
+      <input type="text" name="deleteRecordId" [(ngModel)]="deleteRecordId" placeholder="Enter Record ID" required />
 
-      <label>
-        <input
-          type="checkbox"
-          name="confirmDelete"
-          [(ngModel)]="confirmDelete"
-          required
-        />
-        Confirm Deletion
-      </label>
+      <div class="checkbox-wrapper">
+        <input type="checkbox" id="confirmDelete" name="confirmDelete" [(ngModel)]="confirmDelete" required />
+        <label for="confirmDelete">Confirm Deletion</label>
+      </div>
+
 
       <button type="submit" [disabled]="!deleteForm.form.valid">
         Delete Record
@@ -60,7 +49,7 @@
   <!-- Audit Log Table -->
   <div class="card full-width">
     <h2>Audit Log</h2>
-    <table>
+    <table *ngIf="auditLog.length > 0; else emptyLog">
       <thead>
         <tr>
           <th>Action</th>
@@ -78,6 +67,9 @@
         </tr>
       </tbody>
     </table>
-  </div>
 
+    <ng-template #emptyLog>
+      <p class="empty-msg">No audit logs yet.</p>
+    </ng-template>
+  </div>
 </div>

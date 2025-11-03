@@ -77,6 +77,14 @@ button:hover {
   display: flex;
   gap: 15px;
   margin-top: 8px;
+  align-items: center; /* Aligns radio button and label vertically */
+}
+
+.radio-group label {
+  display: flex;       /* Makes label a flex container */
+  align-items: center; /* Align text with the radio button */
+  gap: 5px;            /* Space between radio and text */
+  cursor: pointer;     /* Makes it clickable */
 }
 
 .activity-section {

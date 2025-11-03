@@ -79,28 +79,33 @@ tbody tr:hover {
     background-color: #dfe6e9;
 }
 
+/* Overlay */
+/* Overlay covering the entire screen */
 .modal {
     position: fixed;
-    z-index: 10;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100vw;          /* full viewport width */
+    height: 100vh;         /* full viewport height */
     background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    z-index: 1000;
+    justify-content: center; 
+    display: grid;         /* use grid to center content */
+    place-items: center;   /* centers both vertically and horizontally */
 }
 
+/* Modal box */
 .modal-content {
     background: #fff;
     border-radius: 16px;
     padding: 30px 40px;
-    width: 100%;
+    width: 90%;            /* responsive */
     max-width: 500px;
-    position: relative;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    position: relative;    /* for close button */
 }
+
+
 
 .modal-content label {
     display: block;

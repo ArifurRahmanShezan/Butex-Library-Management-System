@@ -1,12 +1,15 @@
 <div class="container">
-bmb
   <!-- Tabs -->
   <div class="tabs">
-    <button [class.active]="activeTab === 'form'" (click)="setTab('form')">Add Patron Category</button>
-    <button [class.active]="activeTab === 'table'" (click)="setTab('table')">View Categories</button>
+    <button [class.active]="activeTab === 'form'" (click)="setTab('form')">
+      Add Patron Category
+    </button>
+    <button [class.active]="activeTab === 'table'" (click)="setTab('table')">
+      View Categories
+    </button>
   </div>
 
-  <!-- Form Tab -->
+  <!-- Add Category Form -->
   <div *ngIf="activeTab === 'form'" class="card">
     <h2>Add Patron Category</h2>
 
@@ -29,11 +32,13 @@ bmb
         required
       ></textarea>
 
-      <button type="submit" [disabled]="!catForm.form.valid">Add Category</button>
+      <button type="submit" [disabled]="!catForm.form.valid">
+        Add Category
+      </button>
     </form>
   </div>
 
-  <!-- Table Tab -->
+  <!-- Table -->
   <div *ngIf="activeTab === 'table'" class="card">
     <h2>Existing Patron Categories</h2>
 

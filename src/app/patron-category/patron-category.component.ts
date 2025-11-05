@@ -13,7 +13,7 @@ export class PatronCategoryComponent implements OnInit {
 
   patronCategories: any[] = [];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     this.loadCategories();
@@ -25,15 +25,19 @@ export class PatronCategoryComponent implements OnInit {
 
   // ✅ Get data from backend
   loadCategories() {
+    console.log('Loading categories...');
     this.api.getPatronCategories().subscribe({
       next: (res) => {
+        console.log('Categories loaded:', res);
         this.patronCategories = res;
       },
       error: (err) => {
         console.error('Error loading categories:', err);
+        alert('Failed to load categories. Check console for details.');
       }
     });
   }
+
 
   // ✅ Submit form to backend
   addCategory() {

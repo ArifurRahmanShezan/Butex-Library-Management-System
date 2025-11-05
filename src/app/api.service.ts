@@ -12,11 +12,11 @@ export class ApiService {
 
   // ✅ Get all patron categories
   getPatronCategories(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/patron/categories-Management`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/patron-categories`);
   }
 
   // ✅ Add a new patron category
   addPatronCategory(category: { name: string; description: string }): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/api/v1/library/patron/categories-Management`, category);
+    return this.http.post<any>(`${this.baseUrl}/api/v1/library/patron-categorie-add`, category);
   }
 }

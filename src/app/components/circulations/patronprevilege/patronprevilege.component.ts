@@ -51,58 +51,44 @@ export class PatronprevilegeComponent implements OnInit {
   
   // Toggle form submission
   submitForm() {
-    // Validation
-    if (
-      this.selectedCategoryId === null ||
-      this.maxBooksAllowed === null ||
-      this.borrowDurationDays === null ||
-      this.finePerDay === null
-    ) {
-      this.msg = 'Please fill in all required fields!';
-      this.msgType = 'error';
-      return;
-    }
-
-    // Prepare payload for API
-    const payload = {
-      patronCategory: { id: this.selectedCategoryId },
-      maxBooksAllowed: this.maxBooksAllowed,
-      borrowDurationDays: this.borrowDurationDays,
-      finePerDay: this.finePerDay
-    };
-
-    this.api.setPatronPrivileges(payload).subscribe({
-      next: () => {
-        const categoryName =
-          this.categories.find(c => c.id === this.selectedCategoryId)?.name || '';
-
-        // Add to local table
-        this.matrix.push({
-          categoryId: this.selectedCategoryId!,
-          categoryName: categoryName,
-          maxBooksAllowed: this.maxBooksAllowed!,
-          borrowDurationDays: this.borrowDurationDays!,
-          finePerDay: this.finePerDay!
-        });
-
-        this.msg = 'Patron privileges saved successfully!';
-        this.msgType = 'success';
-
-        // Reset form
-        this.selectedCategoryId = null;
-        this.maxBooksAllowed = null;
-        this.borrowDurationDays = null;
-        this.finePerDay = null;
-
-        setTimeout(() => (this.msg = ''), 2500);
-      },
-      error: err => {
-        console.error(err);
-        this.msg = 'Failed to save patron privileges!';
-        this.msgType = 'error';
-      }
-    });
+  if (!this.selectedCategoryId || !this.maxBooksAllowed || !this.borrowDurationDays || !this.finePerDay) {
+    this.msg = "Please fill all required fields!";
+    this.msgType = 'error';
+    return;
   }
+
+  // Convert selectedCategoryId to number (because dropdown values are strings)
+  const categoryIdNum = Number(this.selectedCategoryId);
+
+  // Find the selected category object safely
+  const selectedCategory = this.categories.find(cat => cat.id === categoryIdNum);
+
+  if (!selectedCategory) {
+    this.msg = "Selected category not found!";
+    this.msgType = 'error';
+    return;
+  }
+
+  // Push to matrix
+  this.matrix.push({
+    categoryId: selectedCategory.id,
+    categoryName: selectedCategory.name,
+    maxBooksAllowed: this.maxBooksAllowed,
+    borrowDurationDays: this.borrowDurationDays,
+    finePerDay: this.finePerDay
+  });
+
+  // Reset form
+  this.selectedCategoryId = null;
+  this.maxBooksAllowed = null;
+  this.borrowDurationDays = null;
+  this.finePerDay = null;
+
+  this.msg = "Privilege matrix updated successfully!";
+  this.msgType = 'success';
+
+  setTimeout(() => this.msg = '', 2500);
+}
   getAllPatronCategory(): void {
     this.api.getPatronCategories().subscribe({
       next: (res) => {

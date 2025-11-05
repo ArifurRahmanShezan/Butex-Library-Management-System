@@ -39,7 +39,7 @@ export class PatronManagementComponent implements OnInit {
   course = { name: '', code: '', departmentId: 0, description: '' };
   category = { name: '', limit: '' };
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
     if (this.activeTab === 'course') {
@@ -59,7 +59,16 @@ export class PatronManagementComponent implements OnInit {
     this.apiService.getCourses().subscribe({
       next: (res) => {
         console.log('API Response:', res); // 🔍 for debugging
-        this.courses = res || [];
+
+        // 🔽 Transform API response to keep only required fields
+        this.courses = (res || []).map((c: any) => ({
+          name: c.name || '',
+          code: c.code || '',
+          departmentId: c.department ? c.department.id : null,
+          description: '' // you can fill this from API if available
+        }));
+
+        console.log('Filtered Courses:', this.courses);
         this.showMessage('✅ Courses loaded successfully!');
       },
       error: (err) => {
@@ -68,6 +77,7 @@ export class PatronManagementComponent implements OnInit {
       }
     });
   }
+
 
   addPatron() {
     if (!this.patron.name || !this.patron.id || !this.patron.category) return;

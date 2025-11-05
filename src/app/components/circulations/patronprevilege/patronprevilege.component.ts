@@ -39,7 +39,9 @@ export class PatronprevilegeComponent implements OnInit {
 
   constructor(private api: ApiService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getAllPatronCategory();
+  }
 
 
   
@@ -98,6 +100,17 @@ export class PatronprevilegeComponent implements OnInit {
         console.error(err);
         this.msg = 'Failed to save patron privileges!';
         this.msgType = 'error';
+      }
+    });
+  }
+  getAllPatronCategory(): void {
+    this.api.getPatronCategories().subscribe({
+      next: (res) => {
+        this.categories = res.payload; // ✅ FIX: use payload
+        console.log('Loaded categories:', this.categories);
+      },
+      error: (err) => {
+        console.error('Error loading categories:', err);
       }
     });
   }

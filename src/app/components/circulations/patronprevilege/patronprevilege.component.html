@@ -6,7 +6,7 @@
   <form (ngSubmit)="submitForm()">
     <div>
       <label>Patron Category <span style="color:red">*</span></label>
-      <select [(ngModel)]="selectedCategoryId" name="category" required>
+      <select [(ngModel)]="selectedCategoryId" name="category" required (change)="getAllPatronCategory()">
         <option value="">Select Category</option>
         <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
       </select>

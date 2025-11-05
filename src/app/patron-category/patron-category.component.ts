@@ -20,7 +20,7 @@ export class PatronCategoryComponent implements OnInit {
   loadCategories() {
     this.api.getPatronCategories().subscribe({
       next: (res) => {
-        this.patronCategories = res;
+        this.patronCategories = res.payload; // ✅ FIX: use payload
         console.log('Loaded categories:', this.patronCategories);
       },
       error: (err) => {

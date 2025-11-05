@@ -21,17 +21,15 @@
       required
     ></textarea>
 
-    <button type="submit" [disabled]="!catForm.form.valid">
-      Add Category
-    </button>
+    <button type="submit" [disabled]="!catForm.form.valid">Add Category</button>
   </form>
 
   <hr />
 
   <!-- Table -->
   <h2>Existing Patron Categories</h2>
-  <pre>{{ patronCategories | json }}</pre> <!-- debug -->
-  <div class="table-container" *ngIf="patronCategories.length > 0; else noData">
+
+  <div class="table-container" *ngIf="patronCategories && patronCategories.length > 0; else noData">
     <table>
       <thead>
         <tr>

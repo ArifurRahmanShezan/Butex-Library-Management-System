@@ -122,6 +122,7 @@ export class MenuListComponent {
         { label: 'Cataloging Template', routerLink: 'Cataloging-Template' },
         { label: 'Audit Report', routerLink: 'Audit-Report' },
         { label: 'Acquisitions Report', routerLink: 'Acquisitions-Report' },  
+        { label: 'patrone category', routerLink: 'patrone-category' },  
         
       ]
     },

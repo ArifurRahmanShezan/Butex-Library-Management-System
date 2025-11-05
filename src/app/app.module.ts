@@ -40,6 +40,9 @@ import { SerialsBindingManagementComponent } from './components/serialManagement
 import { CatalogingTemplateComponent } from './cataloging-template/cataloging-template.component';
 import { AuditReportComponent } from './audit-report/audit-report.component';
 import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-report.component';
+import { PatronCategoryComponent } from './patron-category/patron-category.component';
+// import { PatronCategoryComponent } from './patron-category/patron-category.component';
+import { ApiService } from '../app/api.service';
 
 
 @NgModule({
@@ -81,14 +84,16 @@ import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-
     SerialsBindingManagementComponent,
     CatalogingTemplateComponent,
     AuditReportComponent,
-    AcquisitionsReportComponent
+    AcquisitionsReportComponent,
+    PatronCategoryComponent,
+    // PatronCategoryComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+   providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,8 +7,8 @@ body {
 
 /* Report Page */
 .report-page {
-  width: auto; /* A4 Width */
-  min-height: auto; /* A4 Height */
+  width: 210mm;      /* A4 width */
+  min-height: 297mm; /* A4 height */
   margin: 0 auto 20px auto;
   padding: 30px 40px;
   background: #fff;

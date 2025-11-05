@@ -38,6 +38,7 @@ import { SerialsBindingManagementComponent } from './components/serialManagement
 import { CatalogingTemplateComponent } from './cataloging-template/cataloging-template.component';
 import { AuditReportComponent } from './audit-report/audit-report.component';
 import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-report.component';
+import { PatronCategoryComponent } from './patron-category/patron-category.component';
 
 
 
@@ -80,6 +81,7 @@ const routes: Routes = [
   { path: 'Cataloging-Template', component: CatalogingTemplateComponent },
   { path: 'Audit-Report', component: AuditReportComponent },
   { path: 'Acquisitions-Report', component: AcquisitionsReportComponent },
+  { path: 'patrone-category', component: PatronCategoryComponent },
   
 
 ];

@@ -6,7 +6,10 @@ body {
 }
 
 .report-container {
-  max-width: auto;
+  width: 210mm;
+  /* A4 width */
+  min-height: 297mm;
+  /* A4 height */
   margin: 0 auto;
   background: #fff;
   padding: 30px;

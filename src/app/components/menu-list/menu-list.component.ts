@@ -123,6 +123,7 @@ export class MenuListComponent {
         { label: 'Audit Report', routerLink: 'Audit-Report' },
         { label: 'Acquisitions Report', routerLink: 'Acquisitions-Report' },  
         { label: 'patrone category', routerLink: 'patrone-category' },  
+        { label: 'patron', routerLink: 'Patron' },
         
       ]
     },

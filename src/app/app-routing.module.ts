@@ -39,6 +39,7 @@ import { CatalogingTemplateComponent } from './cataloging-template/cataloging-te
 import { AuditReportComponent } from './audit-report/audit-report.component';
 import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-report.component';
 import { PatronCategoryComponent } from './patron-category/patron-category.component';
+import { PatronComponent } from './patron/patron.component';
 
 
 
@@ -82,6 +83,7 @@ const routes: Routes = [
   { path: 'Audit-Report', component: AuditReportComponent },
   { path: 'Acquisitions-Report', component: AcquisitionsReportComponent },
   { path: 'patrone-category', component: PatronCategoryComponent },
+  { path: 'Patron', component: PatronComponent },
   
 
 ];

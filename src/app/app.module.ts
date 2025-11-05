@@ -44,6 +44,8 @@ import { PatronCategoryComponent } from './patron-category/patron-category.compo
 // import { PatronCategoryComponent } from './patron-category/patron-category.component';
 import { ApiService } from '../app/api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PatronComponent } from './patron/patron.component';
+
 
 
 
@@ -88,6 +90,8 @@ import { HttpClientModule } from '@angular/common/http';
     AuditReportComponent,
     AcquisitionsReportComponent,
     PatronCategoryComponent,
+    PatronComponent,
+
     // PatronCategoryComponent
   ],
   imports: [

@@ -62,7 +62,7 @@
         <td>{{ p.maxRenewals }}</td>
         <td>
           <button class="btn-primary" (click)="openModal('privilege', i)">Edit</button>
-          <button class="btn-danger" >Delete</button>
+          <button class="btn-danger" (click)="deletePrivilege(i)" >Delete</button>
         </td>
       </tr>
       <tr *ngIf="matrix.length === 0">

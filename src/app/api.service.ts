@@ -55,6 +55,10 @@ export class ApiService {
     );
   }
 
+  deletePatronPrivileges(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library//patron/privileges/${id}`);
+  } 
+
 
 
 

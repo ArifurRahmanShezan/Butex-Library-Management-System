@@ -8,6 +8,7 @@ interface Category {
 }
 
 interface PrivilegeEntry {
+   id: number;
   categoryId: number;
   categoryName: string;
   maxItemsOnLoan: number;
@@ -105,19 +106,22 @@ privileges: any;
     }
   }
 deleteCategory(index: number) {
-  const categoryToDelete: Category | undefined = this.categories[index];
-  if (!categoryToDelete) return; // safety check
+  const categoryToDelete = this.categories[index];
+  if (!categoryToDelete) return;
 
   if (confirm(`Delete category "${categoryToDelete.name}"?`)) {
-    // Use the ID, not name
     this.api.deletePatronCategory(categoryToDelete.id).subscribe({
       next: () => {
         alert(`Category "${categoryToDelete.name}" deleted successfully.`);
-        this.loadCategories(); // reload categories
+        this.loadCategories();
       },
       error: (err) => {
         console.error('Error deleting category:', err);
-        alert('Failed to delete category. Check console.');
+        if (err.status === 500) {
+          alert(`Cannot delete "${categoryToDelete.name}" because it is linked to privileges or patrons.`);
+        } else {
+          alert('Failed to delete category. Check console.');
+        }
       }
     });
   }
@@ -152,6 +156,7 @@ getAllPrivileges(): void {
     next: (res) => {
       const privileges = res.payload ?? res;
       this.matrix = privileges.map((p: any) => ({
+        id: p.id,
         categoryId: p.patronCategory?.id,
         categoryName: p.patronCategory?.name || 'N/A',
         maxItemsOnLoan: p.maxItemsOnLoan,
@@ -199,6 +204,25 @@ submitPrivilege(): void {
       this.msgType = 'error';
     }
   });
+}
+
+
+deletePrivilege(index: number) {
+  const privilegeToDelete = this.matrix[index];
+  if (!privilegeToDelete) return;
+
+  if (confirm(`Delete privilege for "${privilegeToDelete.categoryName}"?`)) {
+    this.api.deletePatronPrivileges(privilegeToDelete.id).subscribe({
+      next: () => {
+        alert(`Privilege for "${privilegeToDelete.categoryName}" deleted successfully.`);
+        this.getAllPrivileges(); // refresh list
+      },
+      error: (err) => {
+        console.error('Error deleting privilege:', err);
+        alert('Failed to delete privilege. Check console.');
+      }
+    });
+  }
 }
   // ================= Tabs =================
   switchTab(tab: 'category' | 'privilege' | 'patron') {

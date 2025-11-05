@@ -1,170 +1,175 @@
 <div class="tw-p-10">
-<h2> Library Management System</h2>
+  <h2>Library Management System</h2>
 
-<!-- Tabs -->
-<div class="tabs">
-  <button [class.active]="currentTab==='category'" (click)="switchTab('category')">Category</button>
-  <button [class.active]="currentTab==='privilege'" (click)="switchTab('privilege')">Privilege</button>
-  <button [class.active]="currentTab==='patron'" (click)="switchTab('patron')">Patrons</button>
-</div>
-
-<!-- CATEGORY -->
-<div *ngIf="currentTab==='category'">
-  <div class="header">
-    <h3>Categories</h3>
-    <button (click)="openModal('category')" class="btn-success">+ Add Category</button>
+  <!-- Tabs -->
+  <div class="tabs">
+    <button [class.active]="currentTab==='category'" (click)="switchTab('category')">Category</button>
+    <button [class.active]="currentTab==='privilege'" (click)="switchTab('privilege')">Privilege</button>
+    <button [class.active]="currentTab==='patron'" (click)="switchTab('patron')">Patrons</button>
   </div>
 
-  <table>
-    <thead>
-      <tr><th>#</th><th>Name</th><th>Description</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cat of categories; let i = index">
-        <td>{{i+1}}</td>
-        <td>{{cat.name}}</td>
-        <td>{{cat.description}}</td>
-        <td>
-          <button class="btn-primary" (click)="openModal('category', i)">Edit</button>
-          <button class="btn-danger" (click)="deleteCategory(i)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+  <!-- CATEGORY -->
+  <div *ngIf="currentTab==='category'">
+    <div class="header">
+      <h3>Categories</h3>
+      <button (click)="openModal('category')" class="btn-success">+ Add Category</button>
+    </div>
 
-<!-- PRIVILEGE -->
+    <table>
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Description</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of categories; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{cat.name}}</td>
+          <td>{{cat.description}}</td>
+          <td>
+            <button class="btn-primary" (click)="openModal('category', i)">Edit</button>
+            <button class="btn-danger" (click)="deleteCategory(i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PRIVILEGE -->
+  <!-- PRIVILEGE -->
 <div *ngIf="currentTab==='privilege'">
   <div class="header">
     <h3>Privileges</h3>
     <button (click)="openModal('privilege')" class="btn-success">+ Add Privilege</button>
   </div>
 
+  <!-- Privileges Table -->
   <table>
     <thead>
       <tr>
-        <th>#</th><th>Category</th><th>Max Borrow</th><th>Duration</th><th>Fine/Day</th><th>Renewal</th><th>Active</th><th>Actions</th>
+        <th>#</th>
+        <th>Category</th>
+        <th>Max Items on Loan</th>
+        <th>Loan Period (Days)</th>
+        <th>Max Renewals</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of privileges; let i=index">
-        <td>{{i+1}}</td>
-        <td>{{p.category}}</td>
-        <td>{{p.maxBorrow}}</td>
-        <td>{{p.duration}}</td>
-        <td>{{p.fine}}</td>
-        <td>{{p.renewal}}</td>
-        <td><input type="checkbox" [checked]="p.active" disabled></td>
+      <tr *ngFor="let p of matrix; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ p.categoryName }}</td>
+        <td>{{ p.maxItemsOnLoan }}</td>
+        <td>{{ p.loanPeriodDays }}</td>
+        <td>{{ p.maxRenewals }}</td>
         <td>
           <button class="btn-primary" (click)="openModal('privilege', i)">Edit</button>
-          <button class="btn-danger" (click)="deletePrivilege(i)">Delete</button>
+          <button class="btn-danger" >Delete</button>
         </td>
+      </tr>
+      <tr *ngIf="matrix.length === 0">
+        <td colspan="6" style="text-align:center;">No privileges added yet.</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<!-- PATRON -->
-<div *ngIf="currentTab==='patron'">
-  <div class="header">
-    <h3>Patrons</h3>
-    <button (click)="openModal('patron')" class="btn-success">+ Add Patron</button>
+
+  <!-- PATRON -->
+  <div *ngIf="currentTab==='patron'">
+    <div class="header">
+      <h3>Patrons</h3>
+      <button (click)="openModal('patron')" class="btn-success">+ Add Patron</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>Library ID</th><th>Name</th><th>Email</th><th>Category</th><th>Department</th><th>Active</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patron of patrons; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{patron.libraryId}}</td>
+          <td>{{patron.name}}</td>
+          <td>{{patron.email}}</td>
+          <td>{{patron.category}}</td>
+          <td>{{patron.department}}</td>
+          <td><input type="checkbox" [checked]="patron.active" disabled></td>
+          <td>
+            <button class="btn-primary" (click)="openModal('patron', i)">Edit</button>
+            <button class="btn-danger" (click)="deletePatron(i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>#</th><th>Library ID</th><th>Name</th><th>Email</th><th>Category</th><th>Department</th><th>Active</th><th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let patron of patrons; let i=index">
-        <td>{{i+1}}</td>
-        <td>{{patron.libraryId}}</td>
-        <td>{{patron.name}}</td>
-        <td>{{patron.email}}</td>
-        <td>{{patron.category}}</td>
-        <td>{{patron.department}}</td>
-        <td><input type="checkbox" [checked]="patron.active" disabled></td>
-        <td>
-          <button class="btn-primary" (click)="openModal('patron', i)">Edit</button>
-          <button class="btn-danger" (click)="deletePatron(i)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- MODAL -->
+  <div class="modal" *ngIf="modalOpen">
+    <div class="modal-content">
+      <span class="close-btn" (click)="closeModal()">&times;</span>
+      <h3>{{editingIndex!==null ? 'Edit ' : 'Add '}}{{modalType | titlecase}}</h3>
+
+      <!-- Category -->
+      <div *ngIf="modalType==='category'">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="catName" placeholder="Category Name">
+        <label>Description</label>
+        <textarea [(ngModel)]="catDesc" placeholder="Description"></textarea>
+      </div>
+
+      <!-- Privilege -->
+      <div *ngIf="modalType==='privilege'">
+  <label>Category</label>
+  <select [(ngModel)]="selectedCategoryId">
+    <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
+  </select>
+
+  <label>Max Items on Loan</label>
+  <input type="number" [(ngModel)]="maxItemsOnLoan">
+
+  <label>Loan Period (Days)</label>
+  <input type="number" [(ngModel)]="loanPeriodDays">
+
+  <label>Max Renewals</label>
+  <input type="number" [(ngModel)]="maxRenewals">
 </div>
 
-<!-- MODAL -->
-<div class="modal" *ngIf="modalOpen">
-  <div class="modal-content">
-    <span class="close-btn" (click)="closeModal()">&times;</span>
-    <h3>{{editingIndex!==null ? 'Edit ' : 'Add '}}{{modalType | titlecase}}</h3>
+      <!-- Patron -->
+      <div *ngIf="modalType==='patron'">
+        <label>Library ID</label>
+        <input [(ngModel)]="libraryId" readonly>
+        <label>Name</label>
+        <input [(ngModel)]="patronName">
+        <label>Email</label>
+        <input [(ngModel)]="patronEmail" type="email">
+        <label>Category</label>
+        <select [(ngModel)]="patronCategory">
+          <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
+        </select>
+        <label>Department</label>
+        <select [(ngModel)]="patronDept">
+          <option>Science</option>
+          <option>Arts</option>
+          <option>Engineering</option>
+        </select>
+        <label>Active</label>
+        <input type="checkbox" [(ngModel)]="patronActive">
+      </div>
 
-    <!-- Category -->
-    <div *ngIf="modalType==='category'">
-      <label>Name</label>
-      <input type="text" [(ngModel)]="catName" placeholder="Category Name">
-<textarea [(ngModel)]="catDesc" placeholder="Description"></textarea>
-
-    </div>
-
-    <!-- Privilege -->
-    <div *ngIf="modalType==='privilege'">
-      <label>Category</label>
-      <select [(ngModel)]="privCategory">
-        <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
-      </select>
-      <label>Max Borrow</label>
-      <input type="number" [(ngModel)]="maxBorrow">
-      <label>Duration</label>
-      <input type="number" [(ngModel)]="duration">
-      <label>Fine / Day</label>
-      <input type="number" [(ngModel)]="fine" step="0.01">
-      <label>Renewal</label>
-      <input type="number" [(ngModel)]="renewal">
-      <label>Active</label>
-      <input type="checkbox" [(ngModel)]="privActive">
-    </div>
-
-    <!-- Patron -->
-    <div *ngIf="modalType==='patron'">
-      <label>Library ID</label>
-      <input [(ngModel)]="libraryId" readonly>
-      <label>Name</label>
-      <input [(ngModel)]="patronName">
-      <label>Email</label>
-      <input [(ngModel)]="patronEmail" type="email">
-      <label>Category</label>
-      <select [(ngModel)]="patronCategory">
-        <option *ngFor="let c of categories" [value]="c.name">{{c.name}}</option>
-      </select>
-      <label>Department</label>
-      <select [(ngModel)]="patronDept">
-        <option>Science</option>
-        <option>Arts</option>
-        <option>Engineering</option>
-      </select>
-      <label>Active</label>
-      <input type="checkbox" [(ngModel)]="patronActive">
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-secondary" (click)="closeModal()">Cancel</button>
-      <button class="btn-success" 
-        (click)="
-          modalType==='category' 
-            ? (editingIndex !== null ? updateCategory(editingIndex) : addCategory()) 
-            : modalType==='privilege' 
-              ? savePrivilege() 
-              : savePatron()
-        ">
-  {{ editingIndex !== null ? 'Update' : 'Add' }} {{ modalType | titlecase }}
-</button>
-
+      <div class="modal-actions">
+        <button class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button class="btn-success"
+          (click)="
+            modalType==='category'
+              ? (editingIndex !== null ? updateCategory(editingIndex) : addCategory())
+              : modalType==='privilege'
+                ? submitPrivilege()
+                : savePatron()
+          ">
+          {{ editingIndex !== null ? 'Update' : 'Add' }} {{ modalType | titlecase }}
+        </button>
+      </div>
     </div>
   </div>
 </div>
-
-</div>
-<!-- modalType==='category' ? saveCategory() : -->

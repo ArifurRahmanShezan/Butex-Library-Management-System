@@ -51,3 +51,26 @@ button:disabled {
   background-color: #aaa;
   cursor: not-allowed;
 }
+
+
+.patron-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.patron-table th,
+.patron-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.patron-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.patron-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}

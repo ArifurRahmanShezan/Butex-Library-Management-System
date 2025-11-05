@@ -41,5 +41,34 @@
     </div>
 
     <button type="submit" [disabled]="!patronForm.form.valid">Submit</button>
+
+
+    <hr />
+
+<h3>Library Patrons</h3>
+
+<table class="patron-table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Category</th>
+      <th>Department</th>
+      <th>Active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let patron of patrons">
+      <td>{{ patron.id }}</td>
+      <td>{{ patron.name }}</td>
+      <td>{{ patron.email }}</td>
+      <td>{{ patron.patronCategory?.name }}</td>
+      <td>{{ patron.department?.name }}</td>
+      <td>{{ patron.active ? 'Yes' : 'No' }}</td>
+    </tr>
+  </tbody>
+</table>
+
   </form>
 </div>

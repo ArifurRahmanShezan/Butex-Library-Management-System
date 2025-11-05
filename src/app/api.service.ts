@@ -92,21 +92,33 @@ export class ApiService {
     );
   }
 
+  // 🧍‍♂️ Get all Library Patrons
+  getPatrons(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/patrons`);
+  }
+
+
+
+
+
+// ✅ GET all templates
+  getTemplates(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/templates`);
+  }
+
+  // ✅ POST create a new template
+  createTemplate(data: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/v1/library/cataloging/templates`, data);
+  }
+
+
+
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

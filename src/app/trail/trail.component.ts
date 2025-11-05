@@ -16,55 +16,70 @@ export class TrailComponent implements OnInit {
   active = true;
 
   patronCategories: any[] = [];
-  departments: any[] = []; // assuming you'll fetch this from another API later
+  departments: any[] = [];
+  patrons: any[] = []; // ✅ for displaying patrons in table
 
   constructor(private api: ApiService, private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Load patron categories
+    this.loadPatronCategories();
+    this.loadDepartments();
+    this.loadPatrons(); // ✅ fetch patrons on init
+  }
+
+  loadPatronCategories(): void {
     this.api.getPatronCategories().subscribe({
-      next: (res) => {
-        this.patronCategories = res.payload;
-      },
+      next: (res) => (this.patronCategories = res.payload),
       error: (err) => console.error('Error fetching patron categories:', err)
     });
+  }
 
-    // Example static departments (you can fetch via API too)
+  loadDepartments(): void {
     this.departments = [
       { id: 1, name: 'Computer Science' },
       { id: 2, name: 'Library Science' },
-      { id: 3, name: 'Information Technology' }
+      { id: 3, name: 'Information Technology' },
+      { id: 8, name: 'Iogy' },
     ];
   }
 
-  onSubmit(): void {
-  if (!this.libraryId || !this.name || !this.email || !this.selectedCategory || !this.selectedDepartment) {
-    alert('Please fill all required fields!');
-    return;
+  loadPatrons(): void {
+    this.api.getPatrons().subscribe({
+      next: (res) => {
+        this.patrons = Array.isArray(res) ? res : [res]; // handles array or object response
+      },
+      error: (err) => console.error('Error fetching patrons:', err)
+    });
   }
 
-  const payload = {
-    libraryId: this.libraryId,
-    name: this.name,
-    email: this.email,
-    patronCategory: { id: this.selectedCategory },
-    department: { id: this.selectedDepartment },
-    active: this.active
-  };
-
-  this.api.addPatron(payload).subscribe({
-    next: (res) => {
-      console.log('Patron added successfully:', res);
-      alert('✅ Patron added successfully!');
-      this.resetForm();
-    },
-    error: (err) => {
-      console.error('Error adding patron:', err);
-      alert('❌ Failed to add patron.');
+  onSubmit(): void {
+    if (!this.libraryId || !this.name || !this.email || !this.selectedCategory || !this.selectedDepartment) {
+      alert('Please fill all required fields!');
+      return;
     }
-  });
-}
 
+    const payload = {
+      libraryId: this.libraryId,
+      name: this.name,
+      email: this.email,
+      patronCategory: { id: this.selectedCategory },
+      department: { id: this.selectedDepartment },
+      active: this.active
+    };
+
+    this.api.addPatron(payload).subscribe({
+      next: (res) => {
+        console.log('Patron added successfully:', res);
+        alert('✅ Patron added successfully!');
+        this.resetForm();
+        this.loadPatrons(); // ✅ refresh patron list
+      },
+      error: (err) => {
+        console.error('Error adding patron:', err);
+        alert('❌ Failed to add patron.');
+      }
+    });
+  }
 
   resetForm(): void {
     this.libraryId = '';

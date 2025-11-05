@@ -1,0 +1,81 @@
+<h2>Catalogue Template Management</h2>
+
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+    <h3>Templates</h3>
+    <button class="btn-success" (click)="openModal()">Add Template</button>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Template Name</th>
+            <th>Description</th>
+            <th>Created Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let t of templates; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ t.name }}</td>
+            <td>{{ t.description }}</td>
+            <td>{{ t.createdAt | date:'short' }}</td>
+            <td>
+                <button class="btn-primary" (click)="openModal(t)">Edit</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div id="modal" *ngIf="showModal" style="display:flex;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>{{ editingTemplate ? 'Edit' : 'Add' }} Catalogue Template</h3>
+            <span class="close-btn" (click)="closeModal()">×</span>
+        </div>
+
+        <form [formGroup]="templateForm" (ngSubmit)="submit()">
+            <label>Template Name</label>
+            <input formControlName="name" placeholder="Enter template name">
+
+            <label>Description</label>
+            <textarea formControlName="description" placeholder="Enter template description"></textarea>
+
+            <label>MARC Fields</label>
+            <div class="marc-header">
+                <div>Tag</div>
+                <div>Ind1</div>
+                <div>Ind2</div>
+                <div>Subfield</div>
+                <div>Label</div>
+                <div>Default</div>
+                <div>Repeatable</div>
+                <div>Order</div>
+                <div></div>
+            </div>
+
+            <div formArrayName="fields">
+                <div *ngFor="let field of fields.controls; let i=index" [formGroup]="field" class="marc-row">
+                    <input formControlName="marcTag" placeholder="Tag">
+                    <input formControlName="marcIndicator1" placeholder="Ind1">
+                    <input formControlName="marcIndicator2" placeholder="Ind2">
+                    <input formControlName="subfield" placeholder="Subfield">
+                    <input formControlName="label" placeholder="Label">
+                    <input formControlName="defaultValue" placeholder="Default">
+                    <select formControlName="repeatable">
+                        <option [ngValue]="true">Yes</option>
+                        <option [ngValue]="false">No</option>
+                    </select>
+                    <input formControlName="displayOrder" type="number">
+                    <button type="button" class="btn-danger" (click)="removeField(i)">×</button>
+                </div>
+            </div>
+
+            <button type="button" class="btn-secondary" (click)="addField()">Add MARC Field</button>
+            <button type="submit" class="btn-success">Save Template</button>
+        </form>
+
+    </div>
+</div>

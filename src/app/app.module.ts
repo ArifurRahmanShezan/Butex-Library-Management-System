@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
@@ -46,6 +46,7 @@ import { ApiService } from '../app/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PatronComponent } from './patron/patron.component';
 import { TrailComponent } from './trail/trail.component';
+import { Trail2Component } from './trail-2/trail-2.component';
 
 
 
@@ -93,6 +94,7 @@ import { TrailComponent } from './trail/trail.component';
     PatronCategoryComponent,
     PatronComponent,
     TrailComponent,
+    Trail2Component,
 
     // PatronCategoryComponent
   ],
@@ -100,6 +102,7 @@ import { TrailComponent } from './trail/trail.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule
   ],
    providers: [ApiService],

@@ -1,108 +1,49 @@
 .container {
-  max-width: auto;
-  margin: 10px auto;
-  padding: 0 15px;
-  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
 }
 
-.tabs {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  gap: 10px;
-}
-
-.tabs button {
-  padding: 10px 18px;
-  border: none;
-  background-color: #e0e0e0;
-  color: #333;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.tabs button.active {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.card {
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-label {
+form label {
   display: block;
-  margin-bottom: 6px;
+  margin-top: 10px;
   font-weight: 600;
-  color: #444;
 }
 
-input,
-textarea {
+form input,
+form textarea {
   width: 100%;
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 8px;
+  margin-top: 5px;
   border: 1px solid #ccc;
-  margin-bottom: 15px;
-  font-size: 14px;
-  transition: border-color 0.2s;
+  border-radius: 4px;
 }
 
-input:focus,
-textarea:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-button[type='submit'] {
-  background-color: #007bff;
+button[type="submit"] {
+  margin-top: 15px;
+  background: #28a745;
   color: white;
-  font-size: 15px;
-  padding: 10px 0;
-  width: 100%;
   border: none;
-  border-radius: 6px;
+  padding: 10px 15px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-button[type='submit']:hover {
-  background-color: #0056b3;
-}
-
-.table-container {
-  margin-top: 20px;
-}
-
-table {
+.table-container table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 15px;
 }
 
-th,
-td {
+.table-container th,
+.table-container td {
   border: 1px solid #ddd;
+  padding: 8px;
   text-align: left;
-  padding: 8px 10px;
-}
-
-th {
-  background-color: #f5f5f5;
 }
 
 .no-data {
   text-align: center;
-  color: #666;
-  margin-top: 15px;
+  margin-top: 20px;
+  color: #777;
 }

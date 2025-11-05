@@ -104,9 +104,9 @@
     <!-- Category -->
     <div *ngIf="modalType==='category'">
       <label>Name</label>
-      <input [(ngModel)]="catName">
-      <label>Description</label>
-      <textarea [(ngModel)]="catDesc"></textarea>
+      <input type="text" [(ngModel)]="catName" placeholder="Category Name">
+<textarea [(ngModel)]="catDesc" placeholder="Description"></textarea>
+
     </div>
 
     <!-- Privilege -->
@@ -151,12 +151,20 @@
 
     <div class="modal-actions">
       <button class="btn-secondary" (click)="closeModal()">Cancel</button>
-      <button class="btn-success" (click)="
-        modalType==='category' ? saveCategory() : 
-        modalType==='privilege' ? savePrivilege() : savePatron()
-      ">Save</button>
+      <button class="btn-success" 
+        (click)="
+          modalType==='category' 
+            ? (editingIndex !== null ? updateCategory(editingIndex) : addCategory()) 
+            : modalType==='privilege' 
+              ? savePrivilege() 
+              : savePatron()
+        ">
+  {{ editingIndex !== null ? 'Update' : 'Add' }} {{ modalType | titlecase }}
+</button>
+
     </div>
   </div>
 </div>
 
 </div>
+<!-- modalType==='category' ? saveCategory() : -->

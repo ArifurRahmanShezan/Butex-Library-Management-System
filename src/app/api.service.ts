@@ -23,6 +23,14 @@ export class ApiService {
     return this.http.post<any>(`${this.baseUrl}/api/v1/library/patron-categorie-add`, category);
   }
 
+  deletePatronCategory(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library/patron-categorie-delete/${id}`);
+  }
+
+  updatePatronCategory(id: number, category: { name: string; description: string }): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/v1/library/patron-categorie-update/${id}`, category);
+  }
+
 
 
 

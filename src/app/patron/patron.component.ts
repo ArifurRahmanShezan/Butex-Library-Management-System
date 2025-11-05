@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../api.service'; // import your API service
 
 interface Category {
+  id:number;
   name: string;
   description: string;
 }
@@ -37,12 +39,8 @@ export class PatronComponent implements OnInit {
   modalType: 'category' | 'privilege' | 'patron' = 'category';
   editingIndex: number | null = null;
 
-  // Categories
-  categories: Category[] = [
-    { name: 'Student', description: 'For student borrowers' },
-    { name: 'Teacher', description: 'For teaching staff' },
-    { name: 'Researcher', description: 'External researchers' }
-  ];
+  // ================= Category =================
+  categories: Category[] = [];
   catName = '';
   catDesc = '';
 
@@ -72,10 +70,77 @@ export class PatronComponent implements OnInit {
   patronDept = 'Science';
   patronActive = false;
 
-  constructor() {}
+  constructor(private api: ApiService) {}
 
-  ngOnInit(): void {}
-  
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+
+  // ================= Load Categories =================
+  loadCategories() {
+    this.api.getPatronCategories().subscribe({
+      next: (res) => {
+        this.categories = res.payload;
+        console.log('Loaded categories:', this.categories);
+      },
+      error: (err) => {
+        console.error('Error loading categories:', err);
+      }
+    });
+  }
+
+  addCategory() {
+    if (this.catName.trim() && this.catDesc.trim()) {
+      const newCategory = { name: this.catName, description: this.catDesc };
+      this.api.addPatronCategory(newCategory).subscribe({
+        next: () => {
+          this.catName = '';
+          this.catDesc = '';
+          this.loadCategories(); // refresh list
+          this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error adding category:', err);
+        }
+      });
+    } else {
+      alert('Fill all fields.');
+    }
+  }
+deleteCategory(index: number) {
+  const categoryToDelete: Category | undefined = this.categories[index];
+  if (!categoryToDelete) return; // safety check
+
+  if (confirm(`Delete category "${categoryToDelete.name}"?`)) {
+    // Use the ID, not name
+    this.api.deletePatronCategory(categoryToDelete.id).subscribe({
+      next: () => {
+        alert(`Category "${categoryToDelete.name}" deleted successfully.`);
+        this.loadCategories(); // reload categories
+      },
+      error: (err) => {
+        console.error('Error deleting category:', err);
+        alert('Failed to delete category. Check console.');
+      }
+    });
+  }
+}
+
+updateCategory(index: number) {
+  const categoryToUpdate = this.categories[index];
+  const updatedCategory = { name: this.catName, description: this.catDesc };
+
+  this.api.updatePatronCategory(categoryToUpdate.id, updatedCategory).subscribe({
+    next: () => {
+      this.loadCategories(); // refresh the list
+      this.closeModal();     // close the modal
+    },
+    error: (err) => {
+      console.error('Error updating category:', err);
+      alert('Failed to update category. Check console.');
+    }
+  });
+}
 
   // ================= Tabs =================
   switchTab(tab: 'category' | 'privilege' | 'patron') {
@@ -135,20 +200,6 @@ export class PatronComponent implements OnInit {
   closeModal() {
     this.modalOpen = false;
   }
-  
-
-  // ================= Category =================
-  saveCategory() {
-    if (!this.catName || !this.catDesc) return alert('Fill all fields.');
-    const data: Category = { name: this.catName, description: this.catDesc };
-    if (this.editingIndex !== null) this.categories[this.editingIndex] = data;
-    else this.categories.push(data);
-    this.closeModal();
-  }
-
-  deleteCategory(index: number) {
-    if (confirm('Delete this category?')) this.categories.splice(index, 1);
-  }
 
   // ================= Privilege =================
   savePrivilege() {
@@ -181,4 +232,3 @@ export class PatronComponent implements OnInit {
     this.libraryId = id;
   }
 }
-

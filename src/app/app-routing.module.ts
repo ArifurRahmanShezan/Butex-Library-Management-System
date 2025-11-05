@@ -40,6 +40,7 @@ import { AuditReportComponent } from './audit-report/audit-report.component';
 import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-report.component';
 import { PatronCategoryComponent } from './patron-category/patron-category.component';
 import { PatronComponent } from './patron/patron.component';
+import { TrailComponent } from './trail/trail.component';
 
 
 
@@ -84,6 +85,7 @@ const routes: Routes = [
   { path: 'Acquisitions-Report', component: AcquisitionsReportComponent },
   { path: 'patrone-category', component: PatronCategoryComponent },
   { path: 'Patron', component: PatronComponent },
+  { path: 'trial', component: TrailComponent },
   
 
 ];

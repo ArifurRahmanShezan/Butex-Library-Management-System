@@ -45,6 +45,7 @@ import { PatronCategoryComponent } from './patron-category/patron-category.compo
 import { ApiService } from '../app/api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { PatronComponent } from './patron/patron.component';
+import { TrailComponent } from './trail/trail.component';
 
 
 
@@ -91,6 +92,7 @@ import { PatronComponent } from './patron/patron.component';
     AcquisitionsReportComponent,
     PatronCategoryComponent,
     PatronComponent,
+    TrailComponent,
 
     // PatronCategoryComponent
   ],

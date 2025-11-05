@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/api.service';
 
 interface TableItem {
   name: string;
@@ -7,6 +8,7 @@ interface TableItem {
 }
 
 interface Department {
+  id?: number;
   name: string;
   code: string;
 }
@@ -16,22 +18,55 @@ interface Department {
   templateUrl: './patron-management.component.html',
   styleUrls: ['./patron-management.component.css']
 })
-export class PatronManagementComponent {
+export class PatronManagementComponent implements OnInit {
   activeTab: string = 'patron';
   message: string = '';
 
   categories: string[] = ['Student', 'Faculty', 'Staff'];
-  departments: Department[] = [];
+
+  departments: Department[] = [
+    { id: 1, name: 'Mathematics', code: 'MATH' },
+    { id: 2, name: 'Computer Science', code: 'CS' },
+    { id: 3, name: 'Physics', code: 'PHY' },
+    { id: 4, name: 'uju', code: 'hhh' }
+  ];
 
   tableData: TableItem[] = [];
+  courses: any[] = [];
 
   patron = { name: '', id: '', category: '' };
   department = { name: '', code: '' };
-  course = { name: '', department: '' };
+  course = { name: '', code: '', departmentId: 0, description: '' };
   category = { name: '', limit: '' };
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    if (this.activeTab === 'course') {
+      this.loadCourses();
+    }
+  }
 
   setTab(tab: string) {
     this.activeTab = tab;
+    if (tab === 'course') {
+      this.loadCourses();
+    }
+  }
+
+  // ✅ Load courses (matches your plain array response)
+  loadCourses() {
+    this.apiService.getCourses().subscribe({
+      next: (res) => {
+        console.log('API Response:', res); // 🔍 for debugging
+        this.courses = res || [];
+        this.showMessage('✅ Courses loaded successfully!');
+      },
+      error: (err) => {
+        console.error('Error fetching courses:', err);
+        this.showMessage('❌ Failed to load courses!');
+      }
+    });
   }
 
   addPatron() {
@@ -57,15 +92,24 @@ export class PatronManagementComponent {
     this.department = { name: '', code: '' };
   }
 
+  // ✅ Add new course
   addCourse() {
-    if (!this.course.name || !this.course.department) return;
-    this.tableData.push({
-      name: this.course.name,
-      value: this.course.department,
-      type: 'Course'
+    if (!this.course.name || !this.course.code || !this.course.departmentId) {
+      this.showMessage('⚠️ Please fill in all required fields.');
+      return;
+    }
+
+    this.apiService.addCourse(this.course).subscribe({
+      next: () => {
+        this.showMessage('✅ Course added successfully!');
+        this.course = { name: '', code: '', departmentId: 0, description: '' };
+        this.loadCourses(); // refresh course list
+      },
+      error: (err) => {
+        console.error('Error adding course:', err);
+        this.showMessage('❌ Failed to add course!');
+      }
     });
-    this.showMessage('✅ Course added!');
-    this.course = { name: '', department: '' };
   }
 
   addCategory() {
@@ -81,6 +125,6 @@ export class PatronManagementComponent {
 
   private showMessage(msg: string) {
     this.message = msg;
-    setTimeout(() => this.message = '', 2000);
+    setTimeout(() => (this.message = ''), 2000);
   }
 }

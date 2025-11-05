@@ -57,7 +57,60 @@ export class ApiService {
 
 
 
+
+  //patrone course
+  // ✅ Get all courses (API returns array directly)
+  getCourses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/patron/courses`);
+  }
+
+  // ✅ Add a new course
+  addCourse(course: {
+    name: string;
+    code: string;
+    departmentId: number;
+    description: string;
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/v1/library/patron/course`,
+      course
+    );
+  }
+
+  // ✅ Add new patron (the endpoint you asked for)
+  addPatron(patron: {
+    libraryId: string;
+    name: string;
+    email: string;
+    patronCategory: { id: number };
+    department: { id: number };
+    active: boolean;
+  }): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/v1/library/patron-Management`,
+      patron
+    );
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

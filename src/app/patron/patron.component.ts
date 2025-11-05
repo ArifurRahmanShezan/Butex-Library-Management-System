@@ -7,13 +7,12 @@ interface Category {
   description: string;
 }
 
-interface Privilege {
-  category: string;
-  maxBorrow: number;
-  duration: number;
-  fine: number;
-  renewal: number;
-  active: boolean;
+interface PrivilegeEntry {
+  categoryId: number;
+  categoryName: string;
+  maxItemsOnLoan: number;
+  loanPeriodDays: number;
+  maxRenewals: number;
 }
 
 interface Patron {
@@ -45,18 +44,14 @@ export class PatronComponent implements OnInit {
   catDesc = '';
 
   // Privileges
-  privileges: Privilege[] = [
-    { category: 'Student', maxBorrow: 3, duration: 14, fine: 0.5, renewal: 2, active: true },
-    { category: 'Teacher', maxBorrow: 5, duration: 30, fine: 0.2, renewal: 3, active: true },
-    { category: 'Researcher', maxBorrow: 6, duration: 45, fine: 0.1, renewal: 4, active: true },
-  ];
-  privCategory = '';
-  maxBorrow!: number;
-  duration!: number;
-  fine!: number;
-  renewal!: number;
-  privActive = false;
-
+ 
+matrix: PrivilegeEntry[] = [];
+selectedCategoryId: number | null = null;
+loanPeriodDays: number | null = null;
+maxRenewals: number | null = null;
+maxItemsOnLoan: number | null = null;
+msg: string = '';
+msgType: 'success' | 'error' = 'success';
   // Patrons
   patrons: Patron[] = [
     { libraryId: 'LIB001', name: 'John Doe', email: 'johndoe@example.com', category: 'Student', department: 'Science', active: true },
@@ -69,11 +64,13 @@ export class PatronComponent implements OnInit {
   patronCategory = '';
   patronDept = 'Science';
   patronActive = false;
+privileges: any;
 
   constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.loadCategories();
+    this.getAllPrivileges();
   }
 
   // ================= Load Categories =================
@@ -141,7 +138,68 @@ updateCategory(index: number) {
     }
   });
 }
+// Get all categories
+getAllPatronCategory(): void {
+  this.api.getPatronCategories().subscribe({
+    next: (res) => this.categories = res.payload,
+    error: (err) => console.error('Error loading categories:', err)
+  });
+}
 
+// Get all privileges
+getAllPrivileges(): void {
+  this.api.getPatronPrivileges().subscribe({
+    next: (res) => {
+      const privileges = res.payload ?? res;
+      this.matrix = privileges.map((p: any) => ({
+        categoryId: p.patronCategory?.id,
+        categoryName: p.patronCategory?.name || 'N/A',
+        maxItemsOnLoan: p.maxItemsOnLoan,
+        loanPeriodDays: p.loanPeriodDays,
+        maxRenewals: p.maxRenewals
+      }));
+    },
+    error: (err) => console.error('Error loading privileges:', err)
+  });
+}
+
+// Submit privilege form
+submitPrivilege(): void {
+  if (!this.selectedCategoryId || !this.loanPeriodDays || !this.maxRenewals || !this.maxItemsOnLoan) {
+    this.msg = '⚠️ Please fill all required fields!';
+    this.msgType = 'error';
+    return;
+  }
+
+  const payload = {
+    patronCategory: { id: Number(this.selectedCategoryId) },
+    loanPeriodDays: this.loanPeriodDays,
+    maxRenewals: this.maxRenewals,
+    maxItemsOnLoan: this.maxItemsOnLoan
+  };
+
+  this.api.setPatronPrivileges(payload).subscribe({
+    next: (res) => {
+      this.msg = '✅ Privilege added successfully!';
+      this.msgType = 'success';
+      this.getAllPrivileges(); // refresh table
+      this.closeModal();
+
+      // Reset form
+      this.selectedCategoryId = null;
+      this.loanPeriodDays = null;
+      this.maxRenewals = null;
+      this.maxItemsOnLoan = null;
+
+      setTimeout(() => this.msg = '', 3000);
+    },
+    error: (err) => {
+      console.error('Error adding privilege:', err);
+      this.msg = '❌ Failed to add privilege.';
+      this.msgType = 'error';
+    }
+  });
+}
   // ================= Tabs =================
   switchTab(tab: 'category' | 'privilege' | 'patron') {
     this.currentTab = tab;
@@ -156,12 +214,10 @@ updateCategory(index: number) {
     // Reset fields
     this.catName = '';
     this.catDesc = '';
-    this.privCategory = '';
-    this.maxBorrow = 0;
-    this.duration = 0;
-    this.fine = 0;
-    this.renewal = 0;
-    this.privActive = false;
+    this.selectedCategoryId = null;
+    this.loanPeriodDays = null;
+    this.maxRenewals = null;
+    this.maxItemsOnLoan = null;
     this.libraryId = '';
     this.patronName = '';
     this.patronEmail = '';
@@ -176,13 +232,11 @@ updateCategory(index: number) {
         this.catName = cat.name;
         this.catDesc = cat.description;
       } else if (type === 'privilege') {
-        const priv = this.privileges[index];
-        this.privCategory = priv.category;
-        this.maxBorrow = priv.maxBorrow;
-        this.duration = priv.duration;
-        this.fine = priv.fine;
-        this.renewal = priv.renewal;
-        this.privActive = priv.active;
+        const priv = this.matrix[index];
+        this.selectedCategoryId = priv.categoryId;
+        this.loanPeriodDays = priv.loanPeriodDays;
+        this.maxRenewals = priv.maxRenewals;
+        this.maxItemsOnLoan = priv.maxItemsOnLoan;
       } else if (type === 'patron') {
         const patron = this.patrons[index];
         this.libraryId = patron.libraryId;
@@ -202,17 +256,7 @@ updateCategory(index: number) {
   }
 
   // ================= Privilege =================
-  savePrivilege() {
-    if (!this.privCategory || !this.maxBorrow || !this.duration || !this.fine || !this.renewal) return alert('Fill all fields.');
-    const data: Privilege = { category: this.privCategory, maxBorrow: this.maxBorrow, duration: this.duration, fine: this.fine, renewal: this.renewal, active: this.privActive };
-    if (this.editingIndex !== null) this.privileges[this.editingIndex] = data;
-    else this.privileges.push(data);
-    this.closeModal();
-  }
-
-  deletePrivilege(index: number) {
-    if (confirm('Delete this privilege?')) this.privileges.splice(index, 1);
-  }
+ 
 
   // ================= Patron =================
   savePatron() {

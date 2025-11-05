@@ -9,15 +9,29 @@ export class ApiService {
   private baseUrl = 'http://192.168.30.234:8080';
 
   constructor(private http: HttpClient) {}
-getPatronCategories(): Observable<{ status: string; payload: any[] }> {
+
+  // ✅ Get all patron categories
+  getPatronCategories(): Observable<{ status: string; payload: any[] }> {
   return this.http.get<{ status: string; payload: any[] }>(
     `${this.baseUrl}/api/v1/library/patron-categories`
   );
 }
 
-
+  
   // ✅ Add a new patron category
   addPatronCategory(category: { name: string; description: string }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/api/v1/library/patron-categorie-add`, category);
   }
+
+  // add privillege
+  setPatronPrivileges(data: {
+    patronCategory: { id: number },
+    maxBooksAllowed: number,
+    borrowDurationDays: number,
+    finePerDay: number
+  }): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/v1/library/patron/privileges-Management`, data);
+  }
 }
+
+

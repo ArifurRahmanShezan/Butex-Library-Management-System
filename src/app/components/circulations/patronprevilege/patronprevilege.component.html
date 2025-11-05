@@ -1,29 +1,30 @@
 <div class="container">
   <h2>👥 Patron and Privilege Management</h2>
+
   <div *ngIf="msg" [ngClass]="{'success': msgType==='success', 'error': msgType==='error'}">{{ msg }}</div>
 
   <form (ngSubmit)="submitForm()">
     <div>
       <label>Patron Category <span style="color:red">*</span></label>
-      <select [(ngModel)]="selectedCategory" name="category" required>
+      <select [(ngModel)]="selectedCategoryId" name="category" required>
         <option value="">Select Category</option>
-        <option *ngFor="let cat of categories">{{ cat }}</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
       </select>
     </div>
 
     <div>
-      <label>Loan Limit (Books)</label>
-      <input type="number" [(ngModel)]="loanLimit" name="loanLimit" placeholder="Enter loan limit">
+      <label>Loan Limit (Books) *</label>
+      <input type="number" [(ngModel)]="maxBooksAllowed" name="loanLimit" placeholder="Enter loan limit" required>
     </div>
 
     <div>
-      <label>Privileges</label>
-      <div class="privileges">
-        <label *ngFor="let priv of privilegesList">
-          <input type="checkbox" [value]="priv" (change)="togglePrivilege(priv, $event)">
-          {{ priv }}
-        </label>
-      </div>
+      <label>Borrow Duration (Days) *</label>
+      <input type="number" [(ngModel)]="borrowDurationDays" name="borrowDurationDays" placeholder="Enter duration" required>
+    </div>
+
+    <div>
+      <label>Fine Per Day *</label>
+      <input type="number" [(ngModel)]="finePerDay" name="finePerDay" placeholder="Enter fine per day" required>
     </div>
 
     <button type="submit">Submit</button>
@@ -35,15 +36,18 @@
       <tr>
         <th>Patron Category</th>
         <th>Loan Limit</th>
-        <th>Privileges</th>
+        <th>Borrow Duration</th>
+        <th>Fine Per Day</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let entry of matrix">
-        <td>{{ entry.category }}</td>
-        <td>{{ entry.loanLimit }}</td>
-        <td>{{ entry.privileges }}</td>
+        <td>{{ entry.categoryName }}</td>
+        <td>{{ entry.maxBooksAllowed }}</td>
+        <td>{{ entry.borrowDurationDays }}</td>
+        <td>{{ entry.finePerDay }}</td>
       </tr>
     </tbody>
   </table>
 </div>
+ 

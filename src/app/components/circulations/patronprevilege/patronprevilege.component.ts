@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/api.service';
+
 interface PrivilegeEntry {
-  category: string;
-  loanLimit: string;
-  privileges: string;
+  categoryId: number;
+  categoryName: string;
+  maxBooksAllowed: number;
+  borrowDurationDays: number;
+  finePerDay: number;
 }
 
 @Component({
@@ -10,22 +14,21 @@ interface PrivilegeEntry {
   templateUrl: './patronprevilege.component.html',
   styleUrls: ['./patronprevilege.component.css']
 })
-export class PatronprevilegeComponent {
+export class PatronprevilegeComponent implements OnInit {
 
-  categories: string[] = ['Student', 'Faculty', 'Staff', 'Guest'];
-  privilegesList: string[] = [
-    'Renew Books',
-    'Reserve Books',
-    'Access E-Resources',
-    'Late Fee Waiver',
-    'Interlibrary Loan',
-    'Priority Borrowing'
+  // Categories
+  categories: { id: number; name: string }[] = [
+    { id: 1, name: 'Student' },
+    { id: 2, name: 'Faculty' },
+    { id: 3, name: 'Staff' },
+    { id: 4, name: 'Guest' }
   ];
 
-  // Form model
-  selectedCategory: string = '';
-  loanLimit: number | null = null;
-  selectedPrivileges: string[] = [];
+  // Form fields
+  selectedCategoryId: number | null = null;
+  maxBooksAllowed: number | null = null;
+  borrowDurationDays: number | null = null;
+  finePerDay: number | null = null;
 
   // Table data
   matrix: PrivilegeEntry[] = [];
@@ -34,41 +37,68 @@ export class PatronprevilegeComponent {
   msg: string = '';
   msgType: 'success' | 'error' = 'success';
 
+  constructor(private api: ApiService) {}
+
+  ngOnInit(): void {}
+
+
+  
+
+
+
+  
+  // Toggle form submission
   submitForm() {
-    if (!this.selectedCategory) {
-      this.msg = "Please select a category!";
+    // Validation
+    if (
+      this.selectedCategoryId === null ||
+      this.maxBooksAllowed === null ||
+      this.borrowDurationDays === null ||
+      this.finePerDay === null
+    ) {
+      this.msg = 'Please fill in all required fields!';
       this.msgType = 'error';
       return;
     }
 
-    const privileges = this.selectedPrivileges.length ? this.selectedPrivileges.join(', ') : 'None';
-    const loanLimitText = this.loanLimit !== null ? this.loanLimit.toString() : 'N/A';
+    // Prepare payload for API
+    const payload = {
+      patronCategory: { id: this.selectedCategoryId },
+      maxBooksAllowed: this.maxBooksAllowed,
+      borrowDurationDays: this.borrowDurationDays,
+      finePerDay: this.finePerDay
+    };
 
-    this.matrix.push({
-      category: this.selectedCategory,
-      loanLimit: loanLimitText,
-      privileges: privileges
+    this.api.setPatronPrivileges(payload).subscribe({
+      next: () => {
+        const categoryName =
+          this.categories.find(c => c.id === this.selectedCategoryId)?.name || '';
+
+        // Add to local table
+        this.matrix.push({
+          categoryId: this.selectedCategoryId!,
+          categoryName: categoryName,
+          maxBooksAllowed: this.maxBooksAllowed!,
+          borrowDurationDays: this.borrowDurationDays!,
+          finePerDay: this.finePerDay!
+        });
+
+        this.msg = 'Patron privileges saved successfully!';
+        this.msgType = 'success';
+
+        // Reset form
+        this.selectedCategoryId = null;
+        this.maxBooksAllowed = null;
+        this.borrowDurationDays = null;
+        this.finePerDay = null;
+
+        setTimeout(() => (this.msg = ''), 2500);
+      },
+      error: err => {
+        console.error(err);
+        this.msg = 'Failed to save patron privileges!';
+        this.msgType = 'error';
+      }
     });
-
-    this.msg = "Privilege matrix updated successfully!";
-    this.msgType = 'success';
-
-    // Reset form
-    this.selectedCategory = '';
-    this.loanLimit = null;
-    this.selectedPrivileges = [];
-
-    // Clear message after 2.5 seconds
-    setTimeout(() => this.msg = '', 2500);
-  }
-
-  togglePrivilege(priv: string, event: any) {
-    if (event.target.checked) {
-      this.selectedPrivileges.push(priv);
-    } else {
-      this.selectedPrivileges = this.selectedPrivileges.filter(p => p !== priv);
-    }
   }
 }
-
-

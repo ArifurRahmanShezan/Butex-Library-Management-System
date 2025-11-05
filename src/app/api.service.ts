@@ -105,7 +105,7 @@ export class ApiService {
 
 
 
-// ✅ GET all templates
+  // ✅ GET all templates
   getTemplates(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/templates`);
   }
@@ -117,7 +117,10 @@ export class ApiService {
 
 
 
-
+  // ✅ POST catalog record
+  addCatalogRecord(record: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/v1/library/cataloging/records`, record);
+  }
 
 
 

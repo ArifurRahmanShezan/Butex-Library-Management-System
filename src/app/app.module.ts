@@ -47,6 +47,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PatronComponent } from './patron/patron.component';
 import { TrailComponent } from './trail/trail.component';
 import { Trail2Component } from './trail-2/trail-2.component';
+import { Trail3Component } from './trail-3/trail-3.component';
 
 
 
@@ -95,6 +96,7 @@ import { Trail2Component } from './trail-2/trail-2.component';
     PatronComponent,
     TrailComponent,
     Trail2Component,
+    Trail3Component,
 
     // PatronCategoryComponent
   ],

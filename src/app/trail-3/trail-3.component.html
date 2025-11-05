@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>Catalog Record Submission</h2>
+  <div class="msg" *ngIf="message">{{ message }}</div>
+
+  <form (ngSubmit)="submitRecord()" class="record-form">
+    <label>Format *</label>
+    <select [(ngModel)]="record.format" name="format" required>
+      <option value="MARC21">MARC21</option>
+      <option value="DUBLIN_CORE">Dublin Core</option>
+      <option value="SERIAL">SERIAL</option>
+    </select>
+
+    
+
+    <label>Title *</label>
+    <input type="text" [(ngModel)]="record.title" name="title" required />
+
+    <label>Author *</label>
+    <input type="text" [(ngModel)]="record.author" name="author" required />
+
+    <label>ISBN *</label>
+    <input type="text" [(ngModel)]="record.isbn" name="isbn" required />
+
+    <label>Publisher</label>
+    <input type="text" [(ngModel)]="record.publisher" name="publisher" />
+
+    <label>Publication Year</label>
+    <input type="number" [(ngModel)]="record.publicationYear" name="publicationYear" />
+
+    <label>Raw MARC Content</label>
+    <textarea [(ngModel)]="record.rawContent" name="rawContent" rows="4"></textarea>
+
+    <button type="submit">Submit Record</button>
+  </form>
+</div>

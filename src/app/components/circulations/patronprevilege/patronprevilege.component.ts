@@ -4,9 +4,9 @@ import { ApiService } from 'src/app/api.service';
 interface PrivilegeEntry {
   categoryId: number;
   categoryName: string;
-  maxBooksAllowed: number;
-  borrowDurationDays: number;
-  finePerDay?: number;
+  maxItemsOnLoan: number;
+  loanPeriodDays: number;
+  maxRenewals: number;
 }
 
 @Component({
@@ -16,107 +16,92 @@ interface PrivilegeEntry {
 })
 export class PatronprevilegeComponent implements OnInit {
 
+  // Categories dropdown
   categories: { id: number; name: string }[] = [];
-  selectedCategoryId: number | null = null;
-  maxBooksAllowed: number | null = null;
-  borrowDurationDays: number | null = null;
-  finePerDay: number | null = null;
 
+  // Form fields
+  selectedCategoryId: number | null = null;
+  loanPeriodDays: number | null = null;
+  maxRenewals: number | null = null;
+  maxItemsOnLoan: number | null = null;
+
+  // Table data
   matrix: PrivilegeEntry[] = [];
 
+  // Status messages
   msg: string = '';
   msgType: 'success' | 'error' = 'success';
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.getAllPatronCategory();
-    this.getAllPrivileges(); // ✅ load privileges list
+    this.getAllPrivileges();
   }
 
-  // ✅ Fetch patron categories
+  // ✅ Get all patron categories
   getAllPatronCategory(): void {
     this.api.getPatronCategories().subscribe({
       next: (res) => {
         this.categories = res.payload;
       },
-      error: (err) => {
-        console.error('Error loading categories:', err);
-      }
+      error: (err) => console.error('Error loading categories:', err)
     });
   }
 
-  // ✅ Fetch existing privileges list
+  // ✅ Get all patron privileges
   getAllPrivileges(): void {
     this.api.getPatronPrivileges().subscribe({
       next: (res) => {
-        console.log('Privileges response:', res);
         const privileges = res.payload ?? res;
         this.matrix = privileges.map((p: any) => ({
           categoryId: p.patronCategory?.id,
           categoryName: p.patronCategory?.name || 'N/A',
-          maxBooksAllowed: p.maxItemsOnLoan,
-          borrowDurationDays: p.loanPeriodDays,
-          finePerDay: p.finePerDay ?? 0
+          maxItemsOnLoan: p.maxItemsOnLoan,
+          loanPeriodDays: p.loanPeriodDays,
+          maxRenewals: p.maxRenewals
         }));
       },
-      error: (err) => {
-        console.error('Error loading privileges:', err);
-      }
+      error: (err) => console.error('Error loading privileges:', err)
     });
   }
 
-  // ✅ Submit form & call backend
-  submitForm() {
-    if (!this.selectedCategoryId || !this.maxBooksAllowed || !this.borrowDurationDays || !this.finePerDay) {
-      this.msg = "Please fill all required fields!";
+  // ✅ Submit form (POST to backend)
+  submitForm(): void {
+    if (!this.selectedCategoryId || !this.loanPeriodDays || !this.maxRenewals || !this.maxItemsOnLoan) {
+      this.msg = '⚠️ Please fill all required fields!';
       this.msgType = 'error';
       return;
     }
 
-    const categoryIdNum = Number(this.selectedCategoryId);
-    const selectedCategory = this.categories.find(cat => cat.id === categoryIdNum);
-
-    if (!selectedCategory) {
-      this.msg = "Selected category not found!";
-      this.msgType = 'error';
-      return;
-    }
-
-    // ✅ Prepare data for API
     const payload = {
-      
-        patronCategory: { id: selectedCategory.id },
-        loanPeriodDays: this.borrowDurationDays,
-        maxRenewals: 2, // You can bind this dynamically later
-        maxItemsOnLoan: this.maxBooksAllowed
-      
-
+      patronCategory: { id: Number(this.selectedCategoryId) },
+      loanPeriodDays: this.loanPeriodDays,
+      maxRenewals: this.maxRenewals,
+      maxItemsOnLoan: this.maxItemsOnLoan
     };
 
-    // ✅ Save via API
     this.api.setPatronPrivileges(payload).subscribe({
       next: (res) => {
-        console.log('Privilege saved:', res);
-        this.msg = "Privilege saved successfully!";
+        this.msg = '✅ Privilege added successfully!';
         this.msgType = 'success';
-        this.getAllPrivileges(); // refresh table
-        this.resetForm();
+
+        // Refresh the list
+        this.getAllPrivileges();
+
+        // Reset form
+        this.selectedCategoryId = null;
+        this.loanPeriodDays = null;
+        this.maxRenewals = null;
+        this.maxItemsOnLoan = null;
+
+        setTimeout(() => this.msg = '', 3000);
       },
       error: (err) => {
-        console.error('Error saving privilege:', err);
-        this.msg = "Failed to save privilege!";
+        console.error('Error adding privilege:', err);
+        this.msg = '❌ Failed to add privilege.';
         this.msgType = 'error';
       }
     });
-  }
-
-  // ✅ Reset form
-  private resetForm(): void {
-    this.selectedCategoryId = null;
-    this.maxBooksAllowed = null;
-    this.borrowDurationDays = null;
-    this.finePerDay = null;
-    setTimeout(() => this.msg = '', 2500);
   }
 }

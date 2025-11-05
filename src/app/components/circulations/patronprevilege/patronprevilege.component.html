@@ -1,9 +1,7 @@
 <div class="container">
-  <h2>👥 Patron and Privilege Management</h2>
+  <h2>👥 Patron Privilege Management</h2>
 
-  <div *ngIf="msg" [ngClass]="{'success': msgType==='success', 'error': msgType==='error'}">
-    {{ msg }}
-  </div>
+  <div *ngIf="msg" [ngClass]="{'success': msgType==='success', 'error': msgType==='error'}">{{ msg }}</div>
 
   <form (ngSubmit)="submitForm()">
     <div>
@@ -15,39 +13,39 @@
     </div>
 
     <div>
-      <label>Loan Limit (Books) *</label>
-      <input type="number" [(ngModel)]="maxBooksAllowed" name="loanLimit" placeholder="Enter loan limit" required>
+      <label>Loan Period (Days) *</label>
+      <input type="number" [(ngModel)]="loanPeriodDays" name="loanPeriodDays" placeholder="Enter loan period" required>
     </div>
 
     <div>
-      <label>Borrow Duration (Days) *</label>
-      <input type="number" [(ngModel)]="borrowDurationDays" name="borrowDurationDays" placeholder="Enter duration" required>
+      <label>Max Renewals *</label>
+      <input type="number" [(ngModel)]="maxRenewals" name="maxRenewals" placeholder="Enter max renewals" required>
     </div>
 
     <div>
-      <label>Fine Per Day *</label>
-      <input type="number" [(ngModel)]="finePerDay" name="finePerDay" placeholder="Enter fine per day" required>
+      <label>Max Items on Loan *</label>
+      <input type="number" [(ngModel)]="maxItemsOnLoan" name="maxItemsOnLoan" placeholder="Enter loan limit" required>
     </div>
 
     <button type="submit">Submit</button>
   </form>
 
-  <h3 style="margin-top:30px;"> Privilege Matrix</h3>
+  <h3 style="margin-top:30px;">📋 Privilege Matrix</h3>
   <table>
     <thead>
       <tr>
         <th>Patron Category</th>
-        <th>Loan Limit</th>
-        <th>Borrow Duration</th>
-        <th>Fine Per Day</th>
+        <th>Loan Period (Days)</th>
+        <th>Max Renewals</th>
+        <th>Max Items on Loan</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let entry of matrix">
         <td>{{ entry.categoryName }}</td>
-        <td>{{ entry.maxBooksAllowed }}</td>
-        <td>{{ entry.borrowDurationDays }}</td>
-        <td>{{ entry.finePerDay }}</td>
+        <td>{{ entry.loanPeriodDays }}</td>
+        <td>{{ entry.maxRenewals }}</td>
+        <td>{{ entry.maxItemsOnLoan }}</td>
       </tr>
     </tbody>
   </table>

@@ -6,7 +6,7 @@ interface PrivilegeEntry {
   categoryName: string;
   maxBooksAllowed: number;
   borrowDurationDays: number;
-  finePerDay: number;
+  finePerDay?: number;
 }
 
 @Component({
@@ -16,24 +16,14 @@ interface PrivilegeEntry {
 })
 export class PatronprevilegeComponent implements OnInit {
 
-  // Categories
-  categories: { id: number; name: string }[] = [
-    { id: 1, name: 'Student' },
-    { id: 2, name: 'Faculty' },
-    { id: 3, name: 'Staff' },
-    { id: 4, name: 'Guest' }
-  ];
-
-  // Form fields
+  categories: { id: number; name: string }[] = [];
   selectedCategoryId: number | null = null;
   maxBooksAllowed: number | null = null;
   borrowDurationDays: number | null = null;
   finePerDay: number | null = null;
 
-  // Table data
   matrix: PrivilegeEntry[] = [];
 
-  // Success/Error message
   msg: string = '';
   msgType: 'success' | 'error' = 'success';
 
@@ -41,63 +31,89 @@ export class PatronprevilegeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPatronCategory();
+    this.getAllPrivileges(); // ✅ load privileges list
   }
 
-
-  
-
-
-
-  
-  // Toggle form submission
-  submitForm() {
-  if (!this.selectedCategoryId || !this.maxBooksAllowed || !this.borrowDurationDays || !this.finePerDay) {
-    this.msg = "Please fill all required fields!";
-    this.msgType = 'error';
-    return;
-  }
-
-  // Convert selectedCategoryId to number (because dropdown values are strings)
-  const categoryIdNum = Number(this.selectedCategoryId);
-
-  // Find the selected category object safely
-  const selectedCategory = this.categories.find(cat => cat.id === categoryIdNum);
-
-  if (!selectedCategory) {
-    this.msg = "Selected category not found!";
-    this.msgType = 'error';
-    return;
-  }
-
-  // Push to matrix
-  this.matrix.push({
-    categoryId: selectedCategory.id,
-    categoryName: selectedCategory.name,
-    maxBooksAllowed: this.maxBooksAllowed,
-    borrowDurationDays: this.borrowDurationDays,
-    finePerDay: this.finePerDay
-  });
-
-  // Reset form
-  this.selectedCategoryId = null;
-  this.maxBooksAllowed = null;
-  this.borrowDurationDays = null;
-  this.finePerDay = null;
-
-  this.msg = "Privilege matrix updated successfully!";
-  this.msgType = 'success';
-
-  setTimeout(() => this.msg = '', 2500);
-}
+  // ✅ Fetch patron categories
   getAllPatronCategory(): void {
     this.api.getPatronCategories().subscribe({
       next: (res) => {
-        this.categories = res.payload; // ✅ FIX: use payload
-        console.log('Loaded categories:', this.categories);
+        this.categories = res.payload;
       },
       error: (err) => {
         console.error('Error loading categories:', err);
       }
     });
+  }
+
+  // ✅ Fetch existing privileges list
+  getAllPrivileges(): void {
+    this.api.getPatronPrivileges().subscribe({
+      next: (res) => {
+        console.log('Privileges response:', res);
+        const privileges = res.payload ?? res;
+        this.matrix = privileges.map((p: any) => ({
+          categoryId: p.patronCategory?.id,
+          categoryName: p.patronCategory?.name || 'N/A',
+          maxBooksAllowed: p.maxItemsOnLoan,
+          borrowDurationDays: p.loanPeriodDays,
+          finePerDay: p.finePerDay ?? 0
+        }));
+      },
+      error: (err) => {
+        console.error('Error loading privileges:', err);
+      }
+    });
+  }
+
+  // ✅ Submit form & call backend
+  submitForm() {
+    if (!this.selectedCategoryId || !this.maxBooksAllowed || !this.borrowDurationDays || !this.finePerDay) {
+      this.msg = "Please fill all required fields!";
+      this.msgType = 'error';
+      return;
+    }
+
+    const categoryIdNum = Number(this.selectedCategoryId);
+    const selectedCategory = this.categories.find(cat => cat.id === categoryIdNum);
+
+    if (!selectedCategory) {
+      this.msg = "Selected category not found!";
+      this.msgType = 'error';
+      return;
+    }
+
+    // ✅ Prepare data for API
+    const payload = {
+      patronCategory: { id: selectedCategory.id },
+      maxBooksAllowed: this.maxBooksAllowed,
+      borrowDurationDays: this.borrowDurationDays,
+      finePerDay: this.finePerDay
+    };
+
+    // ✅ Save via API
+    this.api.setPatronPrivileges(payload).subscribe({
+      next: (res) => {
+        console.log('Privilege saved:', res);
+        this.msg = "Privilege saved successfully!";
+        this.msgType = 'success';
+        this.getAllPrivileges(); // refresh table
+        this.resetForm();
+      },
+      error: (err) => {
+        console.error('Error saving privilege:', err);
+        this.msg = "Failed to save privilege!";
+        this.msgType = 'error';
+      }
+    });
+  }
+
+  // ✅ Reset form
+  private resetForm(): void {
+    this.selectedCategoryId = null;
+    this.maxBooksAllowed = null;
+    this.borrowDurationDays = null;
+    this.finePerDay = null;
+    setTimeout(() => this.msg = '', 2500);
   }
 }

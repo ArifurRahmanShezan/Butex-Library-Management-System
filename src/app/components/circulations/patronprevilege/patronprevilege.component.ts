@@ -27,7 +27,7 @@ export class PatronprevilegeComponent implements OnInit {
   msg: string = '';
   msgType: 'success' | 'error' = 'success';
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     this.getAllPatronCategory();
@@ -85,10 +85,13 @@ export class PatronprevilegeComponent implements OnInit {
 
     // ✅ Prepare data for API
     const payload = {
-      patronCategory: { id: selectedCategory.id },
-      maxBooksAllowed: this.maxBooksAllowed,
-      borrowDurationDays: this.borrowDurationDays,
-      finePerDay: this.finePerDay
+      
+        patronCategory: { id: selectedCategory.id },
+        loanPeriodDays: this.borrowDurationDays,
+        maxRenewals: 2, // You can bind this dynamically later
+        maxItemsOnLoan: this.maxBooksAllowed
+      
+
     };
 
     // ✅ Save via API

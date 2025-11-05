@@ -37,16 +37,19 @@ export class ApiService {
   // add privillege
   setPatronPrivileges(data: {
     patronCategory: { id: number },
-    maxBooksAllowed: number,
-    borrowDurationDays: number,
-    finePerDay: number
+    loanPeriodDays: number,
+    maxRenewals: number,
+    maxItemsOnLoan: number
   }): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/api/v1/library/patron/privileges-Management`, data);
+    return this.http.post<any>(
+      `${this.baseUrl}/api/v1/library/patron/privileges-Management`,
+      data
+    );
   }
+
+
+
 }
-
-
-
 
 
 

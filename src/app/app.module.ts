@@ -43,6 +43,8 @@ import { AcquisitionsReportComponent } from './acquisitions-report/acquisitions-
 import { PatronCategoryComponent } from './patron-category/patron-category.component';
 // import { PatronCategoryComponent } from './patron-category/patron-category.component';
 import { ApiService } from '../app/api.service';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -91,7 +93,8 @@ import { ApiService } from '../app/api.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
    providers: [ApiService],
   bootstrap: [AppComponent]

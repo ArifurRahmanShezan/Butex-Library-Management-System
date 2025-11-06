@@ -43,6 +43,7 @@ import { PatronComponent } from './patron/patron.component';
 import { TrailComponent } from './trail/trail.component';
 import { Trail2Component } from './trail-2/trail-2.component';
 import { Trail3Component } from './trail-3/trail-3.component';
+import { Trail4Component } from './trail-4/trail-4.component';
 
 
 
@@ -90,6 +91,7 @@ const routes: Routes = [
   { path: 'trial', component: TrailComponent },
   { path: 'trial-2', component: Trail2Component },
   { path: 'trial-3', component: Trail3Component },
+  { path: 'trial-4', component: Trail4Component },
   
 
 ];

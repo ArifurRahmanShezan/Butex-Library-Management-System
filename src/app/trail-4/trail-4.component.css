@@ -1,0 +1,54 @@
+.container {
+  max-width: auto;
+  margin: 40px 40px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.msg {
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.item-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+input,
+select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+button {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

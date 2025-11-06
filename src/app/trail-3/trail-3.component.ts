@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/api.service';
 
 @Component({
@@ -6,26 +6,52 @@ import { ApiService } from 'src/app/api.service';
   templateUrl: './trail-3.component.html',
   styleUrls: ['./trail-3.component.css']
 })
-export class Trail3Component {
+export class Trail3Component implements OnInit {
   message: string = '';
+  templates: any[] = []; // 🆕 Store available cataloging templates
 
   record = {
-    format: ['MARC21', 'DUBLIN_CORE', 'SERIAL'], // default value
+    format: ['MARC21', 'DUBLIN_CORE', 'SERIAL'],
     title: '',
     author: '',
     isbn: '',
     publisher: '',
     publicationYear: '',
-    rawContent: ''
+    rawContent: '',
+    catalogingTemplate: {
+      id: 0
+    }
   };
 
   constructor(private apiService: ApiService) {}
 
-  // ✅ Submit catalog record
+  ngOnInit(): void {
+    this.loadTemplates();
+  }
+
+  // ✅ Load templates from API
+  loadTemplates() {
+    this.apiService.getTemplates().subscribe({
+      next: (res) => {
+        this.templates = res || [];
+        console.log('Templates loaded:', this.templates);
+      },
+      error: (err) => {
+        console.error('Error loading templates:', err);
+        this.showMessage('❌ Failed to load templates.');
+      }
+    });
+  }
+
+  // ✅ Submit record
   submitRecord() {
-    // Basic validation
-    if (!this.record.title || !this.record.author || !this.record.isbn) {
-      this.showMessage('⚠️ Please fill in required fields.');
+    if (
+      !this.record.title ||
+      !this.record.author ||
+      !this.record.isbn ||
+      !this.record.catalogingTemplate.id
+    ) {
+      this.showMessage('⚠️ Please fill in all required fields.');
       return;
     }
 
@@ -55,7 +81,10 @@ export class Trail3Component {
       isbn: '',
       publisher: '',
       publicationYear: '',
-      rawContent: ''
+      rawContent: '',
+      catalogingTemplate: {
+        id: 0
+      }
     };
   }
 }

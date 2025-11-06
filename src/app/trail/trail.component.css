@@ -1,6 +1,6 @@
 .trail-container {
-  max-width: 450px;
-  margin: 40px auto;
+  max-width: auto;
+  margin: 40px 40px;
   padding: 25px;
   background: #ffffff;
   border-radius: 8px;

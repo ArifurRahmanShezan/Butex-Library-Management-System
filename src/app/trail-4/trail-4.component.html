@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Add Catalog Item</h2>
+  <div class="msg" *ngIf="message">{{ message }}</div>
+
+  <form (ngSubmit)="submitItem()" class="item-form">
+    <label>Accession Number *</label>
+    <input type="text" [(ngModel)]="item.accessionNumber" name="accessionNumber" required />
+
+    <label>Barcode *</label>
+    <input type="text" [(ngModel)]="item.barcode" name="barcode" required />
+
+    <!-- 🆕 Dropdown for bibliographicRecord -->
+    <label>Bibliographic Record *</label>
+    <select [(ngModel)]="item.bibliographicRecord.id" name="recordId" required>
+      <option value="">Select Record</option>
+      <option *ngFor="let rec of records" [value]="rec.id">
+        {{ rec.title }}
+      </option>
+    </select>
+
+    <label>Location *</label>
+    <input type="text" [(ngModel)]="item.location" name="location" required />
+
+    <label>Status</label>
+    <select [(ngModel)]="item.status" name="status">
+      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+    </select>
+
+    <label>Price</label>
+    <input type="number" [(ngModel)]="item.price" name="price" min="0" />
+
+    <label>Acquisition Source</label>
+    <input type="text" [(ngModel)]="item.acquisitionSource" name="acquisitionSource" />
+
+    <button type="submit">Submit Item</button>
+  </form>
+</div>

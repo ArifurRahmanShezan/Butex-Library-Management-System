@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Catalog Record Submission</h2>
+  <h2> Catalog Record Submission</h2>
   <div class="msg" *ngIf="message">{{ message }}</div>
 
   <form (ngSubmit)="submitRecord()" class="record-form">
@@ -9,8 +9,6 @@
       <option value="DUBLIN_CORE">Dublin Core</option>
       <option value="SERIAL">SERIAL</option>
     </select>
-
-    
 
     <label>Title *</label>
     <input type="text" [(ngModel)]="record.title" name="title" required />
@@ -26,6 +24,15 @@
 
     <label>Publication Year</label>
     <input type="number" [(ngModel)]="record.publicationYear" name="publicationYear" />
+
+    <!-- 🆕 Dropdown for templates -->
+    <label>Cataloging Template *</label>
+    <select [(ngModel)]="record.catalogingTemplate.id" name="templateId" required>
+      <option value="">Select Template</option>
+      <option *ngFor="let tmpl of templates" [value]="tmpl.id">
+        {{ tmpl.name }}
+      </option>
+    </select>
 
     <label>Raw MARC Content</label>
     <textarea [(ngModel)]="record.rawContent" name="rawContent" rows="4"></textarea>

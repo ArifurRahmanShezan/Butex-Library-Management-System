@@ -16,7 +16,7 @@ export class Trail4Component implements OnInit {
     barcode: '',
     bibliographicRecord: { id: 0 },
     location: '',
-    status: 'IN_PROCESS',
+    status: '',
     price: 0,
     acquisitionSource: ''
   };

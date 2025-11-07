@@ -1,28 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../api.service'; // import your API service
+import { ApiService } from '../api.service';
 
 interface Category {
-  id:number;
+  id: number;
   name: string;
   description: string;
 }
 
 interface PrivilegeEntry {
-   id: number;
+  id: number;
   categoryId: number;
   categoryName: string;
   maxItemsOnLoan: number;
   loanPeriodDays: number;
   maxRenewals: number;
-}
-
-interface Patron {
-  libraryId: string;
-  name: string;
-  email: string;
-  category: string;
-  department: string;
-  active: boolean;
 }
 
 @Component({
@@ -39,264 +30,252 @@ export class PatronComponent implements OnInit {
   modalType: 'category' | 'privilege' | 'patron' = 'category';
   editingIndex: number | null = null;
 
-  // ================= Category =================
+  // Categories
   categories: Category[] = [];
   catName = '';
   catDesc = '';
 
   // Privileges
- 
-matrix: PrivilegeEntry[] = [];
-selectedCategoryId: number | null = null;
-loanPeriodDays: number | null = null;
-maxRenewals: number | null = null;
-maxItemsOnLoan: number | null = null;
-msg: string = '';
-msgType: 'success' | 'error' = 'success';
-  // Patrons
-  patrons: Patron[] = [
-    { libraryId: 'LIB001', name: 'John Doe', email: 'johndoe@example.com', category: 'Student', department: 'Science', active: true },
-    { libraryId: 'LIB002', name: 'Mary Smith', email: 'marysmith@example.com', category: 'Teacher', department: 'Arts', active: true },
-    { libraryId: 'LIB003', name: 'David Lee', email: 'davidlee@example.com', category: 'Researcher', department: 'Engineering', active: true },
-  ];
-  libraryId = '';
-  patronName = '';
-  patronEmail = '';
-  patronCategory = '';
-  patronDept = 'Science';
-  patronActive = false;
-privileges: any;
+  matrix: PrivilegeEntry[] = [];
+  selectedCategoryId: number | null = null;
+  loanPeriodDays: number | null = null;
+  maxRenewals: number | null = null;
+  maxItemsOnLoan: number | null = null;
 
-  constructor(private api: ApiService) {}
+  // Patrons
+  patrons: any[] = [];
+  libraryId = '';
+  name = '';
+  email = '';
+  selectedCategory: number | null = null;
+  selectedDepartment: number | null = null;
+  active = true;
+  patronCategories: any[] = [];
+  departments: any[] = [];
+
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     this.loadCategories();
     this.getAllPrivileges();
+    this.loadPatronCategories();
+    this.loadDepartments();
+    this.loadPatrons();
   }
 
-  // ================= Load Categories =================
+  // ================= CATEGORY =================
   loadCategories() {
     this.api.getPatronCategories().subscribe({
-      next: (res) => {
-        this.categories = res.payload;
-        console.log('Loaded categories:', this.categories);
-      },
-      error: (err) => {
-        console.error('Error loading categories:', err);
-      }
+      next: (res) => (this.categories = res.payload),
+      error: (err) => console.error('Error loading categories:', err)
     });
   }
 
   addCategory() {
-    if (this.catName.trim() && this.catDesc.trim()) {
-      const newCategory = { name: this.catName, description: this.catDesc };
-      this.api.addPatronCategory(newCategory).subscribe({
-        next: () => {
-          this.catName = '';
-          this.catDesc = '';
-          this.loadCategories(); // refresh list
-          this.closeModal();
-        },
-        error: (err) => {
-          console.error('Error adding category:', err);
-        }
-      });
-    } else {
+    if (!this.catName.trim() || !this.catDesc.trim()) {
       alert('Fill all fields.');
+      return;
     }
-  }
-deleteCategory(index: number) {
-  const categoryToDelete = this.categories[index];
-  if (!categoryToDelete) return;
-
-  if (confirm(`Delete category "${categoryToDelete.name}"?`)) {
-    this.api.deletePatronCategory(categoryToDelete.id).subscribe({
+    const newCategory = { name: this.catName, description: this.catDesc };
+    this.api.addPatronCategory(newCategory).subscribe({
       next: () => {
-        alert(`Category "${categoryToDelete.name}" deleted successfully.`);
+        this.catName = '';
+        this.catDesc = '';
         this.loadCategories();
+        this.closeModal();
       },
-      error: (err) => {
-        console.error('Error deleting category:', err);
-        if (err.status === 500) {
-          alert(`Cannot delete "${categoryToDelete.name}" because it is linked to privileges or patrons.`);
-        } else {
-          alert('Failed to delete category. Check console.');
-        }
-      }
+      error: (err) => console.error('Error adding category:', err)
     });
   }
-}
 
-updateCategory(index: number) {
-  const categoryToUpdate = this.categories[index];
-  const updatedCategory = { name: this.catName, description: this.catDesc };
-
-  this.api.updatePatronCategory(categoryToUpdate.id, updatedCategory).subscribe({
-    next: () => {
-      this.loadCategories(); // refresh the list
-      this.closeModal();     // close the modal
-    },
-    error: (err) => {
-      console.error('Error updating category:', err);
-      alert('Failed to update category. Check console.');
-    }
-  });
-}
-// Get all categories
-getAllPatronCategory(): void {
-  this.api.getPatronCategories().subscribe({
-    next: (res) => this.categories = res.payload,
-    error: (err) => console.error('Error loading categories:', err)
-  });
-}
-
-// Get all privileges
-getAllPrivileges(): void {
-  this.api.getPatronPrivileges().subscribe({
-    next: (res) => {
-      const privileges = res.payload ?? res;
-      this.matrix = privileges.map((p: any) => ({
-        id: p.id,
-        categoryId: p.patronCategory?.id,
-        categoryName: p.patronCategory?.name || 'N/A',
-        maxItemsOnLoan: p.maxItemsOnLoan,
-        loanPeriodDays: p.loanPeriodDays,
-        maxRenewals: p.maxRenewals
-      }));
-    },
-    error: (err) => console.error('Error loading privileges:', err)
-  });
-}
-
-// Submit privilege form
-submitPrivilege(): void {
-  if (!this.selectedCategoryId || !this.loanPeriodDays || !this.maxRenewals || !this.maxItemsOnLoan) {
-    this.msg = '⚠️ Please fill all required fields!';
-    this.msgType = 'error';
-    return;
-  }
-
-  const payload = {
-    patronCategory: { id: Number(this.selectedCategoryId) },
-    loanPeriodDays: this.loanPeriodDays,
-    maxRenewals: this.maxRenewals,
-    maxItemsOnLoan: this.maxItemsOnLoan
-  };
-
-  this.api.setPatronPrivileges(payload).subscribe({
-    next: (res) => {
-      this.msg = '✅ Privilege added successfully!';
-      this.msgType = 'success';
-      this.getAllPrivileges(); // refresh table
-      this.closeModal();
-
-      // Reset form
-      this.selectedCategoryId = null;
-      this.loanPeriodDays = null;
-      this.maxRenewals = null;
-      this.maxItemsOnLoan = null;
-
-      setTimeout(() => this.msg = '', 3000);
-    },
-    error: (err) => {
-      console.error('Error adding privilege:', err);
-      this.msg = '❌ Failed to add privilege.';
-      this.msgType = 'error';
-    }
-  });
-}
-
-
-deletePrivilege(index: number) {
-  const privilegeToDelete = this.matrix[index];
-  if (!privilegeToDelete) return;
-
-  if (confirm(`Delete privilege for "${privilegeToDelete.categoryName}"?`)) {
-    this.api.deletePatronPrivileges(privilegeToDelete.id).subscribe({
+  updateCategory(index: number) {
+    const cat = this.categories[index];
+    const updated = { name: this.catName, description: this.catDesc };
+    this.api.updatePatronCategory(cat.id, updated).subscribe({
       next: () => {
-        alert(`Privilege for "${privilegeToDelete.categoryName}" deleted successfully.`);
-        this.getAllPrivileges(); // refresh list
+        this.loadCategories();
+        this.closeModal();
       },
-      error: (err) => {
-        console.error('Error deleting privilege:', err);
-        alert('Failed to delete privilege. Check console.');
-      }
+      error: (err) => console.error('Error updating category:', err)
     });
   }
-}
-  // ================= Tabs =================
+
+  deleteCategory(index: number) {
+    const cat = this.categories[index];
+    if (!cat) return;
+    if (confirm(`Delete category "${cat.name}"?`)) {
+      this.api.deletePatronCategory(cat.id).subscribe({
+        next: () => {
+          alert(`Category "${cat.name}" deleted.`);
+          this.loadCategories();
+        },
+        error: (err) => console.error('Error deleting category:', err)
+      });
+    }
+  }
+
+  // ================= PRIVILEGES =================
+  getAllPrivileges() {
+    this.api.getPatronPrivileges().subscribe({
+      next: (res) => {
+        const privileges = res.payload ?? res;
+        this.matrix = privileges.map((p: any) => ({
+          id: p.id,
+          categoryId: p.patronCategory?.id,
+          categoryName: p.patronCategory?.name || 'N/A',
+          maxItemsOnLoan: p.maxItemsOnLoan,
+          loanPeriodDays: p.loanPeriodDays,
+          maxRenewals: p.maxRenewals
+        }));
+      },
+      error: (err) => console.error('Error loading privileges:', err)
+    });
+  }
+
+  submitPrivilege() {
+    if (!this.selectedCategoryId || !this.loanPeriodDays || !this.maxRenewals || !this.maxItemsOnLoan) {
+      alert('Please fill all required fields!');
+      return;
+    }
+
+    const payload = {
+      patronCategory: { id: Number(this.selectedCategoryId) },
+      loanPeriodDays: this.loanPeriodDays,
+      maxRenewals: this.maxRenewals,
+      maxItemsOnLoan: this.maxItemsOnLoan
+    };
+
+    this.api.setPatronPrivileges(payload).subscribe({
+      next: () => {
+        alert('Privilege added successfully!');
+        this.getAllPrivileges();
+        this.closeModal();
+      },
+      error: (err) => console.error('Error adding privilege:', err)
+    });
+  }
+
+  deletePrivilege(index: number) {
+    const priv = this.matrix[index];
+    if (confirm(`Delete privilege for "${priv.categoryName}"?`)) {
+      this.api.deletePatronPrivileges(priv.id).subscribe({
+        next: () => {
+          alert('Privilege deleted.');
+          this.getAllPrivileges();
+        },
+        error: (err) => console.error('Error deleting privilege:', err)
+      });
+    }
+  }
+
+  // ================= PATRON =================
+  loadPatronCategories() {
+    this.api.getPatronCategories().subscribe({
+      next: (res) => (this.patronCategories = res.payload),
+      error: (err) => console.error('Error fetching patron categories:', err)
+    });
+  }
+
+  loadDepartments() {
+    this.departments = [
+      { id: 1, name: 'Computer Science' },
+      { id: 2, name: 'Library Science' },
+      { id: 3, name: 'Information Technology' },
+      { id: 4, name: 'Engineering' },
+      { id: 5, name: 'Arts' }
+    ];
+  }
+
+  loadPatrons() {
+    this.api.getPatrons().subscribe({
+      next: (res) => {
+        this.patrons = Array.isArray(res) ? res : [res]; // handles array or object response
+      },
+      error: (err) => console.error('Error fetching patrons:', err)
+    });
+  }
+
+  onSubmit() {
+    if (!this.libraryId || !this.name || !this.email || !this.selectedCategory || !this.selectedDepartment) {
+      alert('Please fill all required fields!');
+      return;
+    }
+
+    const payload = {
+      libraryId: this.libraryId,
+      name: this.name,
+      email: this.email,
+      patronCategory: { id: this.selectedCategory },
+      department: { id: this.selectedDepartment },
+      active: this.active
+    };
+
+    this.api.addPatron(payload).subscribe({
+      next: () => {
+        alert('✅ Patron added successfully!');
+        this.resetForm();
+        this.loadPatrons();
+      },
+      error: (err) => console.error('Error adding patron:', err)
+    });
+  }
+
+  editPatron(index: number) {
+    const p = this.patrons[index];
+    this.libraryId = p.libraryId;
+    this.name = p.name;
+    this.email = p.email;
+    this.selectedCategory = p.patronCategory?.id || null;
+    this.selectedDepartment = p.department?.id || null;
+    this.active = p.active;
+  }
+
+  deletePatron(index: number) {
+    const patron = this.patrons[index];
+    if (confirm(`Remove patron "${patron.name}" from the list?`)) {
+      this.patrons.splice(index, 1); // Remove locally
+      alert('Patron removed from view.');
+    }
+  }
+
+  resetForm() {
+    this.libraryId = '';
+    this.name = '';
+    this.email = '';
+    this.selectedCategory = null;
+    this.selectedDepartment = null;
+    this.active = true;
+  }
+
+  // ================= UI =================
   switchTab(tab: 'category' | 'privilege' | 'patron') {
     this.currentTab = tab;
   }
 
-  // ================= Modal =================
   openModal(type: 'category' | 'privilege' | 'patron', index: number | null = null) {
     this.modalOpen = true;
     this.modalType = type;
     this.editingIndex = index;
 
-    // Reset fields
-    this.catName = '';
-    this.catDesc = '';
-    this.selectedCategoryId = null;
-    this.loanPeriodDays = null;
-    this.maxRenewals = null;
-    this.maxItemsOnLoan = null;
-    this.libraryId = '';
-    this.patronName = '';
-    this.patronEmail = '';
-    this.patronCategory = '';
-    this.patronDept = 'Science';
-    this.patronActive = false;
-
-    // Populate fields if editing
-    if (index !== null) {
-      if (type === 'category') {
-        const cat = this.categories[index];
-        this.catName = cat.name;
-        this.catDesc = cat.description;
-      } else if (type === 'privilege') {
-        const priv = this.matrix[index];
-        this.selectedCategoryId = priv.categoryId;
-        this.loanPeriodDays = priv.loanPeriodDays;
-        this.maxRenewals = priv.maxRenewals;
-        this.maxItemsOnLoan = priv.maxItemsOnLoan;
-      } else if (type === 'patron') {
-        const patron = this.patrons[index];
-        this.libraryId = patron.libraryId;
-        this.patronName = patron.name;
-        this.patronEmail = patron.email;
-        this.patronCategory = patron.category;
-        this.patronDept = patron.department;
-        this.patronActive = patron.active;
-      }
-    } else if (type === 'patron') {
-      this.generateLibraryId();
+    if (type === 'category' && index !== null) {
+      const c = this.categories[index];
+      this.catName = c.name;
+      this.catDesc = c.description;
     }
   }
 
   closeModal() {
-    this.modalOpen = false;
-  }
+  this.modalOpen = false;
+  this.editingIndex = null;
+  this.catName = '';
+  this.catDesc = '';
+  this.libraryId = '';
+  this.name = '';
+  this.email = '';
+  this.selectedCategoryId = null;
+  this.maxItemsOnLoan = null;
+  this.loanPeriodDays = null;
+  this.maxRenewals = null;
+}
 
-  // ================= Privilege =================
- 
-
-  // ================= Patron =================
-  savePatron() {
-    if (!this.patronName || !this.patronEmail || !this.patronCategory) return alert('Fill all fields.');
-    const data: Patron = { libraryId: this.libraryId, name: this.patronName, email: this.patronEmail, category: this.patronCategory, department: this.patronDept, active: this.patronActive };
-    if (this.editingIndex !== null) this.patrons[this.editingIndex] = data;
-    else this.patrons.push(data);
-    this.closeModal();
-  }
-
-  deletePatron(index: number) {
-    if (confirm('Delete this patron?')) this.patrons.splice(index, 1);
-  }
-
-  generateLibraryId() {
-    const id = 'LIB' + String(this.patrons.length + 1).padStart(3, '0');
-    this.libraryId = id;
-  }
 }

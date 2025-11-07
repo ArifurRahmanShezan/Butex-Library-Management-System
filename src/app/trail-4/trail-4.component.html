@@ -23,6 +23,7 @@
 
     <label>Status</label>
     <select [(ngModel)]="item.status" name="status">
+      <option value="" disabled selected hidden>Select a status</option>
       <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
     </select>
 

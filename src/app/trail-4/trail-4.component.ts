@@ -7,79 +7,100 @@ import { ApiService } from 'src/app/api.service';
   styleUrls: ['./trail-4.component.css']
 })
 export class Trail4Component implements OnInit {
-  message: string = '';
-  records: any[] = []; // 🆕 for dropdown (bibliographicRecord)
+  catalogItems: any[] = [];
+  records: any[] = [];
+  showModal = false;
+  isEditing = false;
+
   statuses = ['IN_PROCESS', 'AVAILABLE', 'LOST', 'CHECKED_OUT'];
 
   item = {
+    id: 0,
     accessionNumber: '',
     barcode: '',
     bibliographicRecord: { id: 0 },
     location: '',
-    status: '',
+    status: 'IN_PROCESS',
+    acquisitionDate: '',
     price: 0,
-    acquisitionSource: ''
+    acquisitionSource: '',
+    digitalContentUrls: []
   };
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
+    this.loadCatalogItems();
     this.loadRecords();
   }
 
-  // ✅ Fetch available bibliographic records
-  loadRecords() {
-    this.apiService.getRecords().subscribe({
-      next: (res) => {
-        this.records = res || [];
-        console.log('Records loaded:', this.records);
-      },
-      error: (err) => {
-        console.error('Error loading records:', err);
-        this.showMessage('❌ Failed to load bibliographic records.');
-      }
+  loadCatalogItems() {
+    this.apiService.getCatalogItem().subscribe({
+      next: (res) => (this.catalogItems = res || []),
+      error: (err) => console.error('Error loading catalog items', err)
     });
   }
 
-  // ✅ Submit catalog item
-  submitItem() {
-    if (
-      !this.item.accessionNumber ||
-      !this.item.barcode ||
-      !this.item.bibliographicRecord.id ||
-      !this.item.location
-    ) {
-      this.showMessage('⚠️ Please fill in all required fields.');
+  loadRecords() {
+    this.apiService.getRecords().subscribe({
+      next: (res) => (this.records = res || []),
+      error: (err) => console.error('Error loading records', err)
+    });
+  }
+
+  openModal() {
+    this.isEditing = false;
+    this.showModal = true;
+    this.resetForm();
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.resetForm();
+  }
+
+  editItem(item: any) {
+    this.isEditing = true;
+    this.item = { ...item, bibliographicRecord: item.bibliographicRecord || { id: 0 } };
+    this.showModal = true;
+  }
+
+  deleteItem(item: any) {
+    if (confirm(`Delete item "${item.accessionNumber}"?`)) {
+      // Optional: integrate DELETE API if available
+      this.catalogItems = this.catalogItems.filter(x => x.id !== item.id);
+    }
+  }
+
+  saveItem() {
+    if (!this.item.accessionNumber || !this.item.barcode || !this.item.location) {
+      alert('Please fill in all required fields.');
       return;
     }
 
-    this.apiService.addCatalogItem(this.item).subscribe({
-      next: (res) => {
-        console.log('Item added:', res);
-        this.showMessage('✅ Catalog item added successfully!');
-        this.resetForm();
-      },
-      error: (err) => {
-        console.error('Error adding item:', err);
-        this.showMessage('❌ Failed to add catalog item.');
-      }
-    });
+    if (this.isEditing) {
+      const index = this.catalogItems.findIndex(x => x.id === this.item.id);
+      if (index > -1) this.catalogItems[index] = { ...this.item };
+    } else {
+      this.item.id = this.catalogItems.length + 1;
+      this.catalogItems.push({ ...this.item });
+    }
+
+    this.closeModal();
   }
 
   private resetForm() {
     this.item = {
+      id: 0,
       accessionNumber: '',
       barcode: '',
       bibliographicRecord: { id: 0 },
       location: '',
       status: 'IN_PROCESS',
+      acquisitionDate: '',
       price: 0,
-      acquisitionSource: ''
+      acquisitionSource: '',
+      digitalContentUrls: []
     };
-  }
-
-  private showMessage(msg: string) {
-    this.message = msg;
-    setTimeout(() => (this.message = ''), 3000);
   }
 }

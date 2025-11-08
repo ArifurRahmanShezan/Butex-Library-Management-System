@@ -1,38 +1,95 @@
-<div class="container">
-  <h2>Add Catalog Item</h2>
-  <div class="msg" *ngIf="message">{{ message }}</div>
+<div class="page-container">
+  <h2>Catalog Item Management</h2>
 
-  <form (ngSubmit)="submitItem()" class="item-form">
-    <label>Accession Number *</label>
-    <input type="text" [(ngModel)]="item.accessionNumber" name="accessionNumber" required />
+  <div class="toolbar">
+    <h3>Catalog Items</h3>
+    <button class="btn-success" (click)="openModal()">+ Add Item</button>
+  </div>
 
-    <label>Barcode *</label>
-    <input type="text" [(ngModel)]="item.barcode" name="barcode" required />
+  <!-- ✅ Table -->
+  <table class="catalog-table" *ngIf="catalogItems.length > 0; else noData">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Accession Number</th>
+        <th>Barcode</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Acquisition Date</th>
+        <th>Price (BDT)</th>
+        <th>Acquisition Source</th>
+        <th>Digital Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of catalogItems; let i = index">
+        <td>{{ item.id }}</td>
+        <td>{{ item.accessionNumber }}</td>
+        <td>{{ item.barcode }}</td>
+        <td>{{ item.location }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.acquisitionDate || '—' }}</td>
+        <td>৳ {{ item.price }}</td>
+        <td>{{ item.acquisitionSource || '—' }}</td>
+        <td>
+          <ng-container *ngIf="item.digitalContentUrls?.length; else noLinks">
+            <a *ngFor="let link of item.digitalContentUrls" [href]="link" target="_blank">Open</a>
+          </ng-container>
+          <ng-template #noLinks>—</ng-template>
+        </td>
+        <td class="list-actions">
+          <button class="btn-primary" (click)="editItem(item)">Edit</button>
+          <button class="btn-danger" (click)="deleteItem(item)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <!-- 🆕 Dropdown for bibliographicRecord -->
-    <label>Bibliographic Record *</label>
-    <select [(ngModel)]="item.bibliographicRecord.id" name="recordId" required>
-      <option value="">Select Record</option>
-      <option *ngFor="let rec of records" [value]="rec.id">
-        {{ rec.title }}
-      </option>
-    </select>
+  <ng-template #noData>
+    <p class="empty">No catalog items found.</p>
+  </ng-template>
+</div>
 
-    <label>Location *</label>
-    <input type="text" [(ngModel)]="item.location" name="location" required />
+<!-- ✅ Modal -->
+<div id="modal" class="modal" [class.show]="showModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>{{ isEditing ? 'Edit Catalog Item' : 'Add Catalog Item' }}</h3>
+      <span class="close-btn" (click)="closeModal()">×</span>
+    </div>
 
-    <label>Status</label>
-    <select [(ngModel)]="item.status" name="status">
-      <option value="" disabled selected hidden>Select a status</option>
-      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
-    </select>
+    <form (ngSubmit)="saveItem()" class="form-section">
+      <label>Accession Number *</label>
+      <input type="text" [(ngModel)]="item.accessionNumber" name="accessionNumber" required />
 
-    <label>Price</label>
-    <input type="number" [(ngModel)]="item.price" name="price" min="0" />
+      <label>Barcode *</label>
+      <input type="text" [(ngModel)]="item.barcode" name="barcode" required />
 
-    <label>Acquisition Source</label>
-    <input type="text" [(ngModel)]="item.acquisitionSource" name="acquisitionSource" />
+      <label>Bibliographic Record *</label>
+      <select [(ngModel)]="item.bibliographicRecord.id" name="recordId" required>
+        <option value="">Select Record</option>
+        <option *ngFor="let rec of records" [value]="rec.id">{{ rec.title }}</option>
+      </select>
 
-    <button type="submit">Submit Item</button>
-  </form>
+      <label>Location *</label>
+      <input type="text" [(ngModel)]="item.location" name="location" required />
+
+      <label>Status</label>
+      <select [(ngModel)]="item.status" name="status">
+        <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+      </select>
+
+      <label>Price</label>
+      <input type="number" [(ngModel)]="item.price" name="price" min="0" />
+
+      <label>Acquisition Source</label>
+      <input type="text" [(ngModel)]="item.acquisitionSource" name="acquisitionSource" />
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn-success">{{ isEditing ? 'Update' : 'Save' }}</button>
+      </div>
+    </form>
+  </div>
 </div>

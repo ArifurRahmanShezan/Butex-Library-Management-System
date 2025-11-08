@@ -57,7 +57,7 @@ export class ApiService {
 
   deletePatronPrivileges(id: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/api/v1/library//patron/privileges/${id}`);
-  } 
+  }
 
 
 
@@ -124,16 +124,18 @@ export class ApiService {
 
 
   // ✅ GET all bibliographic records
-getRecords(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/records`);
-}
+  getRecords(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/records`);
+  }
 
-// ✅ POST new catalog item
-addCatalogItem(item: any): Observable<any> {
-  return this.http.post(`${this.baseUrl}/api/v1/library/cataloging/items`, item);
-}
+  // ✅ POST new catalog item
+  addCatalogItem(item: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/v1/library/cataloging/items`, item);
+  }
 
-
+  getCatalogItem(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/queue`);
+  }
 
 
 }

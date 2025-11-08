@@ -100,7 +100,13 @@ export class ApiService {
   getPatrons(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/patrons`);
   }
+  deletePatron(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library/patron-delete/${id}`);
+  }
 
+  updatePatron(id: number, patron: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/v1/library/patron-update/${id}`, patron);
+  }
 
 
 

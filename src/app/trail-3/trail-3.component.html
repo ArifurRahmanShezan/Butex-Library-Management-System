@@ -1,42 +1,95 @@
-<div class="container">
-  <h2> Catalog Record Submission</h2>
-  <div class="msg" *ngIf="message">{{ message }}</div>
+<div class="page-container">
+  <h2>Bibliography Record Management</h2>
 
-  <form (ngSubmit)="submitRecord()" class="record-form">
-    <label>Format *</label>
-    <select [(ngModel)]="record.format" name="format" required>
-      <option value="MARC21">MARC21</option>
-      <option value="DUBLIN_CORE">Dublin Core</option>
-      <option value="SERIAL">SERIAL</option>
-    </select>
+  <div class="toolbar">
+    <h3>Records</h3>
+    <button class="btn-success" (click)="openModal()">Add Record</button>
+  </div>
 
-    <label>Title *</label>
-    <input type="text" [(ngModel)]="record.title" name="title" required />
+  <!-- 📋 Records Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Record ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publisher</th>
+        <th>Year</th>
+        <th>Format</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rec of records; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ rec.id }}</td>
+        <td>{{ rec.title }}</td>
+        <td>{{ rec.author }}</td>
+        <td>{{ rec.publisher }}</td>
+        <td>{{ rec.publicationYear }}</td>
+        <td>{{ rec.format }}</td>
+        <td class="list-actions">
+          <button class="btn-primary" (click)="editRecord(rec)">Edit</button>
+          <button class="btn-danger" (click)="deleteRecord(rec.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <label>Author *</label>
-    <input type="text" [(ngModel)]="record.author" name="author" required />
+  <!-- 🪟 Modal -->
+  <div id="modal" [class.show]="showModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{ editingRecord ? 'Edit Record' : 'Add Record' }}</h3>
+        <span class="close-btn" (click)="closeModal()">×</span>
+      </div>
 
-    <label>ISBN *</label>
-    <input type="text" [(ngModel)]="record.isbn" name="isbn" required />
+      <form (ngSubmit)="saveRecord()" #recordForm="ngForm">
+        <div class="form-section">
+          <h4>Record Information</h4>
 
-    <label>Publisher</label>
-    <input type="text" [(ngModel)]="record.publisher" name="publisher" />
+          <label>Format *</label>
+          <select [(ngModel)]="record.format" name="format" required>
+            <option value="MARC21">MARC21</option>
+            <option value="DUBLIN_CORE">Dublin Core</option>
+            <option value="SERIAL">Serial</option>
+          </select>
 
-    <label>Publication Year</label>
-    <input type="number" [(ngModel)]="record.publicationYear" name="publicationYear" />
+          <label>Title *</label>
+          <input [(ngModel)]="record.title" name="title" required />
 
-    <!-- 🆕 Dropdown for templates -->
-    <label>Cataloging Template *</label>
-    <select [(ngModel)]="record.catalogingTemplate.id" name="templateId" required>
-      <option value="">Select Template</option>
-      <option *ngFor="let tmpl of templates" [value]="tmpl.id">
-        {{ tmpl.name }}
-      </option>
-    </select>
+          <label>Author *</label>
+          <input [(ngModel)]="record.author" name="author" required />
 
-    <label>Raw MARC Content</label>
-    <textarea [(ngModel)]="record.rawContent" name="rawContent" rows="4"></textarea>
+          <label>Publisher</label>
+          <input [(ngModel)]="record.publisher" name="publisher" />
 
-    <button type="submit">Submit Record</button>
-  </form>
+          <label>ISBN *</label>
+          <input [(ngModel)]="record.isbn" name="isbn" required />
+
+          <label>Publication Year</label>
+          <input type="number" [(ngModel)]="record.publicationYear" name="publicationYear" />
+
+          <label>Cataloging Template *</label>
+          <select [(ngModel)]="record.catalogingTemplate.id" name="templateId" required>
+            <option value="">Select Template</option>
+            <option *ngFor="let tmpl of templates" [value]="tmpl.id">
+              {{ tmpl.name }}
+            </option>
+          </select>
+
+          <label>Raw Content</label>
+          <textarea [(ngModel)]="record.rawContent" name="rawContent"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+          <button type="submit" class="btn-success">
+            {{ editingRecord ? 'Update' : 'Save' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuListComponent } from './components/menu-list/menu-list.component';
@@ -109,7 +109,7 @@ import { Trail4Component } from './trail-4/trail-4.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-   providers: [ApiService],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,11 +9,13 @@ import { ApiService } from 'src/app/api.service';
 })
 export class RequestProcessingComponent implements OnInit {
 
+  
+  showModal = false;
   requestForm!: FormGroup;
   requests: any[] = [];
   isSubmitting = false;
 
-  constructor(private fb: FormBuilder, private api: ApiService) {}
+  constructor(private fb: FormBuilder, private api: ApiService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -38,8 +40,8 @@ export class RequestProcessingComponent implements OnInit {
   // Load existing requests
   loadRequests() {
     this.api.getRequest().subscribe({
-      next: (data : any[]) => this.requests = data,
-      error: (err : any[]) => console.error('Error fetching requests:', err)
+      next: (data: any[]) => this.requests = data,
+      error: (err: any[]) => console.error('Error fetching requests:', err)
     });
   }
 
@@ -55,10 +57,18 @@ export class RequestProcessingComponent implements OnInit {
         this.isSubmitting = false;
         this.loadRequests(); // refresh list
       },
-      error: (err : any[]) => {
+      error: (err: any[]) => {
         console.error('Error submitting request:', err);
         this.isSubmitting = false;
       }
     });
+  }
+
+  openModal() {
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
   }
 }

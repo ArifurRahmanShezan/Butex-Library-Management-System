@@ -1,86 +1,92 @@
-<div class="container">
-  <h2>Book Request Form</h2>
+<h2>Library Book Request Management</h2>
 
-  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
-    <div class="form-row">
-      <label>Title:</label>
-      <input formControlName="title" placeholder="Enter book title" />
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+  <h3>Book Requests</h3>
+  <button class="btn-success" (click)="openModal()">Add Request</button>
+</div>
+
+<!-- Requests Table -->
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Publisher</th>
+      <th>Year</th>
+      <th>ISBN</th>
+      <th>Requester</th>
+      <th>Email</th>
+      <th>Department</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let req of requests; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ req.title }}</td>
+      <td>{{ req.author }}</td>
+      <td>{{ req.publisher }}</td>
+      <td>{{ req.publicationYear }}</td>
+      <td>{{ req.isbn }}</td>
+      <td>{{ req.requesterName }}</td>
+      <td>{{ req.requesterEmail }}</td>
+      <td>{{ req.department }}</td>
+      <td>{{ req.notes }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal -->
+<div id="modal" [ngStyle]="{ display: showModal ? 'flex' : 'none' }">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add Book Request</h3>
+      <span class="close-btn" (click)="closeModal()">×</span>
     </div>
 
-    <div class="form-row">
-      <label>Author:</label>
-      <input formControlName="author" placeholder="Enter author name" />
-    </div>
+    <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
+      <!-- Section 1 -->
+      <div class="form-section">
+        <h4>Book Details</h4>
+        <label>Title</label>
+        <input formControlName="title" type="text" placeholder="Enter book title" />
 
-    <div class="form-row">
-      <label>Publisher:</label>
-      <input formControlName="publisher" placeholder="Publisher name" />
-    </div>
+        <label>Author</label>
+        <input formControlName="author" type="text" placeholder="Enter author name" />
 
-    <div class="form-row">
-      <label>Publication Year:</label>
-      <input formControlName="publicationYear" placeholder="e.g., 2018" />
-    </div>
+        <label>Publisher</label>
+        <input formControlName="publisher" type="text" placeholder="Publisher name" />
 
-    <div class="form-row">
-      <label>ISBN:</label>
-      <input formControlName="isbn" placeholder="Enter ISBN" />
-    </div>
+        <label>Publication Year</label>
+        <input formControlName="publicationYear" type="number" placeholder="e.g. 2024" />
 
-    <div class="form-row">
-      <label>Requester Name:</label>
-      <input formControlName="requesterName" placeholder="Your name" />
-    </div>
+        <label>ISBN</label>
+        <input formControlName="isbn" type="text" placeholder="Enter ISBN" />
+      </div>
 
-    <div class="form-row">
-      <label>Requester Email:</label>
-      <input formControlName="requesterEmail" placeholder="Your email" />
-    </div>
+      <!-- Section 2 -->
+      <div class="form-section">
+        <h4>Requester Details</h4>
+        <label>Name</label>
+        <input formControlName="requesterName" type="text" placeholder="Your name" />
 
-    <div class="form-row">
-      <label>Department:</label>
-      <input formControlName="department" placeholder="Department name" />
-    </div>
+        <label>Email</label>
+        <input formControlName="requesterEmail" type="email" placeholder="you@example.com" />
 
-    <div class="form-row">
-      <label>Notes:</label>
-      <textarea formControlName="notes" placeholder="Any notes"></textarea>
-    </div>
+        <label>Department</label>
+        <input formControlName="department" type="text" placeholder="Department name" />
 
-    <button type="submit" [disabled]="isSubmitting || requestForm.invalid">
-      {{ isSubmitting ? 'Submitting...' : 'Submit Request' }}
-    </button>
-  </form>
+        <label>Notes</label>
+        <textarea formControlName="notes" placeholder="Purpose or remarks"></textarea>
+      </div>
 
-  <hr />
-
-  <h3>Requested Books</h3>
-  <table class="request-table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Publisher</th>
-        <th>Year</th>
-        <th>ISBN</th>
-        <th>Requester</th>
-        <th>Email</th>
-        <th>Department</th>
-        <th>Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let req of requests">
-        <td>{{ req.title }}</td>
-        <td>{{ req.author }}</td>
-        <td>{{ req.publisher }}</td>
-        <td>{{ req.publicationYear }}</td>
-        <td>{{ req.isbn }}</td>
-        <td>{{ req.requesterName }}</td>
-        <td>{{ req.requesterEmail }}</td>
-        <td>{{ req.department }}</td>
-        <td>{{ req.notes }}</td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn-success" [disabled]="isSubmitting || requestForm.invalid">
+          {{ isSubmitting ? 'Submitting...' : 'Submit Request' }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

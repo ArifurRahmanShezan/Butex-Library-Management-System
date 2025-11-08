@@ -153,6 +153,12 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/request`);
   }
 
+  approveReq(id: number, data: { status: string; justification: string }): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/v1/library/request/status/${id}`, data);
+  }
+
+
+
 }
 
 

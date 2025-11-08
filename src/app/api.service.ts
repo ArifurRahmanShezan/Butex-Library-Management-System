@@ -138,6 +138,15 @@ export class ApiService {
   }
 
 
+  // Request API
+   addRequest(addreq: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/v1/library/request-add`, addreq);
+  }
+
+  getRequest(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/request`);
+  }
+
 }
 
 

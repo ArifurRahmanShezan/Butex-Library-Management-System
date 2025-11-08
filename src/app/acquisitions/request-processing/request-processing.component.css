@@ -1,111 +1,57 @@
-body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f4f6f9;
-  margin: 0;
-  padding: 0;
-}
-
 .container {
   max-width: auto;
-  background: #fff;
-  margin: 10px auto;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  padding: 20px;
 }
 
-h2 {
-  text-align: center;
-  color: #2e2e2e;
-  margin-bottom: 25px;
-}
-
-form {
+.request-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  font-weight: 600;
-  color: #444;
+  font-weight: bold;
+  margin-bottom: 4px;
 }
 
-input,
-select {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  font-size: 15px;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-}
-
-input:focus,
-select:focus {
-  border-color: #6366f1;
-  outline: none;
-  box-shadow: 0 0 6px rgba(99, 102, 241, 0.2);
+input, textarea {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 button {
-  background-color: #6366f1;
+  width: 150px;
+  padding: 8px;
+  background: #007bff;
   color: #fff;
-  padding: 12px;
-  font-weight: bold;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
-button:hover {
-  background-color: #4f46e5;
+button[disabled] {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
-table {
+.request-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
-th,
-td {
-  border-bottom: 1px solid #e5e7eb;
-  padding: 12px;
-  text-align: center;
-  font-size: 14px;
+.request-table th, .request-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
-th {
-  background: #f9fafb;
-  font-weight: 600;
-}
-
-.message {
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.success {
-  background: #dcfce7;
-  color: #166534;
-}
-
-.error {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-@media (max-width: 600px) {
-  .container {
-    padding: 20px;
-  }
-  th,
-  td {
-    font-size: 12px;
-  }
+.request-table th {
+  background-color: #f4f4f4;
 }

@@ -1,62 +1,85 @@
 <div class="container">
-  <h2> Process Reported Loss</h2>
-  <div *ngIf="message" [ngClass]="messageClass" class="message">
-    {{ message }}
-  </div>
+  <h2>Book Request Form</h2>
 
-  <form (ngSubmit)="onSubmit()" #lossForm="ngForm">
-    <div>
-      <label>Item ID <span style="color:red">*</span></label>
-      <input
-        type="text"
-        id="itemID"
-        name="itemID"
-        [(ngModel)]="loss.itemID"
-        required
-        placeholder="Enter Item ID"
-      />
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="request-form">
+    <div class="form-row">
+      <label>Title:</label>
+      <input formControlName="title" placeholder="Enter book title" />
     </div>
 
-    <div>
-      <label>Loss Date <span style="color:red">*</span></label>
-      <input
-        type="date"
-        id="lossDate"
-        name="lossDate"
-        [(ngModel)]="loss.lossDate"
-        required
-      />
+    <div class="form-row">
+      <label>Author:</label>
+      <input formControlName="author" placeholder="Enter author name" />
     </div>
 
-    <div>
-      <label>Cost (৳) <span style="color:red">*</span></label>
-      <input
-        type="number"
-        id="cost"
-        name="cost"
-        [(ngModel)]="loss.cost"
-        required
-        placeholder="Enter cost"
-      />
+    <div class="form-row">
+      <label>Publisher:</label>
+      <input formControlName="publisher" placeholder="Publisher name" />
     </div>
 
-    <button type="submit" [disabled]="!lossForm.form.valid">Submit</button>
+    <div class="form-row">
+      <label>Publication Year:</label>
+      <input formControlName="publicationYear" placeholder="e.g., 2018" />
+    </div>
+
+    <div class="form-row">
+      <label>ISBN:</label>
+      <input formControlName="isbn" placeholder="Enter ISBN" />
+    </div>
+
+    <div class="form-row">
+      <label>Requester Name:</label>
+      <input formControlName="requesterName" placeholder="Your name" />
+    </div>
+
+    <div class="form-row">
+      <label>Requester Email:</label>
+      <input formControlName="requesterEmail" placeholder="Your email" />
+    </div>
+
+    <div class="form-row">
+      <label>Department:</label>
+      <input formControlName="department" placeholder="Department name" />
+    </div>
+
+    <div class="form-row">
+      <label>Notes:</label>
+      <textarea formControlName="notes" placeholder="Any notes"></textarea>
+    </div>
+
+    <button type="submit" [disabled]="isSubmitting || requestForm.invalid">
+      {{ isSubmitting ? 'Submitting...' : 'Submit Request' }}
+    </button>
   </form>
 
-  <h3 style="margin-top: 30px;">📋 Lost Items Record</h3>
-  <table>
+  <hr />
+
+  <h3>Requested Books</h3>
+  <table class="request-table">
     <thead>
       <tr>
-        <th>Item ID</th>
-        <th>Loss Date</th>
-        <th>Cost (৳)</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publisher</th>
+        <th>Year</th>
+        <th>ISBN</th>
+        <th>Requester</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Notes</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of lostItems">
-        <td>{{ item.itemID }}</td>
-        <td>{{ item.lossDate }}</td>
-        <td>{{ item.cost }}</td>
+      <tr *ngFor="let req of requests">
+        <td>{{ req.title }}</td>
+        <td>{{ req.author }}</td>
+        <td>{{ req.publisher }}</td>
+        <td>{{ req.publicationYear }}</td>
+        <td>{{ req.isbn }}</td>
+        <td>{{ req.requesterName }}</td>
+        <td>{{ req.requesterEmail }}</td>
+        <td>{{ req.department }}</td>
+        <td>{{ req.notes }}</td>
       </tr>
     </tbody>
   </table>

@@ -22,27 +22,28 @@ interface PrivilegeEntry {
   styleUrls: ['./patron.component.css']
 })
 export class PatronComponent implements OnInit {
-  // Tabs
+
+  // ------------------ TABS ------------------
   currentTab: 'category' | 'privilege' | 'patron' = 'category';
 
-  // Modal
+  // ------------------ MODAL ------------------
   modalOpen = false;
   modalType: 'category' | 'privilege' | 'patron' = 'category';
   editingIndex: number | null = null;
 
-  // Categories
+  // ------------------ CATEGORY ------------------
   categories: Category[] = [];
   catName = '';
   catDesc = '';
 
-  // Privileges
+  // ------------------ PRIVILEGES ------------------
   matrix: PrivilegeEntry[] = [];
   selectedCategoryId: number | null = null;
   loanPeriodDays: number | null = null;
   maxRenewals: number | null = null;
   maxItemsOnLoan: number | null = null;
 
-  // Patrons
+  // ------------------ PATRONS ------------------
   patrons: any[] = [];
   libraryId = '';
   name = '';
@@ -53,7 +54,7 @@ export class PatronComponent implements OnInit {
   patronCategories: any[] = [];
   departments: any[] = [];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -63,58 +64,56 @@ export class PatronComponent implements OnInit {
     this.loadPatrons();
   }
 
-  // ================= CATEGORY =================
+  // ------------------ CATEGORY METHODS ------------------
   loadCategories() {
     this.api.getPatronCategories().subscribe({
       next: (res) => (this.categories = res.payload),
-      error: (err) => console.error('Error loading categories:', err)
+      error: (err) => console.error(err)
     });
   }
 
   addCategory() {
-    if (!this.catName.trim() || !this.catDesc.trim()) {
-      alert('Fill all fields.');
+    if (!this.catName || !this.catDesc) {
+      alert('Fill all fields');
       return;
     }
-    const newCategory = { name: this.catName, description: this.catDesc };
-    this.api.addPatronCategory(newCategory).subscribe({
+    this.api.addPatronCategory({ name: this.catName, description: this.catDesc }).subscribe({
       next: () => {
         this.catName = '';
         this.catDesc = '';
         this.loadCategories();
         this.closeModal();
       },
-      error: (err) => console.error('Error adding category:', err)
+      error: (err) => console.error(err)
     });
   }
 
   updateCategory(index: number) {
-    const cat = this.categories[index];
-    const updated = { name: this.catName, description: this.catDesc };
-    this.api.updatePatronCategory(cat.id, updated).subscribe({
+    const c = this.categories[index];
+    this.api.updatePatronCategory(c.id, { name: this.catName, description: this.catDesc }).subscribe({
       next: () => {
         this.loadCategories();
         this.closeModal();
       },
-      error: (err) => console.error('Error updating category:', err)
+      error: (err) => console.error(err)
     });
   }
 
   deleteCategory(index: number) {
-    const cat = this.categories[index];
-    if (!cat) return;
-    if (confirm(`Delete category "${cat.name}"?`)) {
-      this.api.deletePatronCategory(cat.id).subscribe({
+    const c = this.categories[index];
+    if (!c) return;
+    if (confirm(`Delete category "${c.name}"?`)) {
+      this.api.deletePatronCategory(c.id).subscribe({
         next: () => {
-          alert(`Category "${cat.name}" deleted.`);
+          alert('Deleted');
           this.loadCategories();
         },
-        error: (err) => console.error('Error deleting category:', err)
+        error: (err) => console.error(err)
       });
     }
   }
 
-  // ================= PRIVILEGES =================
+  // ------------------ PRIVILEGE METHODS ------------------
   getAllPrivileges() {
     this.api.getPatronPrivileges().subscribe({
       next: (res) => {
@@ -128,51 +127,49 @@ export class PatronComponent implements OnInit {
           maxRenewals: p.maxRenewals
         }));
       },
-      error: (err) => console.error('Error loading privileges:', err)
+      error: (err) => console.error(err)
     });
   }
 
   submitPrivilege() {
     if (!this.selectedCategoryId || !this.loanPeriodDays || !this.maxRenewals || !this.maxItemsOnLoan) {
-      alert('Please fill all required fields!');
+      alert('Fill all fields');
       return;
     }
-
     const payload = {
       patronCategory: { id: Number(this.selectedCategoryId) },
       loanPeriodDays: this.loanPeriodDays,
       maxRenewals: this.maxRenewals,
       maxItemsOnLoan: this.maxItemsOnLoan
     };
-
     this.api.setPatronPrivileges(payload).subscribe({
       next: () => {
-        alert('Privilege added successfully!');
+        alert('Added');
         this.getAllPrivileges();
         this.closeModal();
       },
-      error: (err) => console.error('Error adding privilege:', err)
+      error: (err) => console.error(err)
     });
   }
 
   deletePrivilege(index: number) {
-    const priv = this.matrix[index];
-    if (confirm(`Delete privilege for "${priv.categoryName}"?`)) {
-      this.api.deletePatronPrivileges(priv.id).subscribe({
+    const p = this.matrix[index];
+    if (confirm(`Delete privilege for "${p.categoryName}"?`)) {
+      this.api.deletePatronPrivileges(p.id).subscribe({
         next: () => {
-          alert('Privilege deleted.');
+          alert('Deleted');
           this.getAllPrivileges();
         },
-        error: (err) => console.error('Error deleting privilege:', err)
+        error: (err) => console.error(err)
       });
     }
   }
 
-  // ================= PATRON =================
+  // ------------------ PATRON METHODS ------------------
   loadPatronCategories() {
     this.api.getPatronCategories().subscribe({
       next: (res) => (this.patronCategories = res.payload),
-      error: (err) => console.error('Error fetching patron categories:', err)
+      error: (err) => console.error(err)
     });
   }
 
@@ -182,25 +179,27 @@ export class PatronComponent implements OnInit {
       { id: 2, name: 'Library Science' },
       { id: 3, name: 'Information Technology' },
       { id: 4, name: 'Engineering' },
-      { id: 5, name: 'Arts' }
+      { id: 5, name: 'Arts' },
+      { id: 6, name: 'Business' },
+      { id: 7, name: 'Medicine' },
+      { id: 8, name: 'Iogy' }
     ];
   }
 
   loadPatrons() {
     this.api.getPatrons().subscribe({
       next: (res) => {
-        this.patrons = Array.isArray(res) ? res : [res]; // handles array or object response
+        this.patrons = Array.isArray(res) ? res : [res];
       },
-      error: (err) => console.error('Error fetching patrons:', err)
+      error: (err) => console.error(err)
     });
   }
 
   onSubmit() {
     if (!this.libraryId || !this.name || !this.email || !this.selectedCategory || !this.selectedDepartment) {
-      alert('Please fill all required fields!');
+      alert('Fill all fields');
       return;
     }
-
     const payload = {
       libraryId: this.libraryId,
       name: this.name,
@@ -209,33 +208,87 @@ export class PatronComponent implements OnInit {
       department: { id: this.selectedDepartment },
       active: this.active
     };
-
     this.api.addPatron(payload).subscribe({
       next: () => {
-        alert('✅ Patron added successfully!');
+        alert('Added');
         this.resetForm();
         this.loadPatrons();
       },
-      error: (err) => console.error('Error adding patron:', err)
+      error: (err) => console.error(err)
     });
   }
 
-  editPatron(index: number) {
-    const p = this.patrons[index];
-    this.libraryId = p.libraryId;
-    this.name = p.name;
-    this.email = p.email;
-    this.selectedCategory = p.patronCategory?.id || null;
-    this.selectedDepartment = p.department?.id || null;
-    this.active = p.active;
+  updatePatron() {
+    if (this.editingIndex === null) return;
+    const p = this.patrons[this.editingIndex];
+    const updated = {
+      libraryId: p.libraryId,
+      name: this.name,
+      email: this.email,
+      patronCategory: { id: this.selectedCategory },
+      department: { id: this.selectedDepartment },
+      active: this.active
+    };
+    this.api.updatePatron(p.id, updated).subscribe({
+      next: () => {
+        this.loadPatrons();
+        this.closeModal();
+      },
+      error: (err) => console.error(err)
+    });
   }
 
-  deletePatron(index: number) {
-    const patron = this.patrons[index];
-    if (confirm(`Remove patron "${patron.name}" from the list?`)) {
-      this.patrons.splice(index, 1); // Remove locally
-      alert('Patron removed from view.');
+  deletePatron(id: number) {
+    if (confirm('Remove patron?')) {
+      this.api.deletePatron(id).subscribe({
+        next: () => {
+          alert('Removed');
+          this.loadPatrons();
+        },
+        error: (err) => console.error(err)
+      });
     }
+  }
+
+  // ------------------ MODAL METHODS ------------------
+  openModal(type: 'category' | 'privilege' | 'patron', index: number | null = null) {
+    this.modalOpen = true;
+    this.modalType = type;
+    this.editingIndex = index;
+
+    if (type === 'category' && index !== null) {
+      const c = this.categories[index];
+      this.catName = c.name;
+      this.catDesc = c.description;
+    } else if (type === 'patron') {
+      if (index !== null) {
+        const p = this.patrons[index];
+        this.libraryId = p.libraryId ?? '';
+        this.name = p.name ?? '';
+        this.email = p.email ?? '';
+        this.selectedCategory = p.patronCategory?.id ?? null;
+        this.selectedDepartment = p.department?.id ?? null;
+        this.active = p.active ?? true;
+      } else {
+        this.resetForm();
+      }
+    }
+  }
+
+  closeModal() {
+    this.modalOpen = false;
+    this.editingIndex = null;
+    this.catName = '';
+    this.catDesc = '';
+    this.libraryId = '';
+    this.name = '';
+    this.email = '';
+    this.selectedCategory = null;
+    this.selectedDepartment = null;
+    this.selectedCategoryId = null;
+    this.maxItemsOnLoan = null;
+    this.loanPeriodDays = null;
+    this.maxRenewals = null;
   }
 
   resetForm() {
@@ -247,35 +300,7 @@ export class PatronComponent implements OnInit {
     this.active = true;
   }
 
-  // ================= UI =================
   switchTab(tab: 'category' | 'privilege' | 'patron') {
     this.currentTab = tab;
   }
-
-  openModal(type: 'category' | 'privilege' | 'patron', index: number | null = null) {
-    this.modalOpen = true;
-    this.modalType = type;
-    this.editingIndex = index;
-
-    if (type === 'category' && index !== null) {
-      const c = this.categories[index];
-      this.catName = c.name;
-      this.catDesc = c.description;
-    }
-  }
-
-  closeModal() {
-  this.modalOpen = false;
-  this.editingIndex = null;
-  this.catName = '';
-  this.catDesc = '';
-  this.libraryId = '';
-  this.name = '';
-  this.email = '';
-  this.selectedCategoryId = null;
-  this.maxItemsOnLoan = null;
-  this.loanPeriodDays = null;
-  this.maxRenewals = null;
-}
-
 }

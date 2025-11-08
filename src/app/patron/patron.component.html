@@ -85,38 +85,36 @@
       <button (click)="openModal('patron')" class="btn btn-success">+ Add Patron</button>
     </div>
 
-    <div class="trail-container">
-      <table class="patron-table">
-        <thead>
-          <tr>
-            <th>Library ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Category</th>
-            <th>Department</th>
-            <th>Active</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let patron of patrons; let i = index">
-            <td>{{ patron.libraryId }}</td>
-            <td>{{ patron.name }}</td>
-            <td>{{ patron.email }}</td>
-            <td>{{ patron.patronCategory?.name || patron.category }}</td>
-            <td>{{ patron.department?.name || patron.department }}</td>
-            <td>{{ patron.active ? 'Yes' : 'No' }}</td>
-            <td class="action-buttons">
-              <button class="btn btn-primary" (click)="editPatron(i)">Edit</button>
-              <button class="btn btn-danger" (click)="deletePatron(i)">Delete</button>
-            </td>
-          </tr>
-          <tr *ngIf="patrons.length === 0">
-            <td colspan="7" class="empty-msg">No patrons registered yet.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="patron-table">
+      <thead>
+        <tr>
+          <th>Library ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Category</th>
+          <th>Department</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patron of patrons; let i = index">
+          <td>{{ patron.libraryId }}</td>
+          <td>{{ patron.name }}</td>
+          <td>{{ patron.email }}</td>
+          <td>{{ patron.patronCategory?.name || patron.category }}</td>
+          <td>{{ patron.department?.name || patron.department }}</td>
+          <td>{{ patron.active ? 'Yes' : 'No' }}</td>
+          <td class="action-buttons">
+            <button class="btn btn-primary" (click)="openModal('patron', i)">Edit</button>
+            <button class="btn btn-danger" (click)="deletePatron(patron.id)">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="patrons.length === 0">
+          <td colspan="7" class="empty-msg">No patrons registered yet.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- ================= MODAL ================= -->
@@ -143,7 +141,7 @@
       <form *ngIf="modalType==='privilege'" (ngSubmit)="submitPrivilege()">
         <label>Category</label>
         <select [(ngModel)]="selectedCategoryId" name="category" required>
-          <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
+          <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
         </select>
 
         <label>Max Items on Loan</label>
@@ -163,9 +161,9 @@
       </form>
 
       <!-- PATRON FORM -->
-      <form *ngIf="modalType==='patron'" (ngSubmit)="onSubmit()">
+      <form *ngIf="modalType==='patron'" (ngSubmit)="editingIndex !== null ? updatePatron() : onSubmit()">
         <label>Library ID</label>
-        <input type="text" [(ngModel)]="libraryId" name="libraryId" required>
+        <input type="text" [(ngModel)]="libraryId" name="libraryId" required [readonly]="editingIndex !== null">
 
         <label>Name</label>
         <input type="text" [(ngModel)]="name" name="name" required>
@@ -175,12 +173,12 @@
 
         <label>Category</label>
         <select [(ngModel)]="selectedCategory" name="patronCategory" required>
-          <option *ngFor="let cat of patronCategories" [value]="cat.id">{{ cat.name }}</option>
+          <option *ngFor="let cat of patronCategories" [ngValue]="cat.id">{{ cat.name }}</option>
         </select>
 
         <label>Department</label>
         <select [(ngModel)]="selectedDepartment" name="department" required>
-          <option *ngFor="let dep of departments" [value]="dep.id">{{ dep.name }}</option>
+          <option *ngFor="let dep of departments" [ngValue]="dep.id">{{ dep.name }}</option>
         </select>
 
         <label class="checkbox">

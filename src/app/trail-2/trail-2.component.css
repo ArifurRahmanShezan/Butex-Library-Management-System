@@ -79,6 +79,13 @@ button {
   margin-bottom: 15px;
 }
 
+.modal-actions {
+  display: flex;
+  justify-content: flex-end; /* aligns buttons to the right, same as text-align: right */
+  gap: 10px; /* 👈 controls spacing between buttons */
+  margin-top: 20px;
+}
+
 .close-btn {
   cursor: pointer;
   font-size: 20px;

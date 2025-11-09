@@ -83,19 +83,47 @@
       <form (ngSubmit)="addVendor()">
         <label>Name *</label>
         <input type="text" [(ngModel)]="vendorName" name="vendorName" required>
-        <label>Contact</label>
+        <label>Contact Person</label>
         <input type="text" [(ngModel)]="vendorContact" name="vendorContact">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="vendorEmail" name="vendorEmail">
+        <label>Phone</label>
+        <input type="phone" [(ngModel)]="vendorPhone" name="vendorPhone">
         <label>Address</label>
         <textarea [(ngModel)]="vendorAddress" name="vendorAddress" rows="2"></textarea>
         <button type="submit">Add Vendor</button>
       </form>
       <table>
-        <thead><tr><th>Name</th><th>Contact</th><th>Address</th></tr></thead>
-        <tbody>
-          <tr *ngFor="let v of vendors"><td>{{v.name}}</td><td>{{v.contact}}</td><td>{{v.address}}</td></tr>
-          <tr *ngIf="vendors.length===0"><td colspan="3" class="empty">No vendors added yet.</td></tr>
-        </tbody>
-      </table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Contact Person</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th style="text-align: center;">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let v of vendors; let i = index">
+      <td>{{ v.name }}</td>
+      <td>{{ v.contact }}</td>
+      <td>{{ v.email }}</td>
+      <td>{{ v.phone }}</td>
+      <td>{{ v.address }}</td>
+
+      <td style="text-align: center; white-space: nowrap;">
+  <button class="edit-btn" (click)="editVendor(i)">Edit</button>
+  <button class="delete-btn" (click)="deleteVendor(i)">Delete</button>
+</td>
+    </tr>
+
+    <tr *ngIf="vendors.length === 0">
+      <td colspan="6" class="empty">No vendors added yet.</td>
+    </tr>
+  </tbody>
+</table>
     </div>
   </div>
 

@@ -180,6 +180,21 @@ deletePublisher(id: number): Observable<any> {
   return this.http.delete<any>(`${this.baseUrl}/api/v1/library/publisher-delete/${id}`);
 }
 
+//vendor
+
+
+getAllVendor(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/vendors`);
+}
+addVendor(vendor: any): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/api/v1/library/vendor-add`, vendor);
+}
+updateVendor(id: number, vendor: any): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/api/v1/library/vendor-update/${id}`, vendor);
+}
+deleteVendor(id: number): Observable<any> {
+  return this.http.delete<any>(`${this.baseUrl}/api/v1/library/vendor-delete/${id}`);
+
 }
 
 
@@ -188,4 +203,4 @@ deletePublisher(id: number): Observable<any> {
 
 
 
-
+}

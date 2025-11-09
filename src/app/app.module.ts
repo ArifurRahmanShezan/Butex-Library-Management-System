@@ -50,6 +50,7 @@ import { Trail2Component } from './trail-2/trail-2.component';
 import { Trail3Component } from './trail-3/trail-3.component';
 import { Trail4Component } from './trail-4/trail-4.component';
 import { RequestAdminComponent } from './request-admin/request-admin.component';
+import { PublisherComponent } from './publisher/publisher.component';
 
 
 
@@ -101,6 +102,7 @@ import { RequestAdminComponent } from './request-admin/request-admin.component';
     Trail3Component,
     Trail4Component,
     RequestAdminComponent,
+    PublisherComponent,
 
     // PatronCategoryComponent
   ],

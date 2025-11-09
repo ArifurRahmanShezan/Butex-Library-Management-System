@@ -1,0 +1,69 @@
+<div class="card">
+  <h2 class="title">{{ editingId === null ? 'Add Publisher' : 'Edit Publisher' }}</h2>
+
+  <form [formGroup]="publisherForm" (ngSubmit)="addOrUpdatePublisher()" novalidate>
+    <div class="form-row">
+      <label for="name">Name</label>
+      <input id="name" formControlName="name" placeholder="Publisher name" />
+      <div class="error" *ngIf="f['name'].touched && f['name'].invalid">
+        Name is required (max 120 chars).
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="address">Address</label>
+      <textarea id="address" formControlName="address" placeholder="Address"></textarea>
+      <div class="error" *ngIf="f['address'].touched && f['address'].invalid">
+        Address is required (max 250 chars).
+      </div>
+    </div>
+
+    <div class="form-row">
+      <label for="contactInfo">Contact</label>
+      <input id="contactInfo" formControlName="contactInfo" placeholder="+44 20 1234 5678" />
+      <div class="error" *ngIf="f['contactInfo'].touched && f['contactInfo'].invalid">
+        Contact is required (max 60 chars).
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button type="submit" class="btn primary">
+        {{ editingId === null ? 'Add' : 'Update' }}
+      </button>
+      <button type="button" class="btn outline" (click)="cancelEdit()" *ngIf="editingId !== null">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="list-card" *ngIf="publishers.length;">
+  <h3>Publishers ({{ publishers.length }})</h3>
+  <table class="publisher-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Contact</th>
+        <th class="actions-col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of publishers; let i = index; trackBy: trackById" [class.editing]="p.id === editingId">
+        <td>{{ publishers.length - i }}</td>
+        <td>{{ p.name }}</td>
+        <td class="mono">{{ p.address }}</td>
+        <td>{{ p.contactInfo }}</td>
+        <td class="actions-col">
+          <button class="btn small" (click)="editPublisher(p)">Edit</button>
+          <button class="btn small danger" (click)="deletePublisher(p.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="empty" *ngIf="publishers.length === 0">
+  No publishers yet. Fill the form to add one.
+</div>

@@ -165,8 +165,20 @@ export class ApiService {
   approveReq(id: number, data: { status: string; justification: string }): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/api/v1/library/request/status/${id}`, data);
   }
+//publisher
 
-
+getAllPublisher(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/api/v1/library//publishers`);
+}
+addPublisher(publisher: any): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/api/v1/library/publisher-add`, publisher);
+}
+updatePublisher(id: number, publisher: any): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/api/v1/library/publisher-update/${id}`, publisher);
+}
+deletePublisher(id: number): Observable<any> {
+  return this.http.delete<any>(`${this.baseUrl}/api/v1/library/publisher-delete/${id}`);
+}
 
 }
 

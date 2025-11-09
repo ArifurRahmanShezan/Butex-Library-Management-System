@@ -36,36 +36,6 @@ export class PublisherComponent  implements OnInit{
 
   get f() { return this.publisherForm.controls; }
 
-  // addOrUpdatePublisher(): void {
-  //   if (this.publisherForm.invalid) {
-  //     this.publisherForm.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   const payload = {
-  //     name: this.f['name'].value.trim(),
-  //     address: this.f['address'].value.trim(),
-  //     contactInfo: this.f['contactInfo'].value.trim()
-  //   };
-
-  //   if (this.editingId === null) {
-  //     // add new
-  //     const newPub: Publisher = {
-  //       id: this.nextId++,
-  //       ...payload
-  //     };
-  //     this.publishers = [newPub, ...this.publishers]; // show newest on top
-  //   } else {
-  //     // update existing
-  //     this.publishers = this.publishers.map(p =>
-  //       p.id === this.editingId ? { ...p, ...payload } : p
-  //     );
-  //     this.editingId = null;
-  //   }
-
-  //   this.publisherForm.reset();
-  // }
-
   editPublisher(p: Publisher): void {
     this.editingId = p.id;
     this.publisherForm.setValue({
@@ -81,12 +51,6 @@ export class PublisherComponent  implements OnInit{
     this.publisherForm.reset();
   }
 
-  // deletePublisher(id: number): void {
-  //   if (!confirm('Delete this publisher?')) return;
-  //   this.publishers = this.publishers.filter(p => p.id !== id);
-  //   // if deleting currently edited item, cancel edit
-  //   if (this.editingId === id) this.cancelEdit();
-  // }
   deletePublisher(id: number): void {
     if (!confirm('Delete this publisher?')) return;
     this.api.deletePublisher(id).subscribe(
@@ -126,7 +90,7 @@ addOrUpdatePublisher(): void {
 
   if (this.editingId === null) {
 
-    // ✅ SEND TO API
+    //  SEND TO API
     this.api.addPublisher(payload).subscribe(
       res => {
         this.loadPublishers();   // reload list from server
@@ -137,7 +101,7 @@ addOrUpdatePublisher(): void {
 
   } else {
 
-    // ✅ UPDATE TO API
+    //  UPDATE TO API
     this.api.updatePublisher(this.editingId, payload).subscribe(
       res => {
         this.loadPublishers();

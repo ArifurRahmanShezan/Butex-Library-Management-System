@@ -125,6 +125,7 @@ export class MenuListComponent {
         { label: 'patrone category', routerLink: 'patrone-category' },  
         { label: 'patron', routerLink: 'Patron' },
         { label: 'req-admin', routerLink: 'request-admin' },
+        { label:'publisher',routerLink:'publisher'},
         
       ]
     },

@@ -134,6 +134,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/records`);
   }
 
+  deleteRecord(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library/cataloging/records/${id}`);
+  }
+
   // ✅ POST new catalog item
   addCatalogItem(item: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/v1/library/cataloging/items`, item);
@@ -142,6 +146,11 @@ export class ApiService {
   getCatalogItem(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/queue`);
   }
+
+
+  // updateCatalogItem(id: number, item: any): Observable<any> {
+  //   return this.http.put<any>(`${this.baseUrl}/api/v1/library/cataloging/templates/${id}`, item);
+  // }
 
 
   // Request API

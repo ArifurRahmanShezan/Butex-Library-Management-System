@@ -79,6 +79,9 @@ export class Trail2Component implements OnInit {
     });
   }
 
+
+  
+
   // Open modal, optionally with a template to edit
   openModal(template: any = null): void {
     this.editingTemplate = template;

@@ -72,7 +72,7 @@ export class TrailComponent implements OnInit {
         console.log('Patron added successfully:', res);
         alert('✅ Patron added successfully!');
         this.resetForm();
-        this.loadPatrons(); // ✅ refresh patron list
+        this.loadPatrons(); 
       },
       error: (err) => {
         console.error('Error adding patron:', err);

@@ -71,9 +71,23 @@ export class Trail3Component implements OnInit {
     this.closeModal();
   }
 
+  // deleteRecord(id: number) {
+  //   if (confirm('Delete this record?')) {
+  //     console.log('Deleting record ID:', id);
+  //   }
+  // }
   deleteRecord(id: number) {
     if (confirm('Delete this record?')) {
-      console.log('Deleting record ID:', id);
+      this.apiService.deleteRecord(id).subscribe({
+        next: (res) => {
+          console.log('Record deleted:', res);
+          this.loadRecords(); // 🆕 Reload table after deleting record
+        },
+        error: (err) => {
+          console.error('Error deleting record:', err);
+          this.showMessage('❌ Failed to delete record.');
+        }
+      });
     }
   }
 

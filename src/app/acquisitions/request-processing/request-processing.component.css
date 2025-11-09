@@ -113,7 +113,7 @@ label {
 }
 
 input, select, textarea {
-  width: 100%;
+  width: 98%;
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: var(--radius);
@@ -145,6 +145,9 @@ textarea { resize: vertical; }
 }
 
 .modal-actions {
-  text-align: right;
-  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end; /* aligns buttons to the right, same as text-align: right */
+  gap: 10px; /* 👈 controls spacing between buttons */
+  margin-top: 20px;
 }
+

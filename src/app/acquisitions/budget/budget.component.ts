@@ -43,11 +43,11 @@ export class BudgetComponent implements OnInit {
 
   // Vendors
   vendorName: string = '';
-  vendorContact: string = '';
+  vendorcontactPerson: string = '';
   vendorEmail: string = '';
   vendorPhone: string = '';
   vendorAddress: string = '';
-  vendors: { name: string, contact: string, email :string, phone: string, address: string }[] = [];
+  vendors: { name: string, contactPerson: string, email :string, phone: string, address: string }[] = [];
 
   // Currencies
   currencyCode: string = '';
@@ -137,7 +137,7 @@ addAllocation() {
 addVendor() {
   const payload = {
     name: this.vendorName,
-    contact: this.vendorContact,
+    contactPerson: this.vendorcontactPerson,
     email: this.vendorEmail,
     phone: this.vendorPhone,
     address: this.vendorAddress
@@ -150,7 +150,7 @@ addVendor() {
 
       // Clear form
       this.vendorName = '';
-      this.vendorContact = '';
+      this.vendorcontactPerson = '';
       this.vendorEmail = '';
       this.vendorPhone = '';
       this.vendorAddress = '';

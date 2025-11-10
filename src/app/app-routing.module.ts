@@ -46,6 +46,7 @@ import { Trail3Component } from './trail-3/trail-3.component';
 import { Trail4Component } from './trail-4/trail-4.component';
 import { RequestAdminComponent } from './request-admin/request-admin.component';
 import { PublisherComponent } from './publisher/publisher.component';
+import { OrderComponent } from './order/order.component';
 
 
 
@@ -96,6 +97,7 @@ const routes: Routes = [
   { path: 'trial-4', component: Trail4Component },
   { path: 'request-admin', component: RequestAdminComponent },
   { path: 'publisher', component: PublisherComponent },
+  { path: 'order', component: OrderComponent },
   
 
 ];

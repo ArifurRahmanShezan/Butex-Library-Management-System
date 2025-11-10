@@ -84,7 +84,7 @@
         <label>Name *</label>
         <input type="text" [(ngModel)]="vendorName" name="vendorName" required>
         <label>Contact Person</label>
-        <input type="text" [(ngModel)]="vendorContact" name="vendorContact">
+        <input type="text" [(ngModel)]="vendorcontactPerson" name="vendorContact">
         <label>Email</label>
         <input type="email" [(ngModel)]="vendorEmail" name="vendorEmail">
         <label>Phone</label>
@@ -108,7 +108,7 @@
   <tbody>
     <tr *ngFor="let v of vendors; let i = index">
       <td>{{ v.name }}</td>
-      <td>{{ v.contact }}</td>
+      <td>{{ v.contactPerson }}</td>
       <td>{{ v.email }}</td>
       <td>{{ v.phone }}</td>
       <td>{{ v.address }}</td>

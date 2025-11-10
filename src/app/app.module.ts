@@ -51,6 +51,7 @@ import { Trail3Component } from './trail-3/trail-3.component';
 import { Trail4Component } from './trail-4/trail-4.component';
 import { RequestAdminComponent } from './request-admin/request-admin.component';
 import { PublisherComponent } from './publisher/publisher.component';
+import { OrderComponent } from './order/order.component';
 
 
 
@@ -103,6 +104,7 @@ import { PublisherComponent } from './publisher/publisher.component';
     Trail4Component,
     RequestAdminComponent,
     PublisherComponent,
+    OrderComponent,
 
     // PatronCategoryComponent
   ],

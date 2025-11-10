@@ -1,1 +1,258 @@
-<p>order works!</p>
+<div class="tw-p-8 tw-bg-gray-50 tw-min-h-screen">
+  <!-- Page Title -->
+  <h2 class="tw-text-2xl tw-font-semibold tw-text-gray-800 tw-mb-6">Order Management</h2>
+
+  <!-- Header -->
+  <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+    <h3 class="tw-text-xl tw-font-semibold tw-text-gray-700">Orders</h3>
+    <button
+      (click)="openAddModal()"
+      class="tw-bg-blue-600 tw-text-white tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-transition-all"
+    >
+      + Add New Order
+    </button>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="tw-bg-white tw-shadow-md tw-rounded-lg tw-overflow-hidden tw-border tw-border-gray-100">
+    <table class="tw-w-full tw-text-left tw-border-collapse">
+      <thead class="tw-bg-gray-100 tw-text-gray-700 tw-uppercase tw-text-sm">
+        <tr>
+          <th class="tw-px-4 tw-py-3">#</th>
+          <th class="tw-px-4 tw-py-3">Vendor</th>
+          <th class="tw-px-4 tw-py-3">Status</th>
+          <th class="tw-px-4 tw-py-3">Date</th>
+          <th class="tw-px-4 tw-py-3">Notes</th>
+          <th class="tw-px-4 tw-py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let o of orders; let i = index"
+          class="tw-border-b hover:tw-bg-gray-50 tw-text-gray-700"
+        >
+          <td class="tw-px-4 tw-py-2">{{ i + 1 }}</td>
+          <td class="tw-px-4 tw-py-2">{{ o.vendor?.name }}</td>
+          <td class="tw-px-4 tw-py-2">{{ o.status }}</td>
+          <td class="tw-px-4 tw-py-2">{{ o.orderDate | date: 'short' }}</td>
+          <td class="tw-px-4 tw-py-2">{{ o.notes }}</td>
+          <td class="tw-px-4 tw-py-2">
+            <button
+              (click)="openItemsModal(o)"
+              class="tw-bg-indigo-600 tw-text-white tw-text-sm tw-px-3 tw-py-1.5 tw-rounded hover:tw-bg-indigo-700"
+            >
+              View Items
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add Order Modal -->
+  <div
+    *ngIf="showAddModal"
+    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm"
+  >
+    <div class="tw-bg-white tw-w-[700px] tw-max-h-[85vh] tw-overflow-y-auto tw-rounded-lg tw-shadow-lg tw-p-6">
+      <div class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3 tw-mb-4">
+        <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">Add New Order</h3>
+        <span
+          class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl"
+          (click)="closeAddModal()"
+          >×</span
+        >
+      </div>
+
+      <form [formGroup]="orderForm" (ngSubmit)="submitOrder()" class="tw-space-y-4">
+        <!-- Vendor -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700">Vendor</label>
+          <select
+            formControlName="vendorId"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-mt-1 focus:tw-ring-blue-500 focus:tw-border-blue-500"
+          >
+            <option value="">Select Vendor</option>
+            <option *ngFor="let v of vendors" [value]="v.id">{{ v.name }}</option>
+          </select>
+        </div>
+
+        <!-- Notes -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700">Notes</label>
+          <textarea
+            formControlName="notes"
+            rows="2"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-mt-1 focus:tw-ring-blue-500 focus:tw-border-blue-500"
+          ></textarea>
+        </div>
+
+        <!-- Order Items -->
+        <h4 class="tw-text-lg tw-font-semibold tw-text-gray-700 tw-pt-3">Order Items</h4>
+        <div formArrayName="items" class="tw-space-y-4">
+          <div
+            *ngFor="let item of items.controls; let i = index"
+            [formGroupName]="i"
+            class="tw-bg-gray-50 tw-p-4 tw-rounded-lg tw-border tw-border-gray-200"
+          >
+            <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 tw-gap-3">
+              <input
+                placeholder="Title"
+                formControlName="title"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <input
+                placeholder="Author"
+                formControlName="author"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <input
+                placeholder="Publisher"
+                formControlName="publisher"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <input
+                placeholder="Year"
+                formControlName="publicationYear"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <input
+                placeholder="ISBN"
+                formControlName="isbn"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <input
+                type="number"
+                placeholder="Qty"
+                formControlName="quantity"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <input
+                type="number"
+                placeholder="Price"
+                formControlName="price"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
+              />
+              <button
+                type="button"
+                (click)="removeItem(i)"
+                *ngIf="items.length > 1"
+                class="tw-bg-red-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-600"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tw-flex tw-justify-between tw-items-center tw-pt-4 tw-border-t tw-mt-4">
+          <button
+            type="button"
+            (click)="addItem()"
+            class="tw-bg-gray-200 tw-text-gray-700 tw-px-3 tw-py-2 tw-rounded-md hover:tw-bg-gray-300"
+          >
+            + Add Item
+          </button>
+          <button
+            type="submit"
+            class="tw-bg-green-600 tw-text-white tw-px-5 tw-py-2 tw-rounded-md hover:tw-bg-green-700"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Items Modal -->
+  <div
+    *ngIf="showItemsModal"
+    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm"
+  >
+    <div
+      class="tw-bg-white tw-w-[850px] tw-max-h-[85vh] tw-overflow-y-auto tw-rounded-lg tw-shadow-xl tw-p-6"
+    >
+      <!-- Header -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3 tw-mb-4">
+        <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">Order Details</h3>
+        <span
+          class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl"
+          (click)="closeItemsModal()"
+          >×</span
+        >
+      </div>
+
+      <!-- Vendor Info -->
+      <div class="tw-bg-gray-50 tw-rounded-lg tw-p-4 tw-border tw-border-gray-200 tw-mb-6">
+        <h4 class="tw-text-lg tw-font-semibold tw-text-gray-700 tw-mb-3">Vendor Information</h4>
+        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-3">
+          <div>
+            <p class="tw-text-sm tw-text-gray-500">Name</p>
+            <p class="tw-font-medium tw-text-gray-800">{{ selectedOrder?.vendor?.name || '-' }}</p>
+          </div>
+          <div>
+            <p class="tw-text-sm tw-text-gray-500">Contact Person</p>
+            <p class="tw-font-medium tw-text-gray-800">
+              {{ selectedOrder?.vendor?.contactPerson || '-' }}
+            </p>
+          </div>
+          <div>
+            <p class="tw-text-sm tw-text-gray-500">Email</p>
+            <p class="tw-font-medium tw-text-gray-800">{{ selectedOrder?.vendor?.email || '-' }}</p>
+          </div>
+          <div>
+            <p class="tw-text-sm tw-text-gray-500">Phone</p>
+            <p class="tw-font-medium tw-text-gray-800">{{ selectedOrder?.vendor?.phone || '-' }}</p>
+          </div>
+          <div class="md:tw-col-span-2">
+            <p class="tw-text-sm tw-text-gray-500">Address</p>
+            <p class="tw-font-medium tw-text-gray-800">
+              {{ selectedOrder?.vendor?.address || '-' }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Items Table -->
+      <h4 class="tw-text-lg tw-font-semibold tw-text-gray-700 tw-mb-2">Order Items</h4>
+      <table class="tw-w-full tw-text-left tw-border-collapse">
+        <thead class="tw-bg-gray-100 tw-text-gray-700">
+          <tr>
+            <th class="tw-px-3 tw-py-2">#</th>
+            <th class="tw-px-3 tw-py-2">Title</th>
+            <th class="tw-px-3 tw-py-2">Author</th>
+            <th class="tw-px-3 tw-py-2">Publisher</th>
+            <th class="tw-px-3 tw-py-2">ISBN</th>
+            <th class="tw-px-3 tw-py-2">Qty</th>
+            <th class="tw-px-3 tw-py-2">Price</th>
+            <th class="tw-px-3 tw-py-2">Received</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let it of selectedOrder?.orderItems; let i = index"
+            class="hover:tw-bg-gray-50 tw-border-b tw-border-gray-100"
+          >
+            <td class="tw-px-3 tw-py-2">{{ i + 1 }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.title }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.author }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.publisher }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.isbn }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.quantity }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.price | currency }}</td>
+            <td class="tw-px-3 tw-py-2">
+              <span
+                class="tw-inline-block tw-px-2 tw-py-[2px] tw-rounded-full tw-text-xs"
+                [ngClass]="{
+                  'tw-bg-green-100 tw-text-green-700': it.received,
+                  'tw-bg-yellow-100 tw-text-yellow-700': !it.received
+                }"
+                >{{ it.received ? 'Yes' : 'No' }}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

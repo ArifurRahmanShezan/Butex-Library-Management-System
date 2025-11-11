@@ -2,26 +2,28 @@
   <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-max-w-7xl tw-mx-auto tw-p-10">
     <h2 class="tw-text-2xl tw-font-semibold tw-text-gray-800 tw-mb-6">Library Management System</h2>
 
-    <!-- Tabs -->
-    <div class="tw-mb-6">
-      <button [class.tw-bg-blue-600]="currentTab==='category'" [class.tw-text-white]="currentTab==='category'"
-        (click)="switchTab('category')"
-        class="tw-px-5 tw-py-2 tw-rounded-md tw-bg-gray-200 tw-text-gray-700 tw-font-medium tw-mr-2 hover:tw-bg-gray-300 focus:tw-bg-blue-600 focus:tw-text-white tw-transition">
-        Category
-      </button>
 
-      <button [class.tw-bg-blue-600]="currentTab==='privilege'" [class.tw-text-white]="currentTab==='privilege'"
-        (click)="switchTab('privilege')"
-        class="tw-px-5 tw-py-2 tw-rounded-md tw-bg-gray-200 tw-text-gray-700 tw-font-medium tw-mr-2 hover:tw-bg-gray-300 focus:tw-bg-blue-600 focus:tw-text-white tw-transition">
-        Privilege
-      </button>
+    <!-- Category Tab -->
+    <button (click)="switchTab('category')" [ngClass]="{ 'tw-bg-blue-600 tw-text-white': currentTab === 'category',
+    'tw-bg-gray-200 tw-text-black hover:tw-bg-gray-300': currentTab !== 'category'
+    }" class="tw-px-5 tw-py-2 tw-rounded-md tw-font-medium tw-mr-2 tw-transition">
+      Category
+    </button>
 
-      <button [class.tw-bg-blue-600]="currentTab==='patron'" [class.tw-text-white]="currentTab==='patron'"
-        (click)="switchTab('patron')"
-        class="tw-px-5 tw-py-2 tw-rounded-md tw-bg-gray-200 tw-text-gray-700 tw-font-medium hover:tw-bg-gray-300 focus:tw-bg-blue-600 focus:tw-text-white tw-transition">
-        Patrons
-      </button>
-    </div>
+    <!-- Privilege Tab -->
+    <button (click)="switchTab('privilege')" [ngClass]="{ 'tw-bg-blue-600 tw-text-white': currentTab === 'privilege',
+    'tw-bg-gray-200 tw-text-black hover:tw-bg-gray-300': currentTab !== 'privilege'
+    }" class="tw-px-5 tw-py-2 tw-rounded-md tw-font-medium tw-mr-2 tw-transition">
+      Privilege
+    </button>
+
+    <!-- Patrons Tab -->
+    <button (click)="switchTab('patron')" [ngClass]="{ 'tw-bg-blue-600 tw-text-white': currentTab === 'patron',
+    'tw-bg-gray-200 tw-text-black hover:tw-bg-gray-300': currentTab !== 'patron'
+    }" class="tw-px-5 tw-py-2 tw-rounded-md tw-font-medium tw-transition">
+      Patrons
+    </button>
+
 
 
     <!-- ================= CATEGORY TAB ================= -->

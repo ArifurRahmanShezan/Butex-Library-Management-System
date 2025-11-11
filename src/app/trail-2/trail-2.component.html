@@ -1,83 +1,106 @@
-<h2>Catalogue Template Management</h2>
+<div class="tw-font-sans tw-bg-gray-100 tw-min-h-screen tw-p-6">
+  <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-max-w-7xl tw-mx-auto tw-p-10">
+<h2 class="tw-text-2xl tw-font-semibold tw-mb-4">Catalogue Template Management</h2>
 
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
-    <h3>Templates</h3>
-    <button class="btn-success" (click)="openModal()">Add Template</button>
+<div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+  <h3 class="tw-text-xl tw-font-medium">Templates</h3>
+  <button class="tw-bg-green-600 tw-text-white tw-px-4 tw-py-2 tw-rounded hover:tw-bg-green-700 tw-transition" (click)="openModal()">Add Template</button>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Template Name</th>
-            <th>Description</th>
-            <th>Created Date</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let t of templates; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ t.name }}</td>
-            <td>{{ t.description }}</td>
-            <td>{{ t.createdAt | date:'short' }}</td>
-            <td>
-                <button class="btn-primary" (click)="openModal(t)">Edit</button>
-            </td>
-        </tr>
-    </tbody>
+<table class="tw-w-full tw-border-collapse tw-mb-6">
+  <thead>
+    <tr class="tw-bg-gray-100">
+      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">#</th>
+      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Template Name</th>
+      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Description</th>
+      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Created Date</th>
+      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of templates; let i = index" class="hover:tw-bg-gray-50">
+      <td class="tw-border tw-px-3 tw-py-2">{{ i + 1 }}</td>
+      <td class="tw-border tw-px-3 tw-py-2">{{ t.name }}</td>
+      <td class="tw-border tw-px-3 tw-py-2">{{ t.description }}</td>
+      <td class="tw-border tw-px-3 tw-py-2">{{ t.createdAt | date:'short' }}</td>
+      <td class="tw-border tw-px-3 tw-py-2">
+        <button class="tw-bg-blue-600 tw-text-white tw-px-3 tw-py-1 tw-rounded hover:tw-bg-blue-700 tw-transition" (click)="openModal(t)">
+          Edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- Modal -->
-<div id="modal" *ngIf="showModal" style="display:flex;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>{{ editingTemplate ? 'Edit' : 'Add' }} Catalogue Template</h3>
-            <span class="close-btn" (click)="closeModal()">×</span>
+<div *ngIf="showModal" class="tw-fixed tw-inset-0 tw-bg-black/50 tw-flex tw-items-center tw-justify-center tw-z-50">
+  <div class="tw-bg-white tw-rounded-lg tw-shadow-lg tw-w-[800px] tw-max-w-[90%] tw-p-6 tw-relative">
+    <!-- Header -->
+    <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+      <h3 class="tw-text-xl tw-font-semibold">{{ editingTemplate ? 'Edit' : 'Add' }} Catalogue Template</h3>
+      <button class="tw-text-gray-500 hover:tw-text-gray-700 tw-text-2xl tw-font-bold" (click)="closeModal()">×</button>
+    </div>
+
+    <form [formGroup]="templateForm" (ngSubmit)="submit()" class="tw-space-y-4">
+      <div>
+        <label class="tw-block tw-font-medium tw-mb-1">Template Name</label>
+        <input formControlName="name" placeholder="Enter template name"
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded tw-px-3 tw-py-2 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-200" />
+      </div>
+
+      <div>
+        <label class="tw-block tw-font-medium tw-mb-1">Description</label>
+        <textarea formControlName="description" placeholder="Enter template description"
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded tw-px-3 tw-py-2 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-200"></textarea>
+      </div>
+
+      <!-- MARC Fields -->
+      <div>
+        <label class="tw-block tw-font-medium tw-mb-2">MARC Fields</label>
+        <div class="tw-grid tw-grid-cols-[50px_50px_50px_70px_100px_80px_80px_60px_auto] tw-gap-2 tw-font-semibold tw-border-b tw-pb-1">
+          <div>Tag</div>
+          <div>Ind1</div>
+          <div>Ind2</div>
+          <div>Subfield</div>
+          <div>Label</div>
+          <div>Default</div>
+          <div>Repeatable</div>
+          <div>Order</div>
+          <div></div>
         </div>
 
-        <form [formGroup]="templateForm" (ngSubmit)="submit()">
-            <label>Template Name</label>
-            <input formControlName="name" placeholder="Enter template name">
+        <div formArrayName="fields" class="tw-mt-2 tw-space-y-2">
+          <div *ngFor="let field of fields.controls; let i=index" [formGroup]="field"
+            class="tw-grid tw-grid-cols-[50px_50px_50px_70px_100px_80px_80px_60px_auto] tw-gap-2 tw-items-center">
+            <input formControlName="marcTag" placeholder="Tag" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <input formControlName="marcIndicator1" placeholder="Ind1" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <input formControlName="marcIndicator2" placeholder="Ind2" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <input formControlName="subfield" placeholder="Subfield" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <input formControlName="label" placeholder="Label" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <input formControlName="defaultValue" placeholder="Default" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <select formControlName="repeatable" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm">
+              <option [ngValue]="true">Yes</option>
+              <option [ngValue]="false">No</option>
+            </select>
+            <input formControlName="displayOrder" type="number" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+            <button type="button" class="tw-bg-red-600 tw-text-white tw-rounded tw-px-2 tw-py-1 hover:tw-bg-red-700"
+              (click)="removeField(i)">×</button>
+          </div>
+        </div>
 
-            <label>Description</label>
-            <textarea formControlName="description" placeholder="Enter template description"></textarea>
-
-            <label>MARC Fields</label>
-            <div class="marc-header">
-                <div>Tag</div>
-                <div>Ind1</div>
-                <div>Ind2</div>
-                <div>Subfield</div>
-                <div>Label</div>
-                <div>Default</div>
-                <div>Repeatable</div>
-                <div>Order</div>
-                <div></div>
-            </div>
-
-            <div formArrayName="fields">
-                <div *ngFor="let field of fields.controls; let i=index" [formGroup]="field" class="marc-row">
-                    <input formControlName="marcTag" placeholder="Tag">
-                    <input formControlName="marcIndicator1" placeholder="Ind1">
-                    <input formControlName="marcIndicator2" placeholder="Ind2">
-                    <input formControlName="subfield" placeholder="Subfield">
-                    <input formControlName="label" placeholder="Label">
-                    <input formControlName="defaultValue" placeholder="Default">
-                    <select formControlName="repeatable">
-                        <option [ngValue]="true">Yes</option>
-                        <option [ngValue]="false">No</option>
-                    </select>
-                    <input formControlName="displayOrder" type="number">
-                    <button type="button" class="btn-danger" (click)="removeField(i)">×</button>
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button type="button" class="btn-secondary" (click)="addField()">Add MARC Field</button>
-                <button type="submit" class="btn-success">Save Template</button>
-            </div>
-
-        </form>
-
-    </div>
+        <!-- Actions -->
+        <div class="tw-flex tw-justify-end tw-gap-3 tw-mt-4">
+          <button type="button"
+            class="tw-bg-gray-600 tw-text-white tw-rounded tw-px-3 tw-py-2 hover:tw-bg-gray-700 tw-transition"
+            (click)="addField()">Add MARC Field</button>
+          <button type="submit"
+            class="tw-bg-green-600 tw-text-white tw-rounded tw-px-4 tw-py-2 hover:tw-bg-green-700 tw-transition">
+            Save Template
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
 </div>

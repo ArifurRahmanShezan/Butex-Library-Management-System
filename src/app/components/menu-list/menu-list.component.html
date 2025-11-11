@@ -9,11 +9,12 @@
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
     >
-      <a *ngIf="!item.isDropdown"
+    <!-- DashBoard Menu -->
+      <!-- <a *ngIf="!item.isDropdown"
          [routerLink]="item.routerLink"
          class="menu-link">
          {{ item.label }}
-      </a>
+      </a> -->
 
       <div *ngIf="item.isDropdown" class="dropdown-label">
         {{ item.label }}

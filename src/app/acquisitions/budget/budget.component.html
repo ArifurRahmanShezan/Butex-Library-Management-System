@@ -1,14 +1,31 @@
-<div class="container">
-  <h1 style="text-align:center;margin-bottom:20px;"> Budget & Vendor Dashboard</h1>
+<div class="tw-p-8 tw-bg-gray-50 tw-min-h-screen">
+  <!-- Page Title -->
+  <h1 class="tw-text-3xl tw-font-bold tw-text-gray-800 tw-text-center tw-mb-8">
+    Budget & Vendor Dashboard
+  </h1>
 
   <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab" [class.active]="activeTab==='sources'" (click)="switchTab('sources')">Budget Sources</div>
-    <div class="tab" [class.active]="activeTab==='heads'" (click)="switchTab('heads')">Budget Heads</div>
-    <div class="tab" [class.active]="activeTab==='allocations'" (click)="switchTab('allocations')">Budget Allocations</div>
-    <div class="tab" [class.active]="activeTab==='vendors'" (click)="switchTab('vendors')">Vendors</div>
-    <div class="tab" [class.active]="activeTab==='currencies'" (click)="switchTab('currencies')">Currencies</div>
-    <div class="tab" [class.active]="activeTab==='fiscal'" (click)="switchTab('fiscal')">Fiscal Years</div>
+  <div class="tw-flex tw-flex-wrap tw-border-b tw-border-gray-200 tw-mb-6">
+    <div *ngFor="let tab of ['sources', 'heads', 'allocations', 'vendors', 'currencies', 'fiscal']"
+      (click)="switchTab(tab)"
+      class="tw-px-5 tw-py-2.5 tw-font-semibold tw-cursor-pointer tw-rounded-t-md tw-transition-all tw-mr-2" [ngClass]="{
+        'tw-bg-blue-600 tw-text-white': activeTab === tab,
+        'tw-bg-gray-200 tw-text-gray-700 hover:tw-bg-gray-300': activeTab !== tab
+      }">
+      {{
+      tab === 'sources'
+      ? 'Budget Sources'
+      : tab === 'heads'
+      ? 'Budget Heads'
+      : tab === 'allocations'
+      ? 'Budget Allocations'
+      : tab === 'vendors'
+      ? 'Vendors'
+      : tab === 'currencies'
+      ? 'Currencies'
+      : 'Fiscal Years'
+      }}
+    </div>
   </div>
 
   <!-- Budget Sources -->
@@ -23,10 +40,20 @@
         <button type="submit">Add Source</button>
       </form>
       <table>
-        <thead><tr><th>Source Name</th><th>Amount</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Source Name</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr *ngFor="let s of sources"><td>{{s.name}}</td><td>{{s.amount}}</td></tr>
-          <tr *ngIf="sources.length===0"><td colspan="2" class="empty">No sources added yet.</td></tr>
+          <tr *ngFor="let s of sources">
+            <td>{{s.name}}</td>
+            <td>{{s.amount}}</td>
+          </tr>
+          <tr *ngIf="sources.length===0">
+            <td colspan="2" class="empty">No sources added yet.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -44,10 +71,20 @@
         <button type="submit">Add Head</button>
       </form>
       <table>
-        <thead><tr><th>Head Name</th><th>Description</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Head Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr *ngFor="let h of heads"><td>{{h}}</td><td>{{headDesc}}</td></tr>
-          <tr *ngIf="heads.length===0"><td colspan="2" class="empty">No heads added yet.</td></tr>
+          <tr *ngFor="let h of heads">
+            <td>{{h}}</td>
+            <td>{{headDesc}}</td>
+          </tr>
+          <tr *ngIf="heads.length===0">
+            <td colspan="2" class="empty">No heads added yet.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -67,65 +104,158 @@
         <button type="submit">Allocate</button>
       </form>
       <table>
-        <thead><tr><th>Head</th><th>Amount</th><th>Fiscal Year</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Head</th>
+            <th>Amount</th>
+            <th>Fiscal Year</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr *ngFor="let a of allocations"><td>{{a.head}}</td><td>{{a.amount}}</td><td>{{a.year}}</td></tr>
-          <tr *ngIf="allocations.length===0"><td colspan="3" class="empty">No allocations added yet.</td></tr>
+          <tr *ngFor="let a of allocations">
+            <td>{{a.head}}</td>
+            <td>{{a.amount}}</td>
+            <td>{{a.year}}</td>
+          </tr>
+          <tr *ngIf="allocations.length===0">
+            <td colspan="3" class="empty">No allocations added yet.</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <!-- Vendors -->
-  <div class="tab-content" [class.active]="activeTab==='vendors'">
-    <div class="card">
-      <h2>Add Vendor</h2>
-      <form (ngSubmit)="addVendor()">
-        <label>Name *</label>
-        <input type="text" [(ngModel)]="vendorName" name="vendorName" required>
-        <label>Contact Person</label>
-        <input type="text" [(ngModel)]="vendorcontactPerson" name="vendorContact">
-        <label>Email</label>
-        <input type="email" [(ngModel)]="vendorEmail" name="vendorEmail">
-        <label>Phone</label>
-        <input type="phone" [(ngModel)]="vendorPhone" name="vendorPhone">
-        <label>Address</label>
-        <textarea [(ngModel)]="vendorAddress" name="vendorAddress" rows="2"></textarea>
-        <button type="submit">Add Vendor</button>
-      </form>
-      <table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Contact Person</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Address</th>
-      <th style="text-align: center;">Actions</th>
-    </tr>
-  </thead>
+  <div *ngIf="activeTab === 'vendors'" class="tw-bg-white tw-shadow-md tw-rounded-lg tw-p-6">
+    <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+      <h3 class="tw-text-xl tw-font-semibold tw-text-gray-700">Vendors</h3>
+      <button (click)="openVendorModal()"
+        class="tw-bg-blue-600 tw-text-white tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-transition-all">
+        + Add Vendor
+      </button>
+    </div>
 
-  <tbody>
-    <tr *ngFor="let v of vendors; let i = index">
-      <td>{{ v.name }}</td>
-      <td>{{ v.contactPerson }}</td>
-      <td>{{ v.email }}</td>
-      <td>{{ v.phone }}</td>
-      <td>{{ v.address }}</td>
-
-      <td style="text-align: center; white-space: nowrap;">
-  <button class="edit-btn" (click)="editVendor(i)">Edit</button>
-  <button class="delete-btn" (click)="deleteVendor(i)">Delete</button>
-</td>
-    </tr>
-
-    <tr *ngIf="vendors.length === 0">
-      <td colspan="6" class="empty">No vendors added yet.</td>
-    </tr>
-  </tbody>
-</table>
+    <!-- Vendor Table -->
+    <div class="tw-overflow-x-auto">
+      <table class="tw-w-full tw-border-collapse tw-text-left">
+        <thead class="tw-bg-gray-100 tw-text-gray-700 tw-uppercase tw-text-sm">
+          <tr>
+            <th class="tw-px-4 tw-py-3">Name</th>
+            <th class="tw-px-4 tw-py-3">Contact</th>
+            <th class="tw-px-4 tw-py-3">Email</th>
+            <th class="tw-px-4 tw-py-3">Phone</th>
+            <th class="tw-px-4 tw-py-3">Address</th>
+            <th class="tw-px-4 tw-py-3 tw-text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let v of vendors; let i = index" class="tw-border-b hover:tw-bg-gray-50 tw-text-gray-700">
+            <td class="tw-px-4 tw-py-2">{{ v.name }}</td>
+            <td class="tw-px-4 tw-py-2">{{ v.contactPerson }}</td>
+            <td class="tw-px-4 tw-py-2">{{ v.email }}</td>
+            <td class="tw-px-4 tw-py-2">{{ v.phone }}</td>
+            <td class="tw-px-4 tw-py-2">{{ v.address }}</td>
+            <td class="tw-px-4 tw-py-2 tw-text-center">
+              <button (click)="editVendor(i)"
+                class="tw-bg-blue-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 tw-text-sm hover:tw-bg-blue-600 tw-mr-2">
+                Edit
+              </button>
+              <button (click)="deleteVendor(i)"
+                class="tw-bg-red-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 tw-text-sm hover:tw-bg-red-600">
+                Delete
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="vendors.length === 0">
+            <td colspan="6" class="tw-text-center tw-text-gray-500 tw-py-4">
+              No vendors added yet.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+
+  <!-- VENDOR MODAL -->
+  <div *ngIf="showVendorModal"
+    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm">
+    <div
+      class="tw-bg-white tw-w-[600px] tw-rounded-lg tw-shadow-lg tw-p-6 tw-relative tw-max-h-[85vh] tw-overflow-y-auto">
+      <div class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3 tw-mb-4">
+        <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">
+          {{ editVendorId ? 'Edit Vendor' : 'Add New Vendor' }}
+        </h3>
+        <span (click)="closeVendorModal()"
+          class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl">&times;</span>
+      </div>
+
+      <form (ngSubmit)="addVendor()" class="tw-space-y-5">
+        <!-- Form Title Description -->
+        <p class="tw-text-sm tw-text-gray-500 tw-mb-3">
+          Please fill in the details below to {{ editVendorId ? 'update' : 'add a new' }} vendor.
+        </p>
+
+        <!-- Name -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Vendor Name <span
+              class="tw-text-red-500">*</span></label>
+          <input type="text" [(ngModel)]="vendorName" name="vendorName" required
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
+            placeholder="Enter vendor name" />
+        </div>
+
+        <!-- Contact Person -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Contact Person</label>
+          <input type="text" [(ngModel)]="vendorcontactPerson" name="vendorContact"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
+            placeholder="Full name of contact person" />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Email</label>
+          <input type="email" [(ngModel)]="vendorEmail" name="vendorEmail"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
+            placeholder="e.g. vendor@example.com" />
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Phone</label>
+          <input type="text" [(ngModel)]="vendorPhone" name="vendorPhone"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
+            placeholder="Enter phone number" />
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Address</label>
+          <textarea rows="3" [(ngModel)]="vendorAddress" name="vendorAddress"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
+            placeholder="Street, City, Country"></textarea>
+        </div>
+
+        <!-- Divider -->
+        <hr class="tw-border-gray-200 tw-my-4" />
+
+        <!-- Buttons -->
+        <div class="tw-flex tw-justify-end tw-space-x-3">
+          <button type="button" (click)="closeVendorModal()"
+            class="tw-bg-gray-100 tw-text-gray-700 tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-gray-200 tw-font-medium tw-transition-all">
+            Cancel
+          </button>
+          <button type="submit"
+            class="tw-bg-blue-600 tw-text-white tw-px-6 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-font-semibold tw-transition-all">
+            {{ editVendorId ? 'Update Vendor' : 'Save Vendor' }}
+          </button>
+        </div>
+      </form>
+
+
+    </div>
+  </div>
+
 
   <!-- Currencies -->
   <div class="tab-content" [class.active]="activeTab==='currencies'">
@@ -139,10 +269,20 @@
         <button type="submit">Add Currency</button>
       </form>
       <table>
-        <thead><tr><th>Currency Code</th><th>Rate</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Currency Code</th>
+            <th>Rate</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr *ngFor="let c of currencies"><td>{{c.code}}</td><td>{{c.rate}}</td></tr>
-          <tr *ngIf="currencies.length===0"><td colspan="2" class="empty">No currencies added yet.</td></tr>
+          <tr *ngFor="let c of currencies">
+            <td>{{c.code}}</td>
+            <td>{{c.rate}}</td>
+          </tr>
+          <tr *ngIf="currencies.length===0">
+            <td colspan="2" class="empty">No currencies added yet.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -162,10 +302,22 @@
         <button type="submit">Add Year</button>
       </form>
       <table>
-        <thead><tr><th>Year</th><th>Start Date</th><th>End Date</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+          </tr>
+        </thead>
         <tbody>
-          <tr *ngFor="let y of years"><td>{{y.year}}</td><td>{{y.start}}</td><td>{{y.end}}</td></tr>
-          <tr *ngIf="years.length===0"><td colspan="3" class="empty">No fiscal years added yet.</td></tr>
+          <tr *ngFor="let y of years">
+            <td>{{y.year}}</td>
+            <td>{{y.start}}</td>
+            <td>{{y.end}}</td>
+          </tr>
+          <tr *ngIf="years.length===0">
+            <td colspan="3" class="empty">No fiscal years added yet.</td>
+          </tr>
         </tbody>
       </table>
     </div>

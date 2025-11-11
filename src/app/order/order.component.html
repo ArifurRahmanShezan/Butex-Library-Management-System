@@ -5,10 +5,8 @@
   <!-- Header -->
   <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
     <h3 class="tw-text-xl tw-font-semibold tw-text-gray-700">Orders</h3>
-    <button
-      (click)="openAddModal()"
-      class="tw-bg-blue-600 tw-text-white tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-transition-all"
-    >
+    <button (click)="openAddModal()"
+      class="tw-bg-blue-600 tw-text-white tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-transition-all">
       + Add New Order
     </button>
   </div>
@@ -27,20 +25,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let o of orders; let i = index"
-          class="tw-border-b hover:tw-bg-gray-50 tw-text-gray-700"
-        >
+        <tr *ngFor="let o of orders; let i = index" class="tw-border-b hover:tw-bg-gray-50 tw-text-gray-700">
           <td class="tw-px-4 tw-py-2">{{ i + 1 }}</td>
           <td class="tw-px-4 tw-py-2">{{ o.vendor?.name }}</td>
           <td class="tw-px-4 tw-py-2">{{ o.status }}</td>
           <td class="tw-px-4 tw-py-2">{{ o.orderDate | date: 'short' }}</td>
           <td class="tw-px-4 tw-py-2">{{ o.notes }}</td>
           <td class="tw-px-4 tw-py-2">
-            <button
-              (click)="openItemsModal(o)"
-              class="tw-bg-indigo-600 tw-text-white tw-text-sm tw-px-3 tw-py-1.5 tw-rounded hover:tw-bg-indigo-700"
-            >
+            <button (click)="openItemsModal(o)"
+              class="tw-bg-indigo-600 tw-text-white tw-text-sm tw-px-3 tw-py-1.5 tw-rounded hover:tw-bg-indigo-700">
               View Items
             </button>
           </td>
@@ -50,28 +43,21 @@
   </div>
 
   <!-- Add Order Modal -->
-  <div
-    *ngIf="showAddModal"
-    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm"
-  >
+  <div *ngIf="showAddModal"
+    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm">
     <div class="tw-bg-white tw-w-[700px] tw-max-h-[85vh] tw-overflow-y-auto tw-rounded-lg tw-shadow-lg tw-p-6">
       <div class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3 tw-mb-4">
         <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">Add New Order</h3>
-        <span
-          class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl"
-          (click)="closeAddModal()"
-          >×</span
-        >
+        <span class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl"
+          (click)="closeAddModal()">×</span>
       </div>
 
       <form [formGroup]="orderForm" (ngSubmit)="submitOrder()" class="tw-space-y-4">
         <!-- Vendor -->
         <div>
           <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700">Vendor</label>
-          <select
-            formControlName="vendorId"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-mt-1 focus:tw-ring-blue-500 focus:tw-border-blue-500"
-          >
+          <select formControlName="vendorId"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-mt-1 focus:tw-ring-blue-500 focus:tw-border-blue-500">
             <option value="">Select Vendor</option>
             <option *ngFor="let v of vendors" [value]="v.id">{{ v.name }}</option>
           </select>
@@ -80,65 +66,32 @@
         <!-- Notes -->
         <div>
           <label class="tw-block tw-text-sm tw-font-medium tw-text-gray-700">Notes</label>
-          <textarea
-            formControlName="notes"
-            rows="2"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-mt-1 focus:tw-ring-blue-500 focus:tw-border-blue-500"
-          ></textarea>
+          <textarea formControlName="notes" rows="2"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-mt-1 focus:tw-ring-blue-500 focus:tw-border-blue-500"></textarea>
         </div>
 
         <!-- Order Items -->
         <h4 class="tw-text-lg tw-font-semibold tw-text-gray-700 tw-pt-3">Order Items</h4>
         <div formArrayName="items" class="tw-space-y-4">
-          <div
-            *ngFor="let item of items.controls; let i = index"
-            [formGroupName]="i"
-            class="tw-bg-gray-50 tw-p-4 tw-rounded-lg tw-border tw-border-gray-200"
-          >
+          <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
+            class="tw-bg-gray-50 tw-p-4 tw-rounded-lg tw-border tw-border-gray-200">
             <div class="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 tw-gap-3">
-              <input
-                placeholder="Title"
-                formControlName="title"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <input
-                placeholder="Author"
-                formControlName="author"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <input
-                placeholder="Publisher"
-                formControlName="publisher"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <input
-                placeholder="Year"
-                formControlName="publicationYear"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <input
-                placeholder="ISBN"
-                formControlName="isbn"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <input
-                type="number"
-                placeholder="Qty"
-                formControlName="quantity"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <input
-                type="number"
-                placeholder="Price"
-                formControlName="price"
-                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2"
-              />
-              <button
-                type="button"
-                (click)="removeItem(i)"
-                *ngIf="items.length > 1"
-                class="tw-bg-red-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-600"
-              >
+              <input placeholder="Title" formControlName="title"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <input placeholder="Author" formControlName="author"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <input placeholder="Publisher" formControlName="publisher"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <input placeholder="Year" formControlName="publicationYear"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <input placeholder="ISBN" formControlName="isbn"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <input type="number" min="1" placeholder="Qty" formControlName="quantity"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <input type="number" min="0" placeholder="Price" formControlName="price"
+                class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2" />
+              <button type="button" (click)="removeItem(i)" *ngIf="items.length > 1"
+                class="tw-bg-red-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-600">
                 Remove
               </button>
             </div>
@@ -146,17 +99,12 @@
         </div>
 
         <div class="tw-flex tw-justify-between tw-items-center tw-pt-4 tw-border-t tw-mt-4">
-          <button
-            type="button"
-            (click)="addItem()"
-            class="tw-bg-gray-200 tw-text-gray-700 tw-px-3 tw-py-2 tw-rounded-md hover:tw-bg-gray-300"
-          >
+          <button type="button" (click)="addItem()"
+            class="tw-bg-gray-200 tw-text-gray-700 tw-px-3 tw-py-2 tw-rounded-md hover:tw-bg-gray-300">
             + Add Item
           </button>
-          <button
-            type="submit"
-            class="tw-bg-green-600 tw-text-white tw-px-5 tw-py-2 tw-rounded-md hover:tw-bg-green-700"
-          >
+          <button type="submit"
+            class="tw-bg-green-600 tw-text-white tw-px-5 tw-py-2 tw-rounded-md hover:tw-bg-green-700">
             Save
           </button>
         </div>
@@ -165,21 +113,14 @@
   </div>
 
   <!-- View Items Modal -->
-  <div
-    *ngIf="showItemsModal"
-    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm"
-  >
-    <div
-      class="tw-bg-white tw-w-[850px] tw-max-h-[85vh] tw-overflow-y-auto tw-rounded-lg tw-shadow-xl tw-p-6"
-    >
+  <div *ngIf="showItemsModal"
+    class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm">
+    <div class="tw-bg-white tw-w-[850px] tw-max-h-[85vh] tw-overflow-y-auto tw-rounded-lg tw-shadow-xl tw-p-6">
       <!-- Header -->
       <div class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3 tw-mb-4">
         <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">Order Details</h3>
-        <span
-          class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl"
-          (click)="closeItemsModal()"
-          >×</span
-        >
+        <span class="tw-cursor-pointer tw-text-gray-400 hover:tw-text-red-500 tw-text-2xl"
+          (click)="closeItemsModal()">×</span>
       </div>
 
       <!-- Vendor Info -->
@@ -229,26 +170,20 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            *ngFor="let it of selectedOrder?.orderItems; let i = index"
-            class="hover:tw-bg-gray-50 tw-border-b tw-border-gray-100"
-          >
+          <tr *ngFor="let it of selectedOrder?.orderItems; let i = index"
+            class="hover:tw-bg-gray-50 tw-border-b tw-border-gray-100">
             <td class="tw-px-3 tw-py-2">{{ i + 1 }}</td>
             <td class="tw-px-3 tw-py-2">{{ it.title }}</td>
             <td class="tw-px-3 tw-py-2">{{ it.author }}</td>
             <td class="tw-px-3 tw-py-2">{{ it.publisher }}</td>
             <td class="tw-px-3 tw-py-2">{{ it.isbn }}</td>
             <td class="tw-px-3 tw-py-2">{{ it.quantity }}</td>
-            <td class="tw-px-3 tw-py-2">{{ it.price | currency }}</td>
+            <td class="tw-px-3 tw-py-2">{{ it.price }}</td>
             <td class="tw-px-3 tw-py-2">
-              <span
-                class="tw-inline-block tw-px-2 tw-py-[2px] tw-rounded-full tw-text-xs"
-                [ngClass]="{
+              <span class="tw-inline-block tw-px-2 tw-py-[2px] tw-rounded-full tw-text-xs" [ngClass]="{
                   'tw-bg-green-100 tw-text-green-700': it.received,
                   'tw-bg-yellow-100 tw-text-yellow-700': !it.received
-                }"
-                >{{ it.received ? 'Yes' : 'No' }}</span
-              >
+                }">{{ it.received ? 'Yes' : 'No' }}</span>
             </td>
           </tr>
         </tbody>

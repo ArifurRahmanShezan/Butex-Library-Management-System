@@ -200,7 +200,7 @@ deleteVendor(id: number): Observable<any> {
 
 // Order API
 
-getOredr(): Observable<any[]> {
+getOrder(): Observable<any[]> {
   return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/orders`);
 }
 

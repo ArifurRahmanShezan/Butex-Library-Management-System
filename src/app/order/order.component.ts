@@ -17,7 +17,7 @@ export class OrderComponent implements OnInit {
   showAddModal = false;
   showItemsModal = false;
 
-  constructor(private fb: FormBuilder, private api: ApiService) {}
+  constructor(private fb: FormBuilder, private api: ApiService) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -40,8 +40,8 @@ export class OrderComponent implements OnInit {
       publisher: [''],
       publicationYear: [''],
       isbn: [''],
-      quantity: [1, Validators.required],
-      price: [0, Validators.required]
+      quantity: [null, [Validators.required, Validators.min(1)]],
+      price: [null, [Validators.required, Validators.min(0)]]
     });
   }
 
@@ -62,7 +62,7 @@ export class OrderComponent implements OnInit {
   }
 
   loadOrders() {
-    this.api.getOredr().subscribe(o => (this.orders = o));
+    this.api.getOrder().subscribe(o => (this.orders = o));
   }
 
   // ✅ Reactive modal handling

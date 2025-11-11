@@ -1,195 +1,268 @@
-<div class="container">
-  <h2>Library Management System</h2>
+<div class="tw-font-sans tw-bg-gray-100 tw-min-h-screen tw-p-6">
+  <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-max-w-7xl tw-mx-auto tw-p-10">
+    <h2 class="tw-text-2xl tw-font-semibold tw-text-gray-800 tw-mb-6">Library Management System</h2>
 
-  <!-- Tabs -->
-  <div class="tabs">
-    <button [class.active]="currentTab==='category'" (click)="switchTab('category')">Category</button>
-    <button [class.active]="currentTab==='privilege'" (click)="switchTab('privilege')">Privilege</button>
-    <button [class.active]="currentTab==='patron'" (click)="switchTab('patron')">Patrons</button>
-  </div>
+    <!-- Tabs -->
+    <div class="tw-mb-6">
+      <button [class.tw-bg-blue-600]="currentTab==='category'" [class.tw-text-white]="currentTab==='category'"
+        (click)="switchTab('category')"
+        class="tw-px-5 tw-py-2 tw-rounded-md tw-bg-gray-200 tw-text-gray-700 tw-font-medium tw-mr-2 hover:tw-bg-gray-300 focus:tw-bg-blue-600 focus:tw-text-white tw-transition">
+        Category
+      </button>
 
-  <!-- ================= CATEGORY TAB ================= -->
-  <div *ngIf="currentTab==='category'">
-    <div class="header">
-      <h3>Categories</h3>
-      <button (click)="openModal('category')" class="btn btn-success">+ Add Category</button>
+      <button [class.tw-bg-blue-600]="currentTab==='privilege'" [class.tw-text-white]="currentTab==='privilege'"
+        (click)="switchTab('privilege')"
+        class="tw-px-5 tw-py-2 tw-rounded-md tw-bg-gray-200 tw-text-gray-700 tw-font-medium tw-mr-2 hover:tw-bg-gray-300 focus:tw-bg-blue-600 focus:tw-text-white tw-transition">
+        Privilege
+      </button>
+
+      <button [class.tw-bg-blue-600]="currentTab==='patron'" [class.tw-text-white]="currentTab==='patron'"
+        (click)="switchTab('patron')"
+        class="tw-px-5 tw-py-2 tw-rounded-md tw-bg-gray-200 tw-text-gray-700 tw-font-medium hover:tw-bg-gray-300 focus:tw-bg-blue-600 focus:tw-text-white tw-transition">
+        Patrons
+      </button>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cat of categories; let i = index">
-          <td>{{i+1}}</td>
-          <td>{{cat.name}}</td>
-          <td>{{cat.description}}</td>
-          <td class="action-buttons">
-            <button class="btn btn-primary" (click)="openModal('category', i)">Edit</button>
-            <button class="btn btn-danger" (click)="deleteCategory(i)">Delete</button>
-          </td>
-        </tr>
-        <tr *ngIf="categories.length === 0">
-          <td colspan="4" class="empty-msg">No categories found.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 
-  <!-- ================= PRIVILEGE TAB ================= -->
-  <div *ngIf="currentTab==='privilege'">
-    <div class="header">
-      <h3>Privileges</h3>
-      <button (click)="openModal('privilege')" class="btn btn-success">+ Add Privilege</button>
+    <!-- ================= CATEGORY TAB ================= -->
+    <div *ngIf="currentTab==='category'">
+      <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+        <h3 class="tw-text-lg tw-font-semibold">Categories</h3>
+        <button (click)="openModal('category')"
+          class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700 tw-transition">+ Add
+          Category</button>
+      </div>
+
+      <div class="tw-overflow-x-auto">
+        <table class="tw-w-full tw-border-collapse tw-rounded-lg tw-shadow-sm">
+          <thead class="tw-bg-gray-100 tw-text-gray-700 tw-font-semibold">
+            <tr>
+              <th class="tw-px-4 tw-py-3 tw-text-left">#</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left">Name</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left">Description</th>
+              <th class="tw-px-4 tw-py-3 tw-text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cat of categories; let i = index" class="hover:tw-bg-gray-50">
+              <td class="tw-px-4 tw-py-3">{{i+1}}</td>
+              <td class="tw-px-4 tw-py-3">{{cat.name}}</td>
+              <td class="tw-px-4 tw-py-3">{{cat.description}}</td>
+              <td class="tw-flex tw-gap-2 tw-px-4 tw-py-3">
+                <button class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-blue-700"
+                  (click)="openModal('category', i)">Edit</button>
+                <button class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-700"
+                  (click)="deleteCategory(i)">Delete</button>
+              </td>
+            </tr>
+            <tr *ngIf="categories.length === 0">
+              <td colspan="4" class="tw-text-center tw-text-gray-500 tw-py-5">No categories found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Category</th>
-          <th>Max Items on Loan</th>
-          <th>Loan Period (Days)</th>
-          <th>Max Renewals</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of matrix; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ p.categoryName }}</td>
-          <td>{{ p.maxItemsOnLoan }}</td>
-          <td>{{ p.loanPeriodDays }}</td>
-          <td>{{ p.maxRenewals }}</td>
-          <td class="action-buttons">
-            <button class="btn btn-primary" (click)="openModal('privilege', i)">Edit</button>
-            <button class="btn btn-danger" (click)="deletePrivilege(i)">Delete</button>
-          </td>
-        </tr>
-        <tr *ngIf="matrix.length === 0">
-          <td colspan="6" class="empty-msg">No privileges added yet.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- ================= PRIVILEGE TAB ================= -->
+    <div *ngIf="currentTab==='privilege'">
+      <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+        <h3 class="tw-text-lg tw-font-semibold">Privileges</h3>
+        <button (click)="openModal('privilege')"
+          class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700 tw-transition">+ Add
+          Privilege</button>
+      </div>
 
-  <!-- ================= PATRON TAB ================= -->
-  <div *ngIf="currentTab==='patron'">
-    <div class="header">
-      <h3>Library Patrons</h3>
-      <button (click)="openModal('patron')" class="btn btn-success">+ Add Patron</button>
+      <div class="tw-overflow-x-auto">
+        <table class="tw-w-full tw-border-collapse tw-rounded-lg tw-shadow-sm">
+          <thead class="tw-bg-gray-100 tw-text-gray-700 tw-font-semibold">
+            <tr>
+              <th class="tw-px-4 tw-py-3">#</th>
+              <th class="tw-px-4 tw-py-3">Category</th>
+              <th class="tw-px-4 tw-py-3">Max Items on Loan</th>
+              <th class="tw-px-4 tw-py-3">Loan Period (Days)</th>
+              <th class="tw-px-4 tw-py-3">Max Renewals</th>
+              <th class="tw-px-4 tw-py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of matrix; let i = index" class="hover:tw-bg-gray-50">
+              <td class="tw-px-4 tw-py-3">{{ i + 1 }}</td>
+              <td class="tw-px-4 tw-py-3">{{ p.categoryName }}</td>
+              <td class="tw-px-4 tw-py-3">{{ p.maxItemsOnLoan }}</td>
+              <td class="tw-px-4 tw-py-3">{{ p.loanPeriodDays }}</td>
+              <td class="tw-px-4 tw-py-3">{{ p.maxRenewals }}</td>
+              <td class="tw-flex tw-gap-2 tw-px-4 tw-py-3">
+                <button class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-blue-700"
+                  (click)="openModal('privilege', i)">Edit</button>
+                <button class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-700"
+                  (click)="deletePrivilege(i)">Delete</button>
+              </td>
+            </tr>
+            <tr *ngIf="matrix.length === 0">
+              <td colspan="6" class="tw-text-center tw-text-gray-500 tw-py-5">No privileges added yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <table class="patron-table">
-      <thead>
-        <tr>
-          <th>Library ID</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Category</th>
-          <th>Department</th>
-          <th>Active</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let patron of patrons; let i = index">
-          <td>{{ patron.libraryId }}</td>
-          <td>{{ patron.name }}</td>
-          <td>{{ patron.email }}</td>
-          <td>{{ patron.patronCategory?.name || patron.category }}</td>
-          <td>{{ patron.department?.name || patron.department }}</td>
-          <td>{{ patron.active ? 'Yes' : 'No' }}</td>
-          <td class="action-buttons">
-            <button class="btn btn-primary" (click)="openModal('patron', i)">Edit</button>
-            <button class="btn btn-danger" (click)="deletePatron(patron.id)">Delete</button>
-          </td>
-        </tr>
-        <tr *ngIf="patrons.length === 0">
-          <td colspan="7" class="empty-msg">No patrons registered yet.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- ================= PATRON TAB ================= -->
+    <div *ngIf="currentTab==='patron'">
+      <div class="tw-flex tw-items-center tw-justify-between tw-mb-4">
+        <h3 class="tw-text-lg tw-font-semibold">Library Patrons</h3>
+        <button (click)="openModal('patron')"
+          class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700 tw-transition">+ Add
+          Patron</button>
+      </div>
 
-  <!-- ================= MODAL ================= -->
-  <div class="modal" *ngIf="modalOpen">
-    <div class="modal-content">
-      <span class="close-btn" (click)="closeModal()">&times;</span>
-      <h3>{{editingIndex!==null ? 'Edit ' : 'Add '}}{{modalType | titlecase}}</h3>
+      <div class="tw-overflow-x-auto">
+        <table class="tw-w-full tw-border-collapse tw-rounded-lg tw-shadow-sm">
+          <thead class="tw-bg-gray-100 tw-text-gray-700 tw-font-semibold">
+            <tr>
+              <th class="tw-px-4 tw-py-3">Library ID</th>
+              <th class="tw-px-4 tw-py-3">Name</th>
+              <th class="tw-px-4 tw-py-3">Email</th>
+              <th class="tw-px-4 tw-py-3">Category</th>
+              <th class="tw-px-4 tw-py-3">Department</th>
+              <th class="tw-px-4 tw-py-3">Active</th>
+              <th class="tw-px-4 tw-py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let patron of patrons; let i = index" class="hover:tw-bg-gray-50">
+              <td class="tw-px-4 tw-py-3">{{ patron.libraryId }}</td>
+              <td class="tw-px-4 tw-py-3">{{ patron.name }}</td>
+              <td class="tw-px-4 tw-py-3">{{ patron.email }}</td>
+              <td class="tw-px-4 tw-py-3">{{ patron.patronCategory?.name || patron.category }}</td>
+              <td class="tw-px-4 tw-py-3">{{ patron.department?.name || patron.department }}</td>
+              <td class="tw-px-4 tw-py-3">{{ patron.active ? 'Yes' : 'No' }}</td>
+              <td class="tw-flex tw-gap-2 tw-px-4 tw-py-3">
+                <button class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-blue-700"
+                  (click)="openModal('patron', i)">Edit</button>
+                <button class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-700"
+                  (click)="deletePatron(patron.id)">Delete</button>
+              </td>
+            </tr>
+            <tr *ngIf="patrons.length === 0">
+              <td colspan="7" class="tw-text-center tw-text-gray-500 tw-py-5">No patrons registered yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-      <!-- CATEGORY FORM -->
-      <form *ngIf="modalType==='category'"
-        (ngSubmit)="editingIndex !== null ? updateCategory(editingIndex) : addCategory()">
-        <label>Name</label>
-        <input type="text" [(ngModel)]="catName" name="catName" placeholder="Category Name" required>
-        <label>Description</label>
-        <textarea [(ngModel)]="catDesc" name="catDesc" placeholder="Description" required></textarea>
+    <!-- ================= MODAL ================= -->
+    <div *ngIf="modalOpen" class="tw-fixed tw-inset-0 tw-bg-black/60 tw-flex tw-items-center tw-justify-center tw-z-50">
+      <div class="tw-bg-white tw-rounded-lg tw-shadow-2xl tw-w-[420px] tw-p-6 tw-relative">
+        <span (click)="closeModal()"
+          class="tw-absolute tw-top-3 tw-right-4 tw-text-2xl tw-cursor-pointer tw-text-gray-500">&times;</span>
+        <h3 class="tw-text-xl tw-font-semibold tw-mb-4">{{editingIndex!==null ? 'Edit ' : 'Add '}}{{modalType |
+          titlecase}}</h3>
 
-        <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-          <button type="submit" class="btn btn-success">{{ editingIndex !== null ? 'Update' : 'Add' }} Category</button>
-        </div>
-      </form>
+        <!-- CATEGORY FORM -->
+        <form *ngIf="modalType==='category'"
+          (ngSubmit)="editingIndex !== null ? updateCategory(editingIndex) : addCategory()" class="tw-space-y-4">
+          <div>
+            <label class="tw-font-medium tw-block">Name</label>
+            <input type="text" [(ngModel)]="catName" name="catName" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-ring-2 focus:tw-ring-blue-500" />
+          </div>
+          <div>
+            <label class="tw-font-medium tw-block">Description</label>
+            <textarea [(ngModel)]="catDesc" name="catDesc" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-ring-2 focus:tw-ring-blue-500"></textarea>
+          </div>
 
-      <!-- PRIVILEGE FORM -->
-      <form *ngIf="modalType==='privilege'" (ngSubmit)="submitPrivilege()">
-        <label>Category</label>
-        <select [(ngModel)]="selectedCategoryId" name="category" required>
-          <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
-        </select>
+          <div class="tw-flex tw-justify-end tw-gap-3 tw-mt-6">
+            <button type="button" (click)="closeModal()"
+              class="tw-bg-gray-500 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-gray-600">Cancel</button>
+            <button type="submit"
+              class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700">{{ editingIndex
+              !== null ? 'Update' : 'Add' }} Category</button>
+          </div>
+        </form>
 
-        <label>Max Items on Loan</label>
-        <input type="number" [(ngModel)]="maxItemsOnLoan" name="maxItemsOnLoan" required>
+        <!-- PRIVILEGE FORM -->
+        <form *ngIf="modalType==='privilege'" (ngSubmit)="submitPrivilege()" class="tw-space-y-4">
+          <div>
+            <label class="tw-font-medium tw-block">Category</label>
+            <select [(ngModel)]="selectedCategoryId" name="category" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2">
+              <option *ngFor="let c of categories" [ngValue]="c.id">{{c.name}}</option>
+            </select>
+          </div>
 
-        <label>Loan Period (Days)</label>
-        <input type="number" [(ngModel)]="loanPeriodDays" name="loanPeriodDays" required>
+          <div class="tw-grid tw-grid-cols-1 tw-gap-3">
+            <label class="tw-font-medium">Max Items on Loan</label>
+            <input type="number" [(ngModel)]="maxItemsOnLoan" name="maxItemsOnLoan" required
+              class="tw-border tw-rounded-md tw-px-3 tw-py-2">
+            <label class="tw-font-medium">Loan Period (Days)</label>
+            <input type="number" [(ngModel)]="loanPeriodDays" name="loanPeriodDays" required
+              class="tw-border tw-rounded-md tw-px-3 tw-py-2">
+            <label class="tw-font-medium">Max Renewals</label>
+            <input type="number" [(ngModel)]="maxRenewals" name="maxRenewals" required
+              class="tw-border tw-rounded-md tw-px-3 tw-py-2">
+          </div>
 
-        <label>Max Renewals</label>
-        <input type="number" [(ngModel)]="maxRenewals" name="maxRenewals" required>
+          <div class="tw-flex tw-justify-end tw-gap-3 tw-mt-6">
+            <button type="button" (click)="closeModal()"
+              class="tw-bg-gray-500 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-gray-600">Cancel</button>
+            <button type="submit"
+              class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700">{{ editingIndex
+              !== null ? 'Update' : 'Add' }} Privilege</button>
+          </div>
+        </form>
 
-        <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-          <button type="submit" class="btn btn-success">{{ editingIndex !== null ? 'Update' : 'Add' }}
-            Privilege</button>
-        </div>
-      </form>
+        <!-- PATRON FORM -->
+        <form *ngIf="modalType==='patron'" (ngSubmit)="editingIndex !== null ? updatePatron() : onSubmit()"
+          class="tw-space-y-4">
+          <div>
+            <label class="tw-font-medium tw-block">Library ID</label>
+            <input type="text" [(ngModel)]="libraryId" name="libraryId" [readonly]="editingIndex !== null" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2">
+          </div>
 
-      <!-- PATRON FORM -->
-      <form *ngIf="modalType==='patron'" (ngSubmit)="editingIndex !== null ? updatePatron() : onSubmit()">
-        <label>Library ID</label>
-        <input type="text" [(ngModel)]="libraryId" name="libraryId" required [readonly]="editingIndex !== null">
+          <div>
+            <label class="tw-font-medium tw-block">Name</label>
+            <input type="text" [(ngModel)]="name" name="name" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2">
+          </div>
 
-        <label>Name</label>
-        <input type="text" [(ngModel)]="name" name="name" required>
+          <div>
+            <label class="tw-font-medium tw-block">Email</label>
+            <input type="email" [(ngModel)]="email" name="email" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2">
+          </div>
 
-        <label>Email</label>
-        <input type="email" [(ngModel)]="email" name="email" required>
+          <div>
+            <label class="tw-font-medium tw-block">Category</label>
+            <select [(ngModel)]="selectedCategory" name="patronCategory" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2">
+              <option *ngFor="let cat of patronCategories" [ngValue]="cat.id">{{ cat.name }}</option>
+            </select>
+          </div>
 
-        <label>Category</label>
-        <select [(ngModel)]="selectedCategory" name="patronCategory" required>
-          <option *ngFor="let cat of patronCategories" [ngValue]="cat.id">{{ cat.name }}</option>
-        </select>
+          <div>
+            <label class="tw-font-medium tw-block">Department</label>
+            <select [(ngModel)]="selectedDepartment" name="department" required
+              class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2">
+              <option *ngFor="let dep of departments" [ngValue]="dep.id">{{ dep.name }}</option>
+            </select>
+          </div>
 
-        <label>Department</label>
-        <select [(ngModel)]="selectedDepartment" name="department" required>
-          <option *ngFor="let dep of departments" [ngValue]="dep.id">{{ dep.name }}</option>
-        </select>
+          <label class="tw-flex tw-items-center tw-gap-2 tw-font-medium">
+            <input type="checkbox" [(ngModel)]="active" name="active" class="tw-w-4 tw-h-4"> Active
+          </label>
 
-        <label class="checkbox">
-          <input type="checkbox" [(ngModel)]="active" name="active"> Active
-        </label>
-
-        <div class="modal-actions">
-          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-          <button type="submit" class="btn btn-success">{{ editingIndex !== null ? 'Update' : 'Add' }} Patron</button>
-        </div>
-      </form>
+          <div class="tw-flex tw-justify-end tw-gap-3 tw-mt-6">
+            <button type="button" (click)="closeModal()"
+              class="tw-bg-gray-500 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-gray-600">Cancel</button>
+            <button type="submit"
+              class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700">{{ editingIndex
+              !== null ? 'Update' : 'Add' }} Patron</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>

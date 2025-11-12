@@ -1,14 +1,15 @@
-<div class="tw-p-8 tw-bg-gray-50 tw-min-h-screen">
+<div class="tw-p-8 tw-bg-gray-50 tw-min-h-screen tw-font-['Segoe_UI'] tw-text-gray-800">
   <!-- Page Title -->
-  <h1 class="tw-text-3xl tw-font-bold tw-text-gray-800 tw-text-center tw-mb-8">
+  <h1 class="tw-text-3xl tw-font-bold tw-text-center tw-mb-8">
     Budget & Vendor Dashboard
   </h1>
 
   <!-- Tabs -->
-  <div class="tw-flex tw-flex-wrap tw-border-b tw-border-gray-200 tw-mb-6">
+  <div class="tw-flex tw-flex-wrap tw-border-b tw-border-gray-300 tw-mb-6">
     <div *ngFor="let tab of ['sources', 'heads', 'allocations', 'vendors', 'currencies', 'fiscal']"
       (click)="switchTab(tab)"
-      class="tw-px-5 tw-py-2.5 tw-font-semibold tw-cursor-pointer tw-rounded-t-md tw-transition-all tw-mr-2" [ngClass]="{
+      class="tw-px-5 tw-py-2.5 tw-font-semibold tw-cursor-pointer tw-rounded-t-lg tw-transition-colors tw-duration-200 tw-mr-2"
+      [ngClass]="{
         'tw-bg-blue-600 tw-text-white': activeTab === tab,
         'tw-bg-gray-200 tw-text-gray-700 hover:tw-bg-gray-300': activeTab !== tab
       }">
@@ -28,114 +29,62 @@
     </div>
   </div>
 
-  <!-- Budget Sources -->
-  <div class="tab-content" [class.active]="activeTab==='sources'">
-    <div class="card">
-      <h2>Add Budget Source</h2>
-      <form (ngSubmit)="addSource()">
-        <label>Source Name *</label>
-        <input type="text" [(ngModel)]="sourceName" name="sourceName" required>
-        <label>Amount *</label>
-        <input type="number" [(ngModel)]="sourceAmount" name="sourceAmount" required>
-        <button type="submit">Add Source</button>
+  <!-- === BUDGET SOURCES === -->
+  <div class="tw-flex tw-flex-wrap tw-gap-6" *ngIf="activeTab === 'sources'">
+    <div class="tw-bg-white tw-rounded-xl tw-shadow-md tw-p-6 tw-w-full lg:tw-w-[500px]">
+      <h2 class="tw-text-xl tw-font-semibold tw-text-center tw-mb-5">Add Budget Source</h2>
+
+      <form (ngSubmit)="addSource()" class="tw-space-y-4">
+        <div>
+          <label class="tw-font-semibold">Source Name *</label>
+          <input type="text" [(ngModel)]="sourceName" name="sourceName" required
+            class="tw-w-full tw-p-3 tw-border tw-border-gray-300 tw-rounded-lg focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100" />
+        </div>
+
+        <div>
+          <label class="tw-font-semibold">Amount *</label>
+          <input type="number" [(ngModel)]="sourceAmount" name="sourceAmount" required
+            class="tw-w-full tw-p-3 tw-border tw-border-gray-300 tw-rounded-lg focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100" />
+        </div>
+
+        <button type="submit"
+          class="tw-w-full tw-bg-blue-600 tw-text-white tw-py-2.5 tw-rounded-lg tw-font-semibold hover:tw-bg-blue-700 tw-transition">
+          Add Source
+        </button>
       </form>
-      <table>
-        <thead>
+
+      <table class="tw-w-full tw-border-collapse tw-mt-5">
+        <thead class="tw-bg-gray-100">
           <tr>
-            <th>Source Name</th>
-            <th>Amount</th>
+            <th class="tw-p-3 tw-text-left">Source Name</th>
+            <th class="tw-p-3 tw-text-left">Amount</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let s of sources">
-            <td>{{s.name}}</td>
-            <td>{{s.amount}}</td>
+          <tr *ngFor="let s of sources" class="tw-border-b hover:tw-bg-gray-50">
+            <td class="tw-p-3">{{ s.name }}</td>
+            <td class="tw-p-3">{{ s.amount }}</td>
           </tr>
-          <tr *ngIf="sources.length===0">
-            <td colspan="2" class="empty">No sources added yet.</td>
+          <tr *ngIf="sources.length === 0">
+            <td colspan="2" class="tw-text-center tw-text-gray-500 tw-py-3">
+              No sources added yet.
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Budget Heads -->
-  <div class="tab-content" [class.active]="activeTab==='heads'">
-    <div class="card">
-      <h2>Add Budget Head</h2>
-      <form (ngSubmit)="addHead()">
-        <label>Head Name *</label>
-        <input type="text" [(ngModel)]="headName" name="headName" required>
-        <label>Description</label>
-        <textarea [(ngModel)]="headDesc" name="headDesc" rows="3"></textarea>
-        <button type="submit">Add Head</button>
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Head Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let h of heads">
-            <td>{{h}}</td>
-            <td>{{headDesc}}</td>
-          </tr>
-          <tr *ngIf="heads.length===0">
-            <td colspan="2" class="empty">No heads added yet.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Budget Allocations -->
-  <div class="tab-content" [class.active]="activeTab==='allocations'">
-    <div class="card">
-      <h2>Budget Allocations</h2>
-      <form (ngSubmit)="addAllocation()">
-        <label>Head *</label>
-        <input type="text" [(ngModel)]="allocHead" name="allocHead" required>
-        <label>Amount *</label>
-        <input type="number" [(ngModel)]="allocAmount" name="allocAmount" required>
-        <label>Fiscal Year *</label>
-        <input type="text" [(ngModel)]="allocYear" name="allocYear" required>
-        <button type="submit">Allocate</button>
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Head</th>
-            <th>Amount</th>
-            <th>Fiscal Year</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let a of allocations">
-            <td>{{a.head}}</td>
-            <td>{{a.amount}}</td>
-            <td>{{a.year}}</td>
-          </tr>
-          <tr *ngIf="allocations.length===0">
-            <td colspan="3" class="empty">No allocations added yet.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Vendors -->
-  <div *ngIf="activeTab === 'vendors'" class="tw-bg-white tw-shadow-md tw-rounded-lg tw-p-6">
+  <!-- === VENDORS === -->
+  <div *ngIf="activeTab === 'vendors'" class="tw-bg-white tw-shadow-md tw-rounded-xl tw-p-6">
     <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
-      <h3 class="tw-text-xl tw-font-semibold tw-text-gray-700">Vendors</h3>
+      <h3 class="tw-text-xl tw-font-semibold">Vendors</h3>
       <button (click)="openVendorModal()"
         class="tw-bg-blue-600 tw-text-white tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-transition-all">
         + Add Vendor
       </button>
     </div>
 
-    <!-- Vendor Table -->
     <div class="tw-overflow-x-auto">
       <table class="tw-w-full tw-border-collapse tw-text-left">
         <thead class="tw-bg-gray-100 tw-text-gray-700 tw-uppercase tw-text-sm">
@@ -149,7 +98,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let v of vendors; let i = index" class="tw-border-b hover:tw-bg-gray-50 tw-text-gray-700">
+          <tr *ngFor="let v of vendors; let i = index" class="tw-border-b hover:tw-bg-gray-50">
             <td class="tw-px-4 tw-py-2">{{ v.name }}</td>
             <td class="tw-px-4 tw-py-2">{{ v.contactPerson }}</td>
             <td class="tw-px-4 tw-py-2">{{ v.email }}</td>
@@ -176,13 +125,13 @@
     </div>
   </div>
 
-  <!-- VENDOR MODAL -->
+  <!-- === VENDOR MODAL === -->
   <div *ngIf="showVendorModal"
     class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-justify-center tw-items-center tw-z-50 tw-backdrop-blur-sm">
     <div
       class="tw-bg-white tw-w-[600px] tw-rounded-lg tw-shadow-lg tw-p-6 tw-relative tw-max-h-[85vh] tw-overflow-y-auto">
       <div class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3 tw-mb-4">
-        <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">
+        <h3 class="tw-text-xl tw-font-semibold">
           {{ editVendorId ? 'Edit Vendor' : 'Add New Vendor' }}
         </h3>
         <span (click)="closeVendorModal()"
@@ -190,136 +139,47 @@
       </div>
 
       <form (ngSubmit)="addVendor()" class="tw-space-y-5">
-        <!-- Form Title Description -->
-        <p class="tw-text-sm tw-text-gray-500 tw-mb-3">
-          Please fill in the details below to {{ editVendorId ? 'update' : 'add a new' }} vendor.
-        </p>
-
-        <!-- Name -->
         <div>
-          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Vendor Name <span
-              class="tw-text-red-500">*</span></label>
+          <label class="tw-font-semibold">Vendor Name *</label>
           <input type="text" [(ngModel)]="vendorName" name="vendorName" required
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
-            placeholder="Enter vendor name" />
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100" />
         </div>
 
-        <!-- Contact Person -->
         <div>
-          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Contact Person</label>
+          <label class="tw-font-semibold">Contact Person</label>
           <input type="text" [(ngModel)]="vendorcontactPerson" name="vendorContact"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
-            placeholder="Full name of contact person" />
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100" />
         </div>
 
-        <!-- Email -->
         <div>
-          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Email</label>
+          <label class="tw-font-semibold">Email</label>
           <input type="email" [(ngModel)]="vendorEmail" name="vendorEmail"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
-            placeholder="e.g. vendor@example.com" />
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100" />
         </div>
 
-        <!-- Phone -->
         <div>
-          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Phone</label>
+          <label class="tw-font-semibold">Phone</label>
           <input type="text" [(ngModel)]="vendorPhone" name="vendorPhone"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
-            placeholder="Enter phone number" />
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100" />
         </div>
 
-        <!-- Address -->
         <div>
-          <label class="tw-block tw-text-sm tw-font-semibold tw-text-gray-800 tw-mb-1">Address</label>
+          <label class="tw-font-semibold">Address</label>
           <textarea rows="3" [(ngModel)]="vendorAddress" name="vendorAddress"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition-all tw-duration-150"
-            placeholder="Street, City, Country"></textarea>
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-lg tw-px-4 tw-py-2.5 tw-bg-gray-50 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100"></textarea>
         </div>
 
-        <!-- Divider -->
-        <hr class="tw-border-gray-200 tw-my-4" />
-
-        <!-- Buttons -->
-        <div class="tw-flex tw-justify-end tw-space-x-3">
+        <div class="tw-flex tw-justify-end tw-space-x-3 tw-pt-3 tw-border-t tw-border-gray-200">
           <button type="button" (click)="closeVendorModal()"
-            class="tw-bg-gray-100 tw-text-gray-700 tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-gray-200 tw-font-medium tw-transition-all">
+            class="tw-bg-gray-100 tw-text-gray-700 tw-px-5 tw-py-2.5 tw-rounded-md hover:tw-bg-gray-200">
             Cancel
           </button>
           <button type="submit"
-            class="tw-bg-blue-600 tw-text-white tw-px-6 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-font-semibold tw-transition-all">
+            class="tw-bg-blue-600 tw-text-white tw-px-6 tw-py-2.5 tw-rounded-md hover:tw-bg-blue-700 tw-font-semibold">
             {{ editVendorId ? 'Update Vendor' : 'Save Vendor' }}
           </button>
         </div>
       </form>
-
-
-    </div>
-  </div>
-
-
-  <!-- Currencies -->
-  <div class="tab-content" [class.active]="activeTab==='currencies'">
-    <div class="card">
-      <h2>Add Currency</h2>
-      <form (ngSubmit)="addCurrency()">
-        <label>Currency Code *</label>
-        <input type="text" [(ngModel)]="currencyCode" name="currencyCode" required>
-        <label>Rate *</label>
-        <input type="number" [(ngModel)]="currencyRate" name="currencyRate" required>
-        <button type="submit">Add Currency</button>
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Currency Code</th>
-            <th>Rate</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let c of currencies">
-            <td>{{c.code}}</td>
-            <td>{{c.rate}}</td>
-          </tr>
-          <tr *ngIf="currencies.length===0">
-            <td colspan="2" class="empty">No currencies added yet.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Fiscal Years -->
-  <div class="tab-content" [class.active]="activeTab==='fiscal'">
-    <div class="card">
-      <h2>Add Fiscal Year</h2>
-      <form (ngSubmit)="addFiscalYear()">
-        <label>Year *</label>
-        <input type="text" [(ngModel)]="fiscalYear" name="fiscalYear" required>
-        <label>Start Date *</label>
-        <input type="date" [(ngModel)]="fiscalStart" name="fiscalStart" required>
-        <label>End Date *</label>
-        <input type="date" [(ngModel)]="fiscalEnd" name="fiscalEnd" required>
-        <button type="submit">Add Year</button>
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let y of years">
-            <td>{{y.year}}</td>
-            <td>{{y.start}}</td>
-            <td>{{y.end}}</td>
-          </tr>
-          <tr *ngIf="years.length===0">
-            <td colspan="3" class="empty">No fiscal years added yet.</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>

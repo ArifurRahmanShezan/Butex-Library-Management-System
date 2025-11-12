@@ -1,10 +1,10 @@
-<div class="container">
-  <header>
-    <h1> Accessioning Received Items</h1>
+<div class="tw-container">
+  <header class="tw-text-center tw-mb-8">
+    <h1 class="tw-text-3xl tw-font-semibold tw-text-gray-800">Accessioning Received Items</h1>
   </header>
 
-  <form (ngSubmit)="onSubmit()" #accessionForm="ngForm">
-    <label>Item ID</label>
+  <form (ngSubmit)="onSubmit()" #accessionForm="ngForm" class="tw-flex tw-flex-col">
+    <label class="tw-mb-2 tw-font-semibold tw-text-gray-800">Item ID</label>
     <input
       type="text"
       id="itemID"
@@ -12,41 +12,66 @@
       placeholder="Enter Item ID"
       [(ngModel)]="itemID"
       required
+      class="tw-p-3 tw-rounded-lg tw-border tw-border-gray-300 tw-font-medium tw-text-base tw-w-full tw-transition-colors focus:tw-border-blue-500 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-100"
     />
 
-    <label>Accession Number (Auto-generated)</label>
-    <input type="text" id="accessionNo" name="accessionNo" [(ngModel)]="accessionNo" readonly />
+    <label class="tw-mb-2 tw-font-semibold tw-text-gray-800">Accession Number (Auto-generated)</label>
+    <input
+      type="text"
+      id="accessionNo"
+      name="accessionNo"
+      [(ngModel)]="accessionNo"
+      readonly
+      class="tw-p-3 tw-rounded-lg tw-border tw-border-gray-300 tw-font-medium tw-text-base tw-w-full tw-bg-gray-100"
+    />
 
-    <label>Barcode</label>
-    <div class="barcode-group">
+    <label class="tw-mb-2 tw-font-semibold tw-text-gray-800">Barcode</label>
+    <div class="tw-flex tw-items-center tw-gap-3">
       <input
         type="text"
         id="barcode"
         name="barcode"
         placeholder="Generate Barcode"
         [(ngModel)]="barcode"
+        class="tw-p-3 tw-rounded-lg tw-border tw-border-gray-300 tw-font-medium tw-text-base tw-w-full"
       />
-      <button type="button" (click)="generateBarcode()">Generate</button>
+      <button
+        type="button"
+        (click)="generateBarcode()"
+        class="tw-px-5 tw-py-3 tw-font-semibold tw-text-white tw-bg-blue-500 tw-rounded-lg hover:tw-bg-blue-400 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-200"
+      >
+        Generate
+      </button>
     </div>
 
-    <button type="submit">Submit Record</button>
-    <p class="success-msg" *ngIf="successVisible">✅ Record saved successfully!</p>
+    <button
+      type="submit"
+      class="tw-mt-6 tw-px-5 tw-py-3 tw-font-semibold tw-text-white tw-bg-blue-500 tw-rounded-lg hover:tw-bg-blue-400 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-200"
+    >
+      Submit Record
+    </button>
+    <p
+      class="tw-text-center tw-text-green-500 tw-mt-3 tw-font-semibold"
+      *ngIf="successVisible"
+    >
+      ✅ Record saved successfully!
+    </p>
   </form>
 
-  <h2 style="margin-top:40px; color:#2d3436; text-align:center;">Recent Accessions</h2>
-  <table>
+  <h2 class="tw-mt-10 tw-text-center tw-text-gray-800 tw-text-xl">Recent Accessions</h2>
+  <table class="tw-w-full tw-mt-8 tw-border-collapse">
     <thead>
       <tr>
-        <th>Item ID</th>
-        <th>Accession Number</th>
-        <th>Barcode</th>
+        <th class="tw-p-4 tw-text-left tw-bg-gray-100">Item ID</th>
+        <th class="tw-p-4 tw-text-left tw-bg-gray-100">Accession Number</th>
+        <th class="tw-p-4 tw-text-left tw-bg-gray-100">Barcode</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let record of records">
-        <td>{{ record.itemID }}</td>
-        <td>{{ record.accessionNo }}</td>
-        <td>
+        <td class="tw-p-4 tw-border tw-border-gray-300">{{ record.itemID }}</td>
+        <td class="tw-p-4 tw-border tw-border-gray-300">{{ record.accessionNo }}</td>
+        <td class="tw-p-4 tw-border tw-border-gray-300">
           <svg #barcodeSVG></svg>
         </td>
       </tr>

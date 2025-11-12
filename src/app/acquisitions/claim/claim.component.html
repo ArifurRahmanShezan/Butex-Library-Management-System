@@ -1,72 +1,195 @@
-<div class="container">
+<div class="tw-flex tw-flex-wrap tw-gap-6 tw-p-6 tw-bg-gray-50 tw-font-['Segoe_UI']">
 
-  <!-- Form Panel -->
-  <div class="form-panel">
-    <h2>Submit Claim</h2>
+  <!-- ===== Form Panel ===== -->
+  <div class="tw-flex-1 tw-min-w-[380px] tw-bg-white tw-rounded-2xl tw-shadow-md tw-p-6">
+    <h2 class="tw-text-2xl tw-font-semibold tw-text-center tw-mb-6">Submit Claim</h2>
 
-    <form (ngSubmit)="submitMainForm()">
-      <label>Order ID *</label>
-      <input type="text" [(ngModel)]="mainForm.orderID" name="orderID" required />
+    <form (ngSubmit)="submitMainForm()" class="tw-space-y-4">
+      <div>
+        <label class="tw-font-semibold tw-block">Order ID *</label>
+        <input
+          type="text"
+          [(ngModel)]="mainForm.orderID"
+          name="orderID"
+          required
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition"
+        />
+      </div>
 
-      <label>Claim Reason *</label>
-      <textarea rows="4" [(ngModel)]="mainForm.reason" name="reason" required></textarea>
+      <div>
+        <label class="tw-font-semibold tw-block">Claim Reason *</label>
+        <textarea
+          rows="4"
+          [(ngModel)]="mainForm.reason"
+          name="reason"
+          required
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition"
+        ></textarea>
+      </div>
 
-      <label>Date *</label>
-      <input type="date" [(ngModel)]="mainForm.date" name="date" required />
+      <div>
+        <label class="tw-font-semibold tw-block">Date *</label>
+        <input
+          type="date"
+          [(ngModel)]="mainForm.date"
+          name="date"
+          required
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-transition"
+        />
+      </div>
 
-      <button type="submit">Submit Claim</button>
+      <button
+        type="submit"
+        class="tw-w-full tw-bg-blue-600 tw-text-white tw-font-semibold tw-rounded-xl tw-py-3 hover:tw-bg-blue-700 tw-transition"
+      >
+        Submit Claim
+      </button>
     </form>
   </div>
 
-  <!-- Table Panel -->
-  <div class="table-panel">
-    <h2>Pending Claims</h2>
+  <!-- ===== Table Panel ===== -->
+  <div class="tw-flex-[2_1_700px] tw-bg-white tw-rounded-2xl tw-shadow-md tw-p-6 tw-overflow-x-auto">
+    <h2 class="tw-text-2xl tw-font-semibold tw-text-center tw-mb-5">Pending Claims</h2>
 
-    <div class="controls">
-      <input type="text" placeholder="Search Order ID or Reason" [(ngModel)]="searchText" (input)="filterTable()" />
+    <!-- Controls -->
+    <div class="tw-flex tw-flex-wrap tw-gap-3 tw-justify-between tw-mb-4">
+      <input
+        type="text"
+        placeholder="Search Order ID or Reason"
+        [(ngModel)]="searchText"
+        (input)="filterTable()"
+        class="tw-flex-1 tw-min-w-[240px] tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100"
+      />
 
-      <button (click)="openModal()">+ Add New Claim</button>
+      <button
+        (click)="openModal()"
+        class="tw-bg-blue-600 tw-text-white tw-font-semibold tw-rounded-xl tw-px-5 tw-py-3 hover:tw-bg-blue-700 tw-transition"
+      >
+        + Add New Claim
+      </button>
     </div>
 
-    <table>
-      <thead>
+    <!-- Table -->
+    <table class="tw-w-full tw-border-collapse tw-text-sm">
+      <thead class="tw-bg-gray-100">
         <tr>
-          <th (click)="sortTable('orderID')" [ngClass]="sortColumn === 'orderID' ? sortDirection : ''">Order ID</th>
-          <th (click)="sortTable('reason')" [ngClass]="sortColumn === 'reason' ? sortDirection : ''">Claim Reason</th>
-          <th (click)="sortTable('date')" [ngClass]="sortColumn === 'date' ? sortDirection : ''">Date</th>
-          <th>Status</th>
+          <th
+            (click)="sortTable('orderID')"
+            [ngClass]="{
+              'tw-bg-blue-100 tw-text-blue-700': sortColumn === 'orderID'
+            }"
+            class="tw-p-3 tw-text-left tw-font-semibold tw-cursor-pointer"
+          >
+            Order ID
+            <span *ngIf="sortColumn === 'orderID'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th
+            (click)="sortTable('reason')"
+            [ngClass]="{
+              'tw-bg-blue-100 tw-text-blue-700': sortColumn === 'reason'
+            }"
+            class="tw-p-3 tw-text-left tw-font-semibold tw-cursor-pointer"
+          >
+            Claim Reason
+            <span *ngIf="sortColumn === 'reason'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th
+            (click)="sortTable('date')"
+            [ngClass]="{
+              'tw-bg-blue-100 tw-text-blue-700': sortColumn === 'date'
+            }"
+            class="tw-p-3 tw-text-left tw-font-semibold tw-cursor-pointer"
+          >
+            Date
+            <span *ngIf="sortColumn === 'date'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th class="tw-p-3 tw-text-left tw-font-semibold">Status</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let claim of filteredClaims">
-          <td>{{claim.orderID}}</td>
-          <td>{{claim.reason}}</td>
-          <td>{{claim.date}}</td>
-          <td>Pending</td>
+        <tr
+          *ngFor="let claim of filteredClaims"
+          class="tw-border-b hover:tw-bg-gray-50 tw-transition"
+        >
+          <td class="tw-p-3">{{ claim.orderID }}</td>
+          <td class="tw-p-3">{{ claim.reason }}</td>
+          <td class="tw-p-3">{{ claim.date }}</td>
+          <td class="tw-p-3 tw-text-blue-600 tw-font-medium">Pending</td>
+        </tr>
+        <tr *ngIf="filteredClaims.length === 0">
+          <td colspan="4" class="tw-text-center tw-py-4 tw-text-gray-500">
+            No claims found.
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal" [style.display]="modalVisible ? 'block' : 'none'">
-  <div class="modal-content">
-    <span class="close-btn" (click)="closeModal()">&times;</span>
-    <h2>Add New Claim</h2>
+<!-- ===== Modal ===== -->
+<div
+  class="tw-fixed tw-inset-0 tw-bg-black/50 tw-flex tw-items-center tw-justify-center tw-z-50"
+  [style.display]="modalVisible ? 'flex' : 'none'"
+>
+  <div
+    class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-w-[500px] tw-max-w-full tw-p-6 tw-relative tw-animate-fadeIn"
+  >
+    <span
+      class="tw-absolute tw-top-3 tw-right-4 tw-text-2xl tw-text-gray-400 hover:tw-text-red-500 tw-cursor-pointer"
+      (click)="closeModal()"
+      >&times;</span
+    >
+    <h2 class="tw-text-2xl tw-font-semibold tw-text-center tw-mb-5">
+      Add New Claim
+    </h2>
 
-    <form (ngSubmit)="submitModalForm()">
-      <label>Order ID *</label>
-      <input type="text" [(ngModel)]="modalForm.orderID" name="modalOrderID" required />
+    <form (ngSubmit)="submitModalForm()" class="tw-space-y-4">
+      <div>
+        <label class="tw-font-semibold tw-block">Order ID *</label>
+        <input
+          type="text"
+          [(ngModel)]="modalForm.orderID"
+          name="modalOrderID"
+          required
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100"
+        />
+      </div>
 
-      <label>Claim Reason *</label>
-      <textarea rows="4" [(ngModel)]="modalForm.reason" name="modalReason" required></textarea>
+      <div>
+        <label class="tw-font-semibold tw-block">Claim Reason *</label>
+        <textarea
+          rows="4"
+          [(ngModel)]="modalForm.reason"
+          name="modalReason"
+          required
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100"
+        ></textarea>
+      </div>
 
-      <label>Date *</label>
-      <input type="date" [(ngModel)]="modalForm.date" name="modalDate" required />
+      <div>
+        <label class="tw-font-semibold tw-block">Date *</label>
+        <input
+          type="date"
+          [(ngModel)]="modalForm.date"
+          name="modalDate"
+          required
+          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-xl tw-p-3 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100"
+        />
+      </div>
 
-      <button type="submit">Submit Claim</button>
+      <button
+        type="submit"
+        class="tw-w-full tw-bg-blue-600 tw-text-white tw-font-semibold tw-rounded-xl tw-py-3 hover:tw-bg-blue-700 tw-transition"
+      >
+        Submit Claim
+      </button>
     </form>
   </div>
 </div>

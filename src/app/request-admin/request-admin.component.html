@@ -1,87 +1,94 @@
 <div class="tw-font-sans tw-bg-gray-100 tw-min-h-screen tw-p-6">
   <div class="tw-bg-white tw-rounded-2xl tw-shadow-xl tw-max-w-7xl tw-mx-auto tw-p-10">
-    <h2 class="tw-text-2xl tw-font-semibold tw-text-gray-900 tw-mb-6">
-      Library Request Administration
-    </h2>
+<h2 class="tw-text-2xl tw-font-semibold tw-text-gray-800 tw-mb-6">
+  Library Request Administration
+</h2>
 
-    <table class="tw-w-full tw-border-collapse tw-bg-white tw-rounded-lg tw-shadow-md">
-      <thead>
-        <tr class="tw-bg-gray-100">
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">#</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Title</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Author</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Requester</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Email</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Department</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Status</th>
-          <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let req of requests; let i = index" class="tw-border-b tw-border-gray-200 hover:tw-bg-gray-50">
-          <td class="tw-px-4 tw-py-3">{{ i + 1 }}</td>
-          <td class="tw-px-4 tw-py-3">{{ req.title }}</td>
-          <td class="tw-px-4 tw-py-3">{{ req.author }}</td>
-          <td class="tw-px-4 tw-py-3">{{ req.requesterName }}</td>
-          <td class="tw-px-4 tw-py-3">{{ req.requesterEmail }}</td>
-          <td class="tw-px-4 tw-py-3">{{ req.department }}</td>
-          <td class="tw-px-4 tw-py-3 tw-font-medium">
-            {{ req.status || 'PENDING' }}
-          </td>
-          <td class="tw-px-4 tw-py-3">
-            <button
-              class="tw-bg-blue-600 hover:tw-bg-blue-700 tw-text-white tw-px-3 tw-py-1.5 tw-rounded tw-text-sm tw-font-medium tw-transition"
-              (click)="openModal(req.id)">
-              Update Status
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<table class="tw-w-full tw-border-collapse tw-bg-white tw-rounded-xl tw-shadow-md tw-overflow-hidden">
+  <thead>
+    <tr class="tw-bg-gray-100">
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">#</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Title</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Author</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Requester</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Email</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Department</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Status</th>
+      <th class="tw-px-4 tw-py-3 tw-text-left tw-font-semibold tw-text-gray-700">Action</th>
+    </tr>
+  </thead>
 
-    <!-- Modal -->
-    <div id="modal"
-      class="tw-fixed tw-inset-0 tw-bg-black/50 tw-backdrop-blur-sm tw-hidden tw-justify-center tw-items-center tw-z-50"
-      [class.tw-flex]="showModal">
-      <div class="tw-bg-white tw-rounded-xl tw-shadow-2xl tw-p-6 tw-w-[500px] tw-animate-fadeIn">
-        <!-- Modal Header -->
-        <div class="tw-flex tw-items-center tw-justify-between tw-mb-4 tw-border-b tw-border-gray-200 tw-pb-2">
-          <h3 class="tw-text-xl tw-font-semibold tw-text-blue-600">
-            Update Request Status
-          </h3>
-          <span class="tw-text-2xl tw-text-gray-500 tw-cursor-pointer hover:tw-text-gray-700"
-            (click)="closeModal()">×</span>
-        </div>
+  <tbody>
+    <tr *ngFor="let req of requests; let i = index" class="tw-border-b tw-border-gray-200">
+      <td class="tw-px-4 tw-py-3">{{ i + 1 }}</td>
+      <td class="tw-px-4 tw-py-3">{{ req.title }}</td>
+      <td class="tw-px-4 tw-py-3">{{ req.author }}</td>
+      <td class="tw-px-4 tw-py-3">{{ req.requesterName }}</td>
+      <td class="tw-px-4 tw-py-3">{{ req.requesterEmail }}</td>
+      <td class="tw-px-4 tw-py-3">{{ req.department }}</td>
+      <td class="tw-px-4 tw-py-3 tw-font-medium">{{ req.status || 'PENDING' }}</td>
+      <td class="tw-px-4 tw-py-3">
+        <button
+          class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-3 tw-py-2 tw-text-sm tw-font-medium hover:tw-opacity-90 tw-transition"
+          (click)="openModal(req.id)"
+        >
+          Update Status
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-        <!-- Form -->
-        <form [formGroup]="statusForm" (ngSubmit)="onSubmitStatus()">
-          <label class="tw-block tw-font-medium tw-text-gray-700 tw-mt-3">Status</label>
-          <select formControlName="status"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded tw-px-3 tw-py-2 tw-mt-1 focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-text-sm">
-            <option value="">Select Status</option>
-            <option value="APPROVED">APPROVED</option>
-            <option value="REJECTED">REJECTED</option>
-            <option value="PENDING">PENDING</option>
-          </select>
-
-          <label class="tw-block tw-font-medium tw-text-gray-700 tw-mt-4">Justification</label>
-          <textarea formControlName="justification" placeholder="Provide reason or note"
-            class="tw-w-full tw-border tw-border-gray-300 tw-rounded tw-px-3 tw-py-2 tw-mt-1 tw-text-sm focus:tw-border-blue-500 focus:tw-ring-2 focus:tw-ring-blue-100 tw-resize-y"></textarea>
-
-          <div class="tw-flex tw-justify-end tw-gap-2 tw-mt-6">
-            <button type="button"
-              class="tw-bg-gray-500 hover:tw-bg-gray-600 tw-text-white tw-px-4 tw-py-2 tw-rounded tw-text-sm"
-              (click)="closeModal()">
-              Cancel
-            </button>
-            <button type="submit"
-              class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-4 tw-py-2 tw-rounded tw-text-sm disabled:tw-opacity-60"
-              [disabled]="isSubmitting || statusForm.invalid">
-              {{ isSubmitting ? 'Updating...' : 'Save Changes' }}
-            </button>
-          </div>
-        </form>
-      </div>
+<!-- Modal -->
+<div
+  id="modal"
+  [class.tw-flex]="showModal"
+  [class.tw-hidden]="!showModal"
+  class="tw-fixed tw-inset-0 tw-bg-black/50 tw-backdrop-blur-sm tw-justify-center tw-items-center tw-z-50"
+>
+  <div class="tw-bg-white tw-p-8 tw-rounded-xl tw-w-[500px] tw-shadow-2xl tw-animate-fadeIn">
+    <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+      <h3 class="tw-text-xl tw-font-semibold tw-text-blue-600">Update Request Status</h3>
+      <span class="tw-text-2xl tw-text-gray-400 tw-cursor-pointer" (click)="closeModal()">×</span>
     </div>
+
+    <form [formGroup]="statusForm" (ngSubmit)="onSubmitStatus()">
+      <label class="tw-block tw-mt-3 tw-font-medium tw-text-gray-700">Status</label>
+      <select
+        formControlName="status"
+        class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-text-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"
+      >
+        <option value="">Select Status</option>
+        <option value="APPROVED">APPROVED</option>
+        <option value="REJECTED">REJECTED</option>
+        <option value="PENDING">PENDING</option>
+      </select>
+
+      <label class="tw-block tw-mt-3 tw-font-medium tw-text-gray-700">Justification</label>
+      <textarea
+        formControlName="justification"
+        class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-text-sm tw-min-h-[100px] focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"
+        placeholder="Provide reason or note"
+      ></textarea>
+
+      <div class="tw-text-right tw-mt-5">
+        <button
+          type="button"
+          class="tw-bg-gray-400 tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-text-sm tw-mr-2 hover:tw-opacity-90"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-text-sm hover:tw-opacity-90 disabled:tw-opacity-60"
+          [disabled]="isSubmitting || statusForm.invalid"
+        >
+          {{ isSubmitting ? 'Updating...' : 'Save Changes' }}
+        </button>
+      </div>
+    </form>
   </div>
+</div>
+</div>
 </div>

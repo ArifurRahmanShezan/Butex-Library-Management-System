@@ -144,7 +144,22 @@ export class ApiService {
   }
 
   getCatalogItem(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/queue`);
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/cataloging/items`);
+  }
+
+  editCatalogItem(id: number, item: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/v1/library/cataloging/items/${id}`, item);
+  }
+
+  deleteCatalogItem(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library/cataloging/items/${id}`);
+  }
+
+  updateCatalogItemStatus(id: number, status: string): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/api/v1/library/cataloging/items/${id}/status?status=${status}`,
+      {}
+    );
   }
 
 
@@ -154,7 +169,7 @@ export class ApiService {
 
 
   // Request API
-   addRequest(addreq: any): Observable<any> {
+  addRequest(addreq: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/v1/library/request-add`, addreq);
   }
 
@@ -165,48 +180,48 @@ export class ApiService {
   approveReq(id: number, data: { status: string; justification: string }): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/api/v1/library/request/status/${id}`, data);
   }
-//publisher
+  //publisher
 
-getAllPublisher(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/api/v1/library//publishers`);
-}
-addPublisher(publisher: any): Observable<any> {
-  return this.http.post<any>(`${this.baseUrl}/api/v1/library/publisher-add`, publisher);
-}
-updatePublisher(id: number, publisher: any): Observable<any> {
-  return this.http.put<any>(`${this.baseUrl}/api/v1/library/publisher-update/${id}`, publisher);
-}
-deletePublisher(id: number): Observable<any> {
-  return this.http.delete<any>(`${this.baseUrl}/api/v1/library/publisher-delete/${id}`);
-}
+  getAllPublisher(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library//publishers`);
+  }
+  addPublisher(publisher: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/v1/library/publisher-add`, publisher);
+  }
+  updatePublisher(id: number, publisher: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/v1/library/publisher-update/${id}`, publisher);
+  }
+  deletePublisher(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library/publisher-delete/${id}`);
+  }
 
-//vendor
-
-
-getAllVendor(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/vendors`);
-}
-addVendor(vendor: any): Observable<any> {
-  return this.http.post<any>(`${this.baseUrl}/api/v1/library/vendor-add`, vendor);
-}
-updateVendor(id: number, vendor: any): Observable<any> {
-  return this.http.put<any>(`${this.baseUrl}/api/v1/library/vendor-update/${id}`, vendor);
-}
-deleteVendor(id: number): Observable<any> {
-  return this.http.delete<any>(`${this.baseUrl}/api/v1/library/vendor-delete/${id}`);
-
-}
+  //vendor
 
 
-// Order API
+  getAllVendor(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/vendors`);
+  }
+  addVendor(vendor: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/v1/library/vendor-add`, vendor);
+  }
+  updateVendor(id: number, vendor: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/api/v1/library/vendor-update/${id}`, vendor);
+  }
+  deleteVendor(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/api/v1/library/vendor-delete/${id}`);
 
-getOrder(): Observable<any[]> {
-  return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/orders`);
-}
+  }
 
-addOrder(addord: any): Observable<any> {
-  return this.http.post<any>(`${this.baseUrl}/api/v1/library/order-add`, addord);
-}
+
+  // Order API
+
+  getOrder(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/api/v1/library/orders`);
+  }
+
+  addOrder(addord: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/v1/library/order-add`, addord);
+  }
 
 
 

@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  prefix: 'tw-', // add tw- before every class e.g., tw-bg-blue-500
+  prefix: 'tw-', // optional, only if you want 'tw-' prefix
   content: [
-    "./src/**/*.{html,ts,css}", // scan your Angular components
+    "./src/**/*.{html,ts}", // scan all HTML and TS files in your src folder
   ],
   theme: {
     extend: {},
   },
   plugins: [],
-};
+}

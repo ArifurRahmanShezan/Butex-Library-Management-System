@@ -8,8 +8,7 @@
     <h3 class="tw-text-lg tw-font-medium tw-text-gray-700">Catalog Items</h3>
     <button
       class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-md tw-text-sm tw-font-medium"
-      (click)="openModal()"
-    >
+      (click)="openModal()">
       + Add Item
     </button>
   </div>
@@ -50,34 +49,24 @@
           <td class="tw-px-4 tw-py-2">{{ item.acquisitionSource || '—' }}</td>
           <td class="tw-px-4 tw-py-2">
             <ng-container *ngIf="item.digitalContentUrls?.length; else noLinks">
-              <a
-                *ngFor="let link of item.digitalContentUrls"
-                [href]="link"
-                target="_blank"
-                class="tw-text-blue-600 hover:tw-underline tw-block"
-              >
+              <a *ngFor="let link of item.digitalContentUrls" [href]="link" target="_blank"
+                class="tw-text-blue-600 hover:tw-underline tw-block">
                 Open
               </a>
             </ng-container>
             <ng-template #noLinks>—</ng-template>
           </td>
           <td class="tw-flex tw-gap-2 tw-px-4 tw-py-3">
-            <button
-              class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-blue-700"
-              (click)="editItem(item)"
-            >
+            <button class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-blue-700"
+              (click)="editItem(item)">
               Edit
             </button>
-            <button
-              class="tw-bg-yellow-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-yellow-600"
-              (click)="openStatusModal(item)"
-            >
+            <button class="tw-bg-yellow-500 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-yellow-600"
+              (click)="openStatusModal(item)">
               Update Status
             </button>
-            <button
-              class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-700"
-              (click)="deleteItem(item)"
-            >
+            <button class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 hover:tw-bg-red-700"
+              (click)="deleteItem(item)">
               Delete
             </button>
           </td>
@@ -88,15 +77,10 @@
 </div>
 
 <!-- ✅ Add/Edit Modal -->
-<div
-  *ngIf="showModal"
-  class="tw-fixed tw-inset-0 tw-bg-black/40 tw-backdrop-blur-sm tw-flex tw-items-center tw-justify-center tw-z-50"
->
+<div *ngIf="showModal"
+  class="tw-fixed tw-inset-0 tw-bg-black/40 tw-backdrop-blur-sm tw-flex tw-items-center tw-justify-center tw-z-50">
   <div class="tw-bg-white tw-rounded-2xl tw-shadow-2xl tw-w-[420px] tw-p-6 tw-relative">
-    <button
-      (click)="closeModal()"
-      class="tw-absolute tw-top-3 tw-right-3 tw-text-gray-400 tw-text-2xl tw-font-bold"
-    >
+    <button (click)="closeModal()" class="tw-absolute tw-top-3 tw-right-3 tw-text-gray-400 tw-text-2xl tw-font-bold">
       &times;
     </button>
 
@@ -109,57 +93,39 @@
     <form (ngSubmit)="saveItem()" class="tw-space-y-3">
       <div>
         <label class="tw-text-sm tw-font-medium tw-text-gray-700">Accession Number *</label>
-        <input
-          type="text"
-          [(ngModel)]="item.accessionNumber"
-          name="accessionNumber"
-          required
-          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-        />
+        <input type="text" [(ngModel)]="item.accessionNumber" name="accessionNumber" required
+          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500" />
       </div>
 
       <div>
         <label class="tw-text-sm tw-font-medium tw-text-gray-700">Barcode *</label>
-        <input
-          type="text"
-          [(ngModel)]="item.barcode"
-          name="barcode"
-          required
-          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-        />
+        <input type="text" [(ngModel)]="item.barcode" name="barcode" required
+          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500" />
       </div>
 
       <div>
         <label class="tw-text-sm tw-font-medium tw-text-gray-700">Bibliographic Record *</label>
-        <select
-          [(ngModel)]="item.bibliographicRecord.id"
-          name="recordId"
-          required
-          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-        >
-          <option value="">Select Record</option>
+        <select [(ngModel)]="item.bibliographicRecord.id" name="recordId" required
+          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500">
+          <!-- Select Record placeholder -->
+          <option value="" disabled *ngIf="!item.bibliographicRecord.id">Select Record</option>
+          <!-- Populate options from records -->
           <option *ngFor="let rec of records" [value]="rec.id">{{ rec.title }}</option>
         </select>
       </div>
 
+
+
       <div>
         <label class="tw-text-sm tw-font-medium tw-text-gray-700">Location *</label>
-        <input
-          type="text"
-          [(ngModel)]="item.location"
-          name="location"
-          required
-          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-        />
+        <input type="text" [(ngModel)]="item.location" name="location" required
+          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500" />
       </div>
 
       <div>
         <label class="tw-text-sm tw-font-medium tw-text-gray-700">Status</label>
-        <select
-          [(ngModel)]="item.status"
-          name="status"
-          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-        >
+        <select [(ngModel)]="item.status" name="status"
+          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500">
           <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
         </select>
       </div>
@@ -167,38 +133,24 @@
       <div class="tw-grid tw-grid-cols-2 tw-gap-3">
         <div>
           <label class="tw-text-sm tw-font-medium tw-text-gray-700">Price</label>
-          <input
-            type="number"
-            [(ngModel)]="item.price"
-            name="price"
-            min="0"
-            class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-          />
+          <input type="number" [(ngModel)]="item.price" name="price" min="0"
+            class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500" />
         </div>
 
         <div>
           <label class="tw-text-sm tw-font-medium tw-text-gray-700">Acquisition Source</label>
-          <input
-            type="text"
-            [(ngModel)]="item.acquisitionSource"
-            name="acquisitionSource"
-            class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500"
-          />
+          <input type="text" [(ngModel)]="item.acquisitionSource" name="acquisitionSource"
+            class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm focus:tw-ring-2 focus:tw-ring-blue-500" />
         </div>
       </div>
 
       <div class="tw-flex tw-justify-end tw-gap-3 tw-pt-4 tw-border-t tw-border-gray-200">
-        <button
-          type="button"
-          (click)="closeModal()"
-          class="tw-bg-gray-200 hover:tw-bg-gray-300 tw-text-gray-800 tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm"
-        >
+        <button type="button" (click)="closeModal()"
+          class="tw-bg-gray-200 hover:tw-bg-gray-300 tw-text-gray-800 tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm">
           Cancel
         </button>
-        <button
-          type="submit"
-          class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm"
-        >
+        <button type="submit"
+          class="tw-bg-green-600 hover:tw-bg-green-700 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm">
           {{ isEditing ? 'Update' : 'Save' }}
         </button>
       </div>
@@ -207,15 +159,11 @@
 </div>
 
 <!-- ✅ Status Update Modal -->
-<div
-  *ngIf="showStatusModal"
-  class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-items-center tw-justify-center tw-z-50"
->
+<div *ngIf="showStatusModal"
+  class="tw-fixed tw-inset-0 tw-bg-black/40 tw-flex tw-items-center tw-justify-center tw-z-50">
   <div class="tw-bg-white tw-rounded-2xl tw-shadow-2xl tw-w-[360px] tw-p-6 tw-relative">
-    <button
-      (click)="closeStatusModal()"
-      class="tw-absolute tw-top-3 tw-right-3 tw-text-gray-400 tw-text-2xl tw-font-bold"
-    >
+    <button (click)="closeStatusModal()"
+      class="tw-absolute tw-top-3 tw-right-3 tw-text-gray-400 tw-text-2xl tw-font-bold">
       &times;
     </button>
 
@@ -226,28 +174,19 @@
     <form (ngSubmit)="updateStatus()" class="tw-space-y-4">
       <div>
         <label class="tw-text-sm tw-font-medium tw-text-gray-700">Select New Status</label>
-        <select
-          [(ngModel)]="statusItem.status"
-          name="status"
-          required
-          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm tw-bg-white focus:tw-ring-2 focus:tw-ring-blue-500"
-        >
+        <select [(ngModel)]="statusItem.status" name="status" required
+          class="tw-w-full tw-mt-1 tw-border tw-border-gray-300 tw-rounded-lg tw-px-3 tw-py-2 tw-text-sm tw-bg-white focus:tw-ring-2 focus:tw-ring-blue-500">
           <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
         </select>
       </div>
 
       <div class="tw-flex tw-justify-end tw-gap-3 tw-pt-3 tw-border-t tw-border-gray-200">
-        <button
-          type="button"
-          (click)="closeStatusModal()"
-          class="tw-bg-gray-200 hover:tw-bg-gray-300 tw-text-gray-800 tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm"
-        >
+        <button type="button" (click)="closeStatusModal()"
+          class="tw-bg-gray-200 hover:tw-bg-gray-300 tw-text-gray-800 tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm">
           Cancel
         </button>
-        <button
-          type="submit"
-          class="tw-bg-yellow-500 hover:tw-bg-yellow-600 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm"
-        >
+        <button type="submit"
+          class="tw-bg-yellow-500 hover:tw-bg-yellow-600 tw-text-white tw-px-4 tw-py-2 tw-rounded-lg tw-text-sm">
           Update
         </button>
       </div>

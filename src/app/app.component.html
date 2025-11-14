@@ -1,8 +1,39 @@
-<div class="app-container">
-  <app-menu-list></app-menu-list>
+<div class="tw-min-h-screen tw-bg-gray-50">
 
-  <div class="main">
-    <router-outlet></router-outlet>
-    <div class="footer">© 2025 Library Management System</div>
+  <!-- MOBILE OVERLAY -->
+  <div 
+    *ngIf="mobileSidebarOpen"
+    class="tw-fixed tw-inset-0 tw-bg-black/50 tw-z-40 md:tw-hidden"
+    (click)="toggleSidebar()">
   </div>
+
+  <!-- SIDEBAR -->
+  <app-menu-list
+    [mobileSidebarOpen]="mobileSidebarOpen"
+    (closeSidebar)="toggleSidebar()">
+  </app-menu-list>
+
+  <!-- MAIN CONTENT -->
+  <main
+    class="
+      tw-transition-all tw-duration-300
+      tw-pt-4 tw-px-4
+      md:tw-pl-64    
+    "
+  >
+
+    <!-- TOP NAV FOR MOBILE -->
+    <div class="tw-bg-white tw-shadow tw-p-4 md:tw-hidden tw-flex tw-justify-between tw-items-center tw-mb-4">
+      <button (click)="toggleSidebar()" class="tw-text-gray-700 tw-text-2xl">☰</button>
+      <div class="tw-text-lg tw-font-semibold tw-text-blue-700">LMS</div>
+    </div>
+
+    <router-outlet></router-outlet>
+
+    <div class="tw-text-center tw-text-xs tw-text-gray-400 tw-mt-6 tw-pb-4">
+      © 2025 Library Management System
+    </div>
+
+  </main>
+
 </div>

@@ -1,43 +1,50 @@
-<div class="sidebar">
-  <div class="logo">Library</div>
+<!-- SIDEBAR -->
+<div
+  class="
+    tw-fixed tw-top-0 tw-left-0 tw-h-screen tw-w-64 tw-bg-white tw-shadow-lg tw-z-50 
+    tw-transform tw-transition-all tw-duration-300
+    md:tw-translate-x-0
+  "
+  [class.tw--translate-x-64]="!mobileSidebarOpen"
+>
+  <!-- HEADER -->
+  <div class="tw-text-center tw-py-6 tw-text-2xl tw-font-bold tw-text-blue-700 tw-border-b tw-border-gray-200">
+    Library
+  </div>
 
-  <ng-container *ngFor="let item of menuItems">
-    <div
-      class="menu-item"
-      [ngClass]="{'active': activeMenuId === item.id}"
-      (click)="onMenuClick(item)"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
-    <!-- DashBoard Menu -->
-      <!-- <a *ngIf="!item.isDropdown"
-         [routerLink]="item.routerLink"
-         class="menu-link">
-         {{ item.label }}
-      </a> -->
+  <!-- MENU -->
+  <div class="tw-overflow-y-auto tw-h-[calc(100vh-80px)]">
 
-      <div *ngIf="item.isDropdown" class="dropdown-label">
-        {{ item.label }}
-        <span>▾</span>
-      </div>
-    </div>
-
-    <!-- Dropdown submenu -->
-    <div
-      *ngIf="item.isDropdown"
-      class="submenu"
-      [style.display]="activeMenuId === item.id ? 'block' : 'none'"
-    >
-      <a
-        *ngFor="let subItem of item.subItems"
-        [routerLink]="subItem.routerLink"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
+    <ng-container *ngFor="let item of menuItems">
+      
+      <!-- Parent Menu Button -->
+      <div
+        class="tw-px-4 tw-py-3 tw-flex tw-justify-between tw-items-center tw-font-medium tw-cursor-pointer tw-transition hover:tw-bg-blue-50"
+        [ngClass]="{ 'tw-bg-blue-100 tw-text-blue-700': activeMenuId === item.id }"
+        (click)="onMenuClick(item)"
       >
-        {{ subItem.label }}
-      </a>
-    </div>
-  </ng-container>
+        <span>{{ item.label }}</span>
+        <span *ngIf="item.isDropdown" class="tw-text-sm">▾</span>
+      </div>
 
-  <!-- <div class="logout" (click)="logout()">Log Out</div> -->
+      <!-- Dropdown -->
+      <div
+        *ngIf="item.isDropdown"
+        class="tw-bg-blue-50 tw-border-l-4 tw-border-blue-600 tw-transition-all"
+        [class.tw-hidden]="activeMenuId !== item.id"
+      >
+        <a
+          *ngFor="let subItem of item.subItems"
+          [routerLink]="subItem.routerLink"
+          routerLinkActive="tw-text-blue-700 tw-font-semibold"
+          class="tw-block tw-py-2 tw-pl-10 tw-text-gray-700 hover:tw-bg-blue-100 tw-transition"
+          (click)="closeMobileSidebar()"
+        >
+          {{ subItem.label }}
+        </a>
+      </div>
+
+    </ng-container>
+
+  </div>
 </div>

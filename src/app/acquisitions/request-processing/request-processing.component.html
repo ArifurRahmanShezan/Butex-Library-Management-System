@@ -1,92 +1,101 @@
-<h2>Library Book Request Management</h2>
+<div class="tw-font-sans tw-bg-gray-100 tw-min-h-screen tw-p-6">
+  <!-- Header -->
+  <div class="tw-flex tw-justify-between tw-items-center tw-mb-6 tw-max-w-7xl tw-mx-auto">
+    <h2 class="tw-text-2xl tw-font-semibold tw-text-gray-800">Library Book Request Management</h2>
+    <button class="tw-bg-green-600 tw-text-white tw-px-4 tw-py-2 tw-rounded-md hover:tw-opacity-90 tw-transition"
+      (click)="openModal()">
+      Add Request
+    </button>
+  </div>
 
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
-  <h3>Book Requests</h3>
-  <button class="btn-success" (click)="openModal()">Add Request</button>
-</div>
+  <!-- Requests Table -->
+  <div class="tw-max-w-7xl tw-mx-auto tw-bg-white tw-rounded-2xl tw-shadow-md tw-overflow-x-auto">
+    <table class="tw-w-full tw-min-w-[900px] tw-border-collapse">
+      <thead>
+        <tr class="tw-bg-gray-100">
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">#</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Title</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Author</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Publisher</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Year</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">ISBN</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Requester</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Email</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Department</th>
+          <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let req of requests; let i = index" class="tw-border-b tw-border-gray-200">
+          <td class="tw-px-4 tw-py-2">{{ i + 1 }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.title }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.author }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.publisher }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.publicationYear }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.isbn }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.requesterName }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.requesterEmail }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.department }}</td>
+          <td class="tw-px-4 tw-py-2">{{ req.notes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<!-- Requests Table -->
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Publisher</th>
-      <th>Year</th>
-      <th>ISBN</th>
-      <th>Requester</th>
-      <th>Email</th>
-      <th>Department</th>
-      <th>Notes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let req of requests; let i = index">
-      <td>{{ i + 1 }}</td>
-      <td>{{ req.title }}</td>
-      <td>{{ req.author }}</td>
-      <td>{{ req.publisher }}</td>
-      <td>{{ req.publicationYear }}</td>
-      <td>{{ req.isbn }}</td>
-      <td>{{ req.requesterName }}</td>
-      <td>{{ req.requesterEmail }}</td>
-      <td>{{ req.department }}</td>
-      <td>{{ req.notes }}</td>
-    </tr>
-  </tbody>
-</table>
+  <!-- Modal -->
+  <div class="tw-fixed tw-inset-0 tw-bg-black/50 tw-backdrop-blur-sm tw-flex tw-justify-center tw-items-center tw-z-50"
+    [class.tw-hidden]="!showModal">
+    <div
+      class="tw-bg-white tw-rounded-2xl tw-shadow-2xl tw-w-full sm:tw-w-[600px] tw-max-h-[90vh] tw-overflow-y-auto tw-p-6 sm:tw-p-8 tw-animate-fadeIn">
+      <!-- Modal Header -->
+      <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+        <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">Add Book Request</h3>
+        <span class="tw-text-2xl tw-text-gray-400 tw-cursor-pointer" (click)="closeModal()">×</span>
+      </div>
 
-<!-- Modal -->
-<div id="modal" [ngStyle]="{ display: showModal ? 'flex' : 'none' }">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Add Book Request</h3>
-      <span class="close-btn" (click)="closeModal()">×</span>
+      <!-- Form -->
+      <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" class="tw-space-y-6">
+        <!-- Book Details -->
+        <div class="tw-space-y-2">
+          <h4 class="tw-font-semibold tw-text-gray-700">Book Details</h4>
+          <input formControlName="title" type="text" placeholder="Enter book title"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <input formControlName="author" type="text" placeholder="Enter author name"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <input formControlName="publisher" type="text" placeholder="Publisher name"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <input formControlName="publicationYear" type="number" placeholder="e.g. 2024"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <input formControlName="isbn" type="text" placeholder="Enter ISBN"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+        </div>
+
+        <!-- Requester Details -->
+        <div class="tw-space-y-2">
+          <h4 class="tw-font-semibold tw-text-gray-700">Requester Details</h4>
+          <input formControlName="requesterName" type="text" placeholder="Your name"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <input formControlName="requesterEmail" type="email" placeholder="you@example.com"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <input formControlName="department" type="text" placeholder="Department name"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500" />
+          <textarea formControlName="notes" placeholder="Purpose or remarks"
+            class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-min-h-[80px] focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="tw-flex tw-justify-end tw-gap-3">
+          <button type="button" class="tw-bg-gray-400 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-opacity-90"
+            (click)="closeModal()">
+            Cancel
+          </button>
+          <button type="submit"
+            class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-opacity-90 disabled:tw-opacity-60"
+            [disabled]="isSubmitting || requestForm.invalid">
+            {{ isSubmitting ? 'Submitting...' : 'Submit Request' }}
+          </button>
+        </div>
+      </form>
     </div>
-
-    <form [formGroup]="requestForm" (ngSubmit)="onSubmit()">
-      <!-- Section 1 -->
-      <div class="form-section">
-        <h4>Book Details</h4>
-        <label>Title</label>
-        <input formControlName="title" type="text" placeholder="Enter book title" />
-
-        <label>Author</label>
-        <input formControlName="author" type="text" placeholder="Enter author name" />
-
-        <label>Publisher</label>
-        <input formControlName="publisher" type="text" placeholder="Publisher name" />
-
-        <label>Publication Year</label>
-        <input formControlName="publicationYear" type="number" placeholder="e.g. 2024" />
-
-        <label>ISBN</label>
-        <input formControlName="isbn" type="text" placeholder="Enter ISBN" />
-      </div>
-
-      <!-- Section 2 -->
-      <div class="form-section">
-        <h4>Requester Details</h4>
-        <label>Name</label>
-        <input formControlName="requesterName" type="text" placeholder="Your name" />
-
-        <label>Email</label>
-        <input formControlName="requesterEmail" type="email" placeholder="you@example.com" />
-
-        <label>Department</label>
-        <input formControlName="department" type="text" placeholder="Department name" />
-
-        <label>Notes</label>
-        <textarea formControlName="notes" placeholder="Purpose or remarks"></textarea>
-      </div>
-
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" (click)="closeModal()">Cancel</button>
-        <button type="submit" class="btn-success" [disabled]="isSubmitting || requestForm.invalid">
-          {{ isSubmitting ? 'Submitting...' : 'Submit Request' }}
-        </button>
-      </div>
-    </form>
   </div>
 </div>

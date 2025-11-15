@@ -1,69 +1,122 @@
-<div class="card">
-  <h2 class="title">{{ editingId === null ? 'Add Publisher' : 'Edit Publisher' }}</h2>
+<div class="tw-font-sans tw-bg-gray-100 tw-min-h-screen tw-p-6">
+  <!-- Form Card -->
+  <div class="tw-bg-white tw-rounded-2xl tw-shadow-md tw-max-w-3xl tw-mx-auto tw-p-6 sm:tw-p-8 tw-mb-8">
+    <h2 class="tw-text-2xl tw-font-semibold tw-text-gray-800 tw-mb-6">
+      {{ editingId === null ? 'Add Publisher' : 'Edit Publisher' }}
+    </h2>
 
-  <form [formGroup]="publisherForm" (ngSubmit)="addOrUpdatePublisher()" novalidate>
-    <div class="form-row">
-      <label for="name">Name</label>
-      <input id="name" formControlName="name" placeholder="Publisher name" />
-      <div class="error" *ngIf="f['name'].touched && f['name'].invalid">
-        Name is required (max 120 chars).
+    <form [formGroup]="publisherForm" (ngSubmit)="addOrUpdatePublisher()" novalidate class="tw-space-y-4">
+      <!-- Name -->
+      <div class="tw-flex tw-flex-col">
+        <label for="name" class="tw-font-medium tw-text-gray-700">Name</label>
+        <input
+          id="name"
+          formControlName="name"
+          placeholder="Publisher name"
+          class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-text-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"
+        />
+        <div class="tw-text-red-600 tw-text-sm tw-mt-1" *ngIf="f['name'].touched && f['name'].invalid">
+          Name is required (max 120 chars).
+        </div>
       </div>
-    </div>
 
-    <div class="form-row">
-      <label for="address">Address</label>
-      <textarea id="address" formControlName="address" placeholder="Address"></textarea>
-      <div class="error" *ngIf="f['address'].touched && f['address'].invalid">
-        Address is required (max 250 chars).
+      <!-- Address -->
+      <div class="tw-flex tw-flex-col">
+        <label for="address" class="tw-font-medium tw-text-gray-700">Address</label>
+        <textarea
+          id="address"
+          formControlName="address"
+          placeholder="Address"
+          class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-text-sm tw-min-h-[80px] focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"
+        ></textarea>
+        <div class="tw-text-red-600 tw-text-sm tw-mt-1" *ngIf="f['address'].touched && f['address'].invalid">
+          Address is required (max 250 chars).
+        </div>
       </div>
-    </div>
 
-    <div class="form-row">
-      <label for="contactInfo">Contact</label>
-      <input id="contactInfo" formControlName="contactInfo" placeholder="+44 20 1234 5678" />
-      <div class="error" *ngIf="f['contactInfo'].touched && f['contactInfo'].invalid">
-        Contact is required (max 60 chars).
+      <!-- Contact Info -->
+      <div class="tw-flex tw-flex-col">
+        <label for="contactInfo" class="tw-font-medium tw-text-gray-700">Contact</label>
+        <input
+          id="contactInfo"
+          formControlName="contactInfo"
+          placeholder="+44 20 1234 5678"
+          class="tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 tw-text-sm focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500"
+        />
+        <div class="tw-text-red-600 tw-text-sm tw-mt-1" *ngIf="f['contactInfo'].touched && f['contactInfo'].invalid">
+          Contact is required (max 60 chars).
+        </div>
       </div>
+
+      <!-- Buttons -->
+      <div class="tw-flex tw-gap-3 tw-justify-end tw-mt-2">
+        <button
+          type="submit"
+          class="tw-bg-blue-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 tw-text-sm hover:tw-opacity-90 disabled:tw-opacity-60"
+        >
+          {{ editingId === null ? 'Add' : 'Update' }}
+        </button>
+        <button
+          type="button"
+          class="tw-bg-gray-300 tw-text-gray-700 tw-rounded-md tw-px-4 tw-py-2 tw-text-sm hover:tw-opacity-90"
+          (click)="cancelEdit()"
+          *ngIf="editingId !== null"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Publishers List -->
+  <div *ngIf="publishers.length > 0" class="tw-max-w-5xl tw-mx-auto tw-bg-white tw-rounded-2xl tw-shadow-md tw-p-6 sm:tw-p-8">
+    <h3 class="tw-text-lg tw-font-semibold tw-text-gray-800 tw-mb-4">
+      Publishers ({{ publishers.length }})
+    </h3>
+
+    <div class="tw-overflow-x-auto">
+      <table class="tw-w-full tw-border-collapse">
+        <thead>
+          <tr class="tw-bg-gray-100">
+            <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">#</th>
+            <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Name</th>
+            <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Address</th>
+            <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Contact</th>
+            <th class="tw-px-4 tw-py-2 tw-text-left tw-font-medium tw-text-gray-700">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let p of publishers; let i = index; trackBy: trackById"
+            [class.tw-bg-gray-50]="p.id === editingId"
+            class="tw-border-b tw-border-gray-200"
+          >
+            <td class="tw-px-4 tw-py-2">{{ publishers.length - i }}</td>
+            <td class="tw-px-4 tw-py-2">{{ p.name }}</td>
+            <td class="tw-px-4 tw-py-2 tw-font-mono">{{ p.address }}</td>
+            <td class="tw-px-4 tw-py-2">{{ p.contactInfo }}</td>
+            <td class="tw-px-4 tw-py-2 tw-flex tw-gap-2">
+              <button
+                class="tw-bg-yellow-400 tw-text-white tw-rounded-md tw-px-3 tw-py-1 tw-text-sm hover:tw-opacity-90"
+                (click)="editPublisher(p)"
+              >
+                Edit
+              </button>
+              <button
+                class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-3 tw-py-1 tw-text-sm hover:tw-opacity-90"
+                (click)="deletePublisher(p.id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 
-    <div class="buttons">
-      <button type="submit" class="btn primary">
-        {{ editingId === null ? 'Add' : 'Update' }}
-      </button>
-      <button type="button" class="btn outline" (click)="cancelEdit()" *ngIf="editingId !== null">
-        Cancel
-      </button>
-    </div>
-  </form>
-</div>
-
-<div class="list-card" *ngIf="publishers.length;">
-  <h3>Publishers ({{ publishers.length }})</h3>
-  <table class="publisher-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Address</th>
-        <th>Contact</th>
-        <th class="actions-col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let p of publishers; let i = index; trackBy: trackById" [class.editing]="p.id === editingId">
-        <td>{{ publishers.length - i }}</td>
-        <td>{{ p.name }}</td>
-        <td class="mono">{{ p.address }}</td>
-        <td>{{ p.contactInfo }}</td>
-        <td class="actions-col">
-          <button class="btn small" (click)="editPublisher(p)">Edit</button>
-          <button class="btn small danger" (click)="deletePublisher(p.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="empty" *ngIf="publishers.length === 0">
-  No publishers yet. Fill the form to add one.
+  <!-- Empty State -->
+  <div *ngIf="publishers.length === 0" class="tw-text-center tw-text-gray-500 tw-mt-10">
+    No publishers yet. Fill the form to add one.
+  </div>
 </div>

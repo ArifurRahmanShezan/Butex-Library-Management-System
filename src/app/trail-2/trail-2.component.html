@@ -7,106 +7,131 @@
   <button class="tw-bg-green-600 tw-text-white tw-px-4 tw-py-2 tw-rounded hover:tw-bg-green-700 tw-transition" (click)="openModal()">Add Template</button>
 </div>
 
-<table class="tw-w-full tw-border-collapse tw-mb-6">
-  <thead>
-    <tr class="tw-bg-gray-100">
-      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">#</th>
-      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Template Name</th>
-      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Description</th>
-      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Created Date</th>
-      <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let t of templates; let i = index" class="hover:tw-bg-gray-50">
-      <td class="tw-border tw-px-3 tw-py-2">{{ i + 1 }}</td>
-      <td class="tw-border tw-px-3 tw-py-2">{{ t.name }}</td>
-      <td class="tw-border tw-px-3 tw-py-2">{{ t.description }}</td>
-      <td class="tw-border tw-px-3 tw-py-2">{{ t.createdAt | date:'short' }}</td>
-      <td class="tw-border tw-px-3 tw-py-2">
-        <button class="tw-bg-blue-600 tw-text-white tw-px-3 tw-py-1 tw-rounded hover:tw-bg-blue-700 tw-transition" (click)="openModal(t)">
-          Edit
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="tw-overflow-x-auto">
+  <table class="tw-w-full tw-border-collapse tw-min-w-[600px]">
+    <thead>
+      <tr class="tw-bg-gray-100">
+        <th class="tw-border tw-px-3 tw-py-2 tw-text-left">#</th>
+        <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Template Name</th>
+        <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Description</th>
+        <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Created Date</th>
+        <th class="tw-border tw-px-3 tw-py-2 tw-text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let t of templates; let i = index" class="hover:tw-bg-gray-50">
+        <td class="tw-border tw-px-3 tw-py-2">{{ i + 1 }}</td>
+        <td class="tw-border tw-px-3 tw-py-2">{{ t.name }}</td>
+        <td class="tw-border tw-px-3 tw-py-2">{{ t.description }}</td>
+        <td class="tw-border tw-px-3 tw-py-2">{{ t.createdAt | date:'short' }}</td>
+        <td class="tw-border tw-px-3 tw-py-2">
+          <button class="tw-bg-blue-600 tw-text-white tw-px-3 tw-py-1 tw-rounded hover:tw-bg-blue-700 tw-transition" (click)="openModal(t)">
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
 <!-- Modal -->
-<!-- Modal -->
-<div *ngIf="showModal" class="tw-fixed tw-inset-0 tw-bg-black/60 tw-flex tw-items-center tw-justify-center tw-z-50">
-  <div class="tw-bg-white tw-rounded-lg tw-shadow-2xl tw-w-[700px] tw-max-w-[90%] tw-p-6 tw-relative">
-    <!-- Header -->
+<div *ngIf="showModal" 
+     class="tw-fixed tw-inset-0 tw-bg-black/60 tw-flex tw-items-center tw-justify-center tw-z-50 tw-p-4">
+  
+  <div class="tw-bg-white tw-rounded-lg tw-shadow-2xl tw-w-full sm:tw-max-w-3xl md:tw-max-w-4xl tw-p-6 tw-relative tw-overflow-y-auto tw-max-h-[90vh]">
+    
+    <!-- Close button -->
     <span (click)="closeModal()"
-      class="tw-absolute tw-top-3 tw-right-4 tw-text-2xl tw-cursor-pointer tw-text-gray-500">&times;</span>
+          class="tw-absolute tw-top-3 tw-right-4 tw-text-2xl tw-cursor-pointer tw-text-gray-500">&times;</span>
+
+    <!-- Modal title -->
     <h3 class="tw-text-xl tw-font-semibold tw-mb-4">
       {{ editingTemplate ? 'Edit' : 'Add' }} Catalogue Template
     </h3>
 
     <!-- FORM -->
     <form [formGroup]="templateForm" (ngSubmit)="submit()" class="tw-space-y-4">
-      <!-- Name -->
+
+      <!-- Template Name -->
       <div>
         <label class="tw-font-medium tw-block">Template Name</label>
         <input formControlName="name" required
-          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-ring-2 focus:tw-ring-blue-500" />
+               class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-ring-2 focus:tw-ring-blue-500" />
       </div>
 
       <!-- Description -->
       <div>
         <label class="tw-font-medium tw-block">Description</label>
         <textarea formControlName="description"
-          class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-ring-2 focus:tw-ring-blue-500"></textarea>
+                  class="tw-w-full tw-border tw-border-gray-300 tw-rounded-md tw-px-3 tw-py-2 focus:tw-ring-2 focus:tw-ring-blue-500"></textarea>
       </div>
 
       <!-- MARC Fields -->
       <div>
         <label class="tw-font-medium tw-block tw-mb-2">MARC Fields</label>
 
-        <!-- Table header -->
-        <div class="tw-grid tw-grid-cols-[50px_50px_50px_70px_100px_80px_80px_60px_auto] tw-gap-2 tw-font-semibold tw-border-b tw-pb-1">
-          <div>Tag</div>
-          <div>Ind1</div>
-          <div>Ind2</div>
-          <div>Subfield</div>
-          <div>Label</div>
-          <div>Default</div>
-          <div>Repeatable</div>
-          <div>Order</div>
-          <div></div>
-        </div>
+        <!-- Horizontal scroll wrapper for small screens -->
+        <div class="tw-overflow-x-auto">
+          <div class="tw-min-w-[800px]">
 
-        <!-- Dynamic rows -->
-        <div formArrayName="fields" class="tw-mt-2 tw-space-y-2">
-          <div *ngFor="let field of fields.controls; let i=index" [formGroup]="field"
-            class="tw-grid tw-grid-cols-[50px_50px_50px_70px_100px_80px_80px_60px_auto] tw-gap-2 tw-items-center">
-            <input formControlName="marcTag" placeholder="Tag" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <input formControlName="marcIndicator1" placeholder="Ind1" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <input formControlName="marcIndicator2" placeholder="Ind2" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <input formControlName="subfield" placeholder="Subfield" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <input formControlName="label" placeholder="Label" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <input formControlName="defaultValue" placeholder="Default" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <select formControlName="repeatable" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm">
-              <option [ngValue]="true">Yes</option>
-              <option [ngValue]="false">No</option>
-            </select>
-            <input formControlName="displayOrder" type="number" class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
-            <button type="button" (click)="removeField(i)"
-              class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-2 tw-py-1 hover:tw-bg-red-700">×</button>
+            <!-- Table header -->
+            <div class="tw-grid tw-grid-cols-[50px_50px_50px_70px_100px_80px_80px_60px_auto] tw-gap-2 tw-font-semibold tw-border-b tw-pb-1">
+              <div>Tag</div>
+              <div>Ind1</div>
+              <div>Ind2</div>
+              <div>Subfield</div>
+              <div>Label</div>
+              <div>Default</div>
+              <div>Repeatable</div>
+              <div>Order</div>
+              <div></div>
+            </div>
+
+            <!-- Dynamic rows -->
+            <div formArrayName="fields" class="tw-mt-2 tw-space-y-2">
+              <div *ngFor="let field of fields.controls; let i=index" [formGroup]="field"
+                   class="tw-grid tw-grid-cols-[50px_50px_50px_70px_100px_80px_80px_60px_auto] tw-gap-2 tw-items-center">
+                
+                <input formControlName="marcTag" placeholder="Tag"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <input formControlName="marcIndicator1" placeholder="Ind1"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <input formControlName="marcIndicator2" placeholder="Ind2"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <input formControlName="subfield" placeholder="Subfield"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <input formControlName="label" placeholder="Label"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <input formControlName="defaultValue" placeholder="Default"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <select formControlName="repeatable"
+                        class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm">
+                  <option [ngValue]="true">Yes</option>
+                  <option [ngValue]="false">No</option>
+                </select>
+                <input formControlName="displayOrder" type="number"
+                       class="tw-border tw-px-2 tw-py-1 tw-rounded tw-text-sm" />
+                <button type="button" (click)="removeField(i)"
+                        class="tw-bg-red-600 tw-text-white tw-rounded-md tw-px-2 tw-py-1 hover:tw-bg-red-700">×</button>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Add & Save Buttons -->
         <div class="tw-flex tw-justify-end tw-gap-3 tw-mt-6">
           <button type="button" (click)="addField()"
-            class="tw-bg-gray-500 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-gray-600">Add MARC Field</button>
+                  class="tw-bg-gray-500 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-gray-600">Add MARC Field</button>
           <button type="submit"
-            class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700">Save Template</button>
+                  class="tw-bg-green-600 tw-text-white tw-rounded-md tw-px-4 tw-py-2 hover:tw-bg-green-700">Save Template</button>
         </div>
+
       </div>
     </form>
   </div>
 </div>
+
 
 </div>
 </div>
